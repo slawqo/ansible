@@ -1,0 +1,38 @@
+[logging]
+default = FILE:/var/log/krb5libs.log
+kdc = FILE:/var/log/krb5kdc.log
+admin_server = FILE:/var/log/kadmind.log
+
+
+[libdefaults]
+
+ticket_lifetime = 24000
+default_realm = {{ default_realm }}
+dns_lookup_realm = false
+dns_lookup_kdc = false
+
+
+[realms]
+
+{{ default_realm }} = {
+ kdc = {{ default_realm_server }}
+ admin_server = {{ default_realm_server }}
+ default_domain = {{ default_realm_domain }}
+}
+
+
+[domain_realm]
+
+.{{ default_realm_domain }} = {{ default_realm }}
+{{ default_realm_domain }} = {{ default_realm }}
+
+
+[appdefaults]
+
+pam = {
+  debug = false
+  ticket_lifetime = 36000
+  renew_lifetime = 36000
+  forwardable = true
+  krb4_convert = false
+}

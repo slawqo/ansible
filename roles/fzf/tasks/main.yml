@@ -1,0 +1,14 @@
+---
+- name: Clone fzf
+  git:
+    repo={{ fzf_repo }}
+    version={{ fzf_version }}
+    dest={{ fzf_dest_dir }}
+    accept_hostkey=True
+    force=yes
+  register: fzf_repo
+
+- name: Install fzf
+  when: fzf_repo.changed
+  shell: "yes | {{ fzf_dest_dir }}/install"
+  register: fzf_install

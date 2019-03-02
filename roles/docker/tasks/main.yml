@@ -1,0 +1,16 @@
+---
+- name: Install Docker
+  become: yes
+  become_method: sudo
+  package:
+      name: docker
+      state: latest
+
+
+- name: Clone devstack
+  git:
+    repo=https://github.com/slawqo/docker.git
+    version=master
+    dest=/home/{{ ansible_user }}/docker
+    accept_hostkey=True
+    force=yes

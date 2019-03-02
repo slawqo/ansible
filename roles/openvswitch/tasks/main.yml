@@ -1,0 +1,28 @@
+---
+- name: Install openvswitch package (Ubuntu)
+  package:
+      name: "{{ item }}"
+      state: latest
+  become: yes
+  become_method: sudo
+  with_items:
+      - openvswitch-common
+      - openvswitch-switch
+  when: ansible_distribution == 'Ubuntu'
+
+
+- name: Install openvswitch package (Centos or Fedora)
+  package:
+      name: "openvswitch"
+      state: latest
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
+
+
+- name: Start openvswitch service
+  become: yes
+  become_method: sudo
+  service:
+      name: "openvswitch"
+      state: started

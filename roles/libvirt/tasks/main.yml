@@ -1,0 +1,41 @@
+---
+- name: Install virtualization packages (Fedora)
+  package:
+      name: "@virtualization"
+      state: latest
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == "Fedora"
+
+
+- name: Install virtualization packages (Centos)
+  package:
+      name: "@Virtualization Platform"
+      state: latest
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
+
+
+- name: Ensure group "libvirt" exists
+  become: yes
+  become_method: sudo
+  group:
+      name: libvirt
+      state: present
+
+- name: Adding existing user {{ ansible_user_id }} to group libvirt
+  user:
+      name: "{{ ansible_user_id }}"
+      groups: libvirt
+      append: yes
+  become: yes
+  become_method: sudo
+
+
+- name: Ensure libvirt is running
+  systemd:
+      name: libvirtd
+      state: started
+  become: yes
+  become_method: sudo

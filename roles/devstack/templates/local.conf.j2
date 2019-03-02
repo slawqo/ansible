@@ -1,0 +1,166 @@
+[[local|localrc]]
+SERVICE_TOKEN={{ service_token }}
+ADMIN_PASSWORD={{ admin_password }}
+MYSQL_PASSWORD={{ db_password }}
+RABBIT_PASSWORD={{ rabbit_password }}
+SERVICE_PASSWORD=$ADMIN_PASSWORD
+
+HOST_IP={{ hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['address'] }}
+
+{% if python3 is defined and python3 == True %}
+USE_PYTHON3=True
+{% endif %}
+
+#
+# Logging
+#
+LOGFILE=$DEST/logs/stack.sh.log
+LOGDAYS=2
+
+USE_SCREEN=False
+{% if devstack_datadir is defined %}
+    DATA_DIR={{ devstack_datadir }}
+{% endif %}
+
+# Branches
+# --------
+NOVA_BRANCH={{ nova_branch }}
+NOVA_REPO={{ nova_repo }}
+CINDER_BRANCH={{ cinder_branch }}
+CINDER_REPO={{ cinder_repo }}
+GLANCE_BRANCH={{ glance_branch }}
+GLANCE_REPO={{ glance_repo }}
+NEUTRON_BRANCH={{ neutron_branch }}
+NEUTRON_REPO={{ neutron_repo }}
+NEUTRONCLIENT_REPO={{ neutronclient_repo }}
+NEUTRONCLIENT_BRANCH={{ neutronclient_branch }}
+HORIZON_BRANCH={{ horizion_branch }}
+KEYSTONE_BRANCH={{ keystone_branch }}
+
+# Tempest with neutron-tempest-plugin
+# -------
+INSTALL_TEMPEST=True
+enable_plugin neutron-tempest-plugin https://git.openstack.org/openstack/neutron-tempest-plugin
+
+# Enable osprofiler
+# -------
+enable_plugin osprofiler https://git.openstack.org/openstack/osprofiler
+OSPROFILER_COLLECTOR=redis
+
+# Image
+# -----
+DOWNLOAD_DEFAULT_IMAGES=False
+IMAGE_URLS={{ image_url }}
+
+{% if horizon is not defined or horizon == False %}
+    # Dashboard (disabled)
+    # --------------------
+    disable_service horizon
+{% endif %}
+
+{% if heat is defined and heat == True %}
+    #
+    # Heat
+    #
+    enable_plugin {{ heat_repo }} {{ heat_branch }}
+    enable_service h-eng h-api h-api-cfn h-api-cw
+    IMAGE_URL_SITE="http://download.fedoraproject.org"
+    IMAGE_URL_PATH="/pub/fedora/linux/releases/25/CloudImages/x86_64/images/"
+    IMAGE_URL_FILE="Fedora-Cloud-Base-25-1.3.x86_64.qcow2"
+    IMAGE_URLS+=","$IMAGE_URL_SITE$IMAGE_URL_PATH$IMAGE_URL_FILE
+{% endif %}
+
+{% if watcher is defined and watcher == True %}
+    # Watcher
+    # -------
+    enable_plugin watcher {{ watcher_repo }} {{ watcher_branch }}
+{% endif %}
+
+{% if ceilometer is defined and ceilometer == True %}
+    # Ceilometer
+    # ----------
+    enable_plugin ceilometer {{ ceilometer_repo }} {{ ceilometer_branch }}
+{% endif %}
+
+{% if swift is not defined or swift == False %}
+    # Swift
+    # -----
+    disable_service s-proxy s-object s-container s-account
+{% endif %}
+
+{% if cinder is not defined or cinder == False %}
+    # Cinder
+    # -----
+    disable_service c-api c-sch c-vol
+{% endif %}
+
+# Network
+# -------
+FIXED_RANGE={{ fixed_range }}
+NETWORK_GATEWAY={{ network_gw }}
+FLOATING_RANGE={{ floating_range }}
+
+enable_service neutron-svc
+enable_service neutron-agt
+enable_service neutron-dhcp
+enable_service neutron-meta
+PUBLIC_PHYSICAL_NETWORK=default
+Q_USE_SECGROUP=True
+{% if public_interface is defined %}
+    PUBLIC_INTERFACE={{ hostvars[inventory_hostname]['ansible_' + public_interface]['device'] }}
+{% endif %}
+
+Q_PLUGIN=ml2
+Q_AGENT={{ l2_agent }}
+
+
+Q_SERVICE_PLUGIN_CLASSES="qos,trunk"
+enable_service neutron-l3
+PROVIDER_NETWORK_TYPE=local
+
+{% if neutron_lbaas is defined and neutron_lbaas == True %}
+    #
+    # Neutron-LBaaS
+    #
+    enable_plugin neutron-lbaas {{ neutron_lbaas_repo }} {{ neutron_lbaas_branch }}
+    enable_service q-lbaasv2
+{% endif %}
+
+{% if l2_agent == "linuxbridge" %}
+    FW_DRV=neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
+    LB_INTERFACE_MAPPINGS=default:{{ hostvars[inventory_hostname]['ansible_' + iface]['device'] }}
+    OVS_PHYSICAL_BRIDGE=""
+    {% if public_interface is defined %}
+        LB_PHYSICAL_INTERFACE=$PUBLIC_INTERFACE
+        PUBLIC_INTERFACE=""
+    {% endif %}
+{% elif l2_agent == "openvswitch" %}
+    FW_DRV=openvswitch
+{% endif %}
+
+Q_DVR_MODE={{ l3_mode }}
+
+[[post-config|/$Q_PLUGIN_CONF_FILE]]
+[ml2]
+extension_drivers = port_security,qos
+
+[agent]
+extensions = qos
+
+[securitygroup]
+firewall_driver = $FW_DRV
+enable_security_group = True
+
+[vxlan]
+enable_vxlan = True
+local_ip = $HOST_IP
+l2_population = True
+
+[ml2_type_vxlan]
+vni_ranges = 1001:2000
+
+[linux_bridge]
+physical_interface_mappings = default:{{ hostvars[inventory_hostname]['ansible_' + iface]['device'] }}
+
+[ovs]
+bridge_mappings = default:br-ex

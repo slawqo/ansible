@@ -1,0 +1,70 @@
+"Better copy paste
+set pastetoggle=<F2>
+set clipboard=unnamed
+
+autocmd FileType python set omnifunc=pythoncomplete#Complete
+autocmd FileType javascript set omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType html set omnifunc=htmlcomplete#CompleteTags
+autocmd FileType css set omnifunc=csscomplete#CompleteCSS
+autocmd FileType xml set omnifunc=xmlcomplete#CompleteTags
+autocmd FileType php set omnifunc=phpcomplete#CompletePHP
+autocmd FileType c set omnifunc=ccomplete#Complete
+
+filetype off
+filetype plugin indent on
+syntax on
+
+set encoding=utf-8
+set fileencodings=usc-bom,utf-8,latin2
+set ts=4
+set sts=4
+set sw=4
+set bs=2
+set expandtab
+set smartindent
+set ruler
+set number
+set cursorline
+set history=1000
+set tw=80
+set nowrap
+set fo-=t
+
+let mapleader = ","
+
+"Służy do wygodniejszego poruszania się po okienkach.
+"Zamiast wciskania CTRL+w, a później h/j/k/l, wciskasz sobie CTRL+h/j/k/l.:
+map <c-j> <c-w>j
+map <c-k> <c-w>k
+map <c-l> <c-w>l
+map <c-h> <c-w>h
+
+"Wygodne przemieszczanie bloków kodu.
+"Zaznaczasz tekst i wybierasz w którym kierunku ma być przesunięty.
+" '<' (lewo), '>' (prawo).
+vnoremap < <gv
+vnoremap > >gv
+
+"Highlight unwanted spaces at end of lines:
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+"Highlight column 80
+highlight ColorColumn ctermbg=gray guibg=gray
+set colorcolumn=80
+" Display status bar always (line at the bottom with file name, ruler, etc.
+set laststatus=2
+
+
+if has('gui_running')
+    colorscheme desert
+elseif &diff
+    colorscheme desert
+else
+    colorscheme pychimp_mod
+endif
+
+let g:pymode_rope = 0
+let g:pymode_breakpoint = 0
+let g:pymode_syntax = 1
+let g:pymode_virtualenv = 1
+let g:pymode_lint = 0

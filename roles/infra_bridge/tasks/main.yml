@@ -1,0 +1,51 @@
+---
+- name: Ensure openvswitch package exists (Ubuntu)
+  become: yes
+  become_method: sudo
+  package:
+      name: openvswitch-switch
+      state: latest
+  when: ansible_distribution == "Ubuntu"
+
+
+- name: Ensure openvswitch package exists (Fedora)
+  become: yes
+  become_method: sudo
+  package:
+      name: openvswitch
+      state: latest
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
+
+
+- name: Ensure infra bridge exists
+  become: yes
+  become_method: sudo
+  openvswitch_bridge:
+    bridge={{ infra_bridge_name }}
+
+
+- name: Ensure Neutron external bridge exists
+  become: yes
+  become_method: sudo
+  openvswitch_bridge:
+    bridge={{ neutron_external_bridge_name }}
+
+
+- name: Ensure physical interface in infra bridge
+  become: yes
+  become_method: sudo
+  openvswitch_port:
+    bridge={{ infra_bridge_name }}
+    port={{ iface }}
+    state=present
+
+
+- name: Create patch port between bridges
+  become: yes
+  become_method: sudo
+  command: >-
+    ovs-vsctl --may-exist add-port {{ infra_bridge_name }} patch-{{ neutron_external_bridge_name }}
+    -- set interface patch-{{ neutron_external_bridge_name }} type=patch options:peer=patch-{{ infra_bridge_name }}
+    -- --may-exist add-port {{ neutron_external_bridge_name }} patch-{{ infra_bridge_name }}
+    -- set interface patch-{{ infra_bridge_name }} type=patch options:peer=patch-{{ neutron_external_bridge_name }}
+

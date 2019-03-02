@@ -1,0 +1,4 @@
+---
+fzf_repo: 'https://github.com/junegunn/fzf.git'
+fzf_dest_dir: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.fzf"
+fzf_version: 'master'

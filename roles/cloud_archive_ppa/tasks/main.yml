@@ -1,0 +1,6 @@
+---
+- name: Add cloud archive PPA repository
+  become: yes
+  become_method: sudo
+  apt_repository:
+    repo=ppa:ubuntu-cloud-archive/{{ ca_ppa_staging }}-staging

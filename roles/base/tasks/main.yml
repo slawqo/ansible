@@ -1,0 +1,201 @@
+---
+- name: Install libselinux-python bindings
+  become: yes
+  become_method: sudo
+  package:
+      name: libselinux-python
+      state: present
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
+
+- name: Prepare hosts file
+  become: yes
+  become_method: sudo
+  lineinfile:
+    path: /etc/hosts
+    line: "{{ hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['address'] }} {{ inventory_hostname }}"
+    state: present
+
+- name: Configure private network interface
+  become: yes
+  become_method: sudo
+  shell: "dhclient {{ private_iface }}"
+  when: not(
+        (private_iface is undefined) or
+        (private_iface is none) or
+        (private_iface | trim == ''))
+
+
+- name: Add gf-release YUM repository
+  become: yes
+  become_method: sudo
+  yum_repository:
+    name: gf-release
+    description: Repo with newer tmux version (>=2.1)
+    baseurl: http://mirror.ghettoforge.org/distributions/gf/el/$releasever/plus/$basearch/
+    gpgcheck: no
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
+
+
+- name: Add EPEL YUM repository
+  become: yes
+  become_method: sudo
+  yum_repository:
+    name: epel
+    description: Extra Packages for Enterprise Linux Repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    gpgcheck: no
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
+
+
+- name: Install base packages
+  package:
+      name: "{{ item }}"
+      state: latest
+  become: yes
+  become_method: sudo
+  with_items:
+      - htop
+      - bmon
+      - ccze
+      - git
+      - python-pip
+      - rsync
+      - zsh
+      - tmux
+      - dstat
+      - stress
+      - tig
+      - telnet
+      - tar
+
+
+- name: Install Ubuntu specific packages
+  package:
+      name: "{{ item }}"
+      state: latest
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == "Ubuntu"
+  with_items:
+      - exuberant-ctags
+      - gettext
+      - golang-go
+
+
+- name: Install CentOS specific packages
+  package:
+      name: "{{ item }}"
+      state: latest
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
+  with_items:
+      - vim-minimal
+      - global-ctags
+      - vim
+      - go
+
+
+- name: Install new versions of packages
+  become: yes
+  become_method: sudo
+  pip:
+      name: ["setuptools", "pip", "tox"]
+      extra_args: --upgrade
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
+
+
+- name: Copy bashrc
+  copy:
+      src: "files/bashrc"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.bashrc"
+
+
+- name: Copy zlogin
+  copy:
+      src: "files/zlogin"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zlogin"
+
+
+- name: Copy zlogout
+  copy:
+      src: "files/zlogout"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zlogout"
+
+
+- name: Copy zpreztorc
+  copy:
+      src: "files/zpreztorc"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zpreztorc"
+
+
+- name: Copy zprofile
+  copy:
+      src: "files/zprofile"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zprofile"
+
+
+- name: Copy zshrc
+  copy:
+      src: "files/zshrc"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zshrc"
+
+
+- name: Copy git config
+  template:
+      src=templates/gitconfig.j2
+      dest="{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.gitconfig"
+
+
+- name: Clone zprezto
+  git:
+    repo=https://github.com/slawqo/prezto.git
+    version=master
+    dest=/home/{{ ansible_user }}/.zprezto
+
+
+- name: Set zsh as base shell for {{ ansible_user }}
+  become: yes
+  become_method: sudo
+  user:
+      name={{ ansible_user }}
+      shell="/bin/zsh"
+
+
+- name: Copy tmux config
+  copy:
+      src: "files/tmux.conf"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.tmux.conf"
+
+
+- name: Copy vim config
+  copy:
+      src: "files/vimrc"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.vimrc"
+
+
+- name: Synchronize vim files
+  synchronize:
+      src: "files/vim/"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.vim/"
+      use_ssh_args: yes
+
+
+- name: Copy ssh keys
+  synchronize:
+      src: "files/ssh_keys/"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.ssh/"
+      use_ssh_args: yes
+
+
+- name: Create ssh config file
+  template:
+      src=templates/ssh_config.j2
+      dest="{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.ssh/config"
+
+
+- name: set timezone to Warsaw
+  become: yes
+  become_method: sudo
+  timezone:
+      name: Europe/Warsaw

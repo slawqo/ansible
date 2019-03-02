@@ -1,0 +1,8 @@
+---
+- name: Copy packstack bootstrap script
+  copy:
+      src=files/packstack.sh
+      dest=/usr/local/bin/packstack_prepare.sh
+      mode=0755
+  become: yes
+  become_method: sudo

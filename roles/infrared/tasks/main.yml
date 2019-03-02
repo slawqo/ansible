@@ -1,0 +1,44 @@
+---
+- name: Clone infrared
+  git:
+      repo: "https://github.com/redhat-openstack/infrared.git"
+      version: master
+      dest: "{{ '/root' if ansible_user == 'root' else '/home/' + ansible_user }}/infrared/"
+      accept_hostkey: True
+      force: yes
+
+
+- name: Copy ir_deploy scipt
+  copy:
+      src: "files/ir_deploy.sh"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/infrared/ir_deploy.sh"
+
+
+- name: Copy ir_cleanup scipt
+  copy:
+      src: "files/ir_cleanup.sh"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/infrared/ir_cleanup.sh"
+
+
+- name: Copy compute template
+  copy:
+      src: "files/compute.yaml"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/infrared/plugins/virsh/vars/topology/nodes/compute.yml"
+
+
+- name: Copy controller template
+  copy:
+      src: "files/controller.yaml"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/infrared/plugins/virsh/vars/topology/nodes/controller.yml"
+
+
+- name: Copy undercloud template
+  copy:
+      src: "files/undercloud.yaml"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/infrared/plugins/virsh/vars/topology/nodes/undercloud.yml"
+
+
+- name: Copy networks template
+  copy:
+      src: "files/3_nets.yaml"
+      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/infrared/plugins/virsh/vars/topology/network/3_nets.yml"

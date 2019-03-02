@@ -1,0 +1,26 @@
+---
+- name: Install Fedora dev tools
+  package:
+      name: "{{ item }}"
+      state: latest
+  become: yes
+  become_method: sudo
+  with_items:
+      - fedora-packager
+      - koji
+      - krb5-workstation
+      - rdopkg
+
+
+- name: Copy krb5 config file
+  copy:
+      src=files/krb5.conf
+      dest=/etc/krb5.conf
+  become: yes
+  become_method: sudo
+
+
+- name: Copy Fedora Account System config file
+  template:
+      src=templates/fedora.upn.j2
+      dest=/home/{{ ansible_user }}/.fedora.upn

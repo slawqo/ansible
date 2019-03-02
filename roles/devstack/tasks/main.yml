@@ -1,0 +1,49 @@
+---
+- name: Create /opt/stack directory
+  become: yes
+  become_method: sudo
+  file:
+    path=/opt/stack
+    state=directory
+    mode=0755
+    owner={{ ansible_user }}
+
+
+- name: Enable IPv6
+  become: yes
+  become_method: sudo
+  sysctl:
+    name: net.ipv6.conf.all.disable_ipv6
+    value: 0
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: Clone devstack
+  git:
+    repo={{ devstack_repo }}
+    version={{ devstack_branch }}
+    dest=/opt/stack/devstack
+    accept_hostkey=True
+    force=yes
+
+
+- name: Copy devstack's local.conf
+  template:
+    src=templates/local.conf.j2
+    dest=/opt/stack/devstack/local.conf
+  when: vm_type == 'devstack' and (topology == "allinone" or "controller" in inventory_hostname or "allinone" in inventory_hostname)
+
+
+- name: Copy devstack's local.conf to compute nodes
+  template:
+    src=templates/compute-local.conf.j2
+    dest=/opt/stack/devstack/local.conf
+  when: vm_type == 'devstack' and (topology == "multinode" and "compute" in inventory_hostname)
+
+
+- name: Copy devstack's local.conf to network nodes
+  template:
+    src=templates/network-local.conf.j2
+    dest=/opt/stack/devstack/local.conf
+  when: vm_type == 'devstack' and (topology == "multinode" and "network" in inventory_hostname)

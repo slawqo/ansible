@@ -1,0 +1,12 @@
+---
+- name: Install Vagrant package
+  package:
+      name: "{{ item }}"
+      state: latest
+  become: yes
+  become_method: sudo
+  with_items:
+      - vagrant
+      - vagrant-libvirt
+      - vagrant-libvirt-doc
+  when: ansible_distribution != "CentOS" and ansible_distribution != 'Red Hat Enterprise Linux'

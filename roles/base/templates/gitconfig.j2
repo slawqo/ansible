@@ -1,0 +1,16 @@
+[user]
+        email = {{ git_email }}
+        name = {{ git_name }}
+[core]
+        editor = vim
+[alias]
+    s = status
+    co = checkout
+    ci = commit
+    b = branch
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+[gitreview]
+        scheme = ssh
+        port = 29418
+        username = {{ os_gerrit_user }}
+

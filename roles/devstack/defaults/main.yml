@@ -1,0 +1,52 @@
+---
+service_token: servicetoken
+admin_password: adminpass
+db_password: dbpass
+rabbit_password: rabbitpass
+image_url: http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-i386-disk.img
+fixed_range: 192.168.0.0/24
+network_gw: 192.168.0.254
+floating_range: 10.10.0.128/25
+l2_agent: openvswitch
+l3_mode: legacy
+python3: True
+
+swift: False
+
+horizon: True
+horizion_branch: master
+
+keystone_branch: master
+
+devstack_branch: master
+devstack_repo: https://github.com/openstack-dev/devstack.git
+
+nova_branch: master
+nova_repo: https://git.openstack.org/openstack/nova
+
+cinder: False
+cinder_branch: master
+cinder_repo: https://git.openstack.org/openstack/cinder
+
+glance_branch: master
+glance_repo: https://git.openstack.org/openstack/glance
+
+neutron_branch: master
+neutron_repo: https://git.openstack.org/openstack/neutron
+neutron_lbaas: False
+neutron_lbaas_branch: master
+neutron_lbaas_repo: https://git.openstack.org/openstack/neutron-lbaas
+neutronclient_branch: master
+neutronclient_repo: https://git.openstack.org/openstack/python-neutronclient
+
+heat: False
+heat_branch: master
+heat_repo: https://git.openstack.org/openstack/heat
+
+watcher: False
+watcher_branch: master
+watcher_repo: https://git.openstack.org/openstack/watcher
+
+ceilometer: False
+ceilometer_branch: master
+ceilometer_repo: https://git.openstack.org/openstack/ceilometer
