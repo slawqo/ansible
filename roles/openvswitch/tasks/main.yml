@@ -11,6 +11,15 @@
   when: ansible_distribution == 'Ubuntu'
 
 
+- name: Start openvswitch service on Ubuntu
+  become: yes
+  become_method: sudo
+  service:
+      name: "openvswitch-switch"
+      state: started
+  when: ansible_distribution == 'Ubuntu'
+
+
 - name: Install openvswitch package (Centos or Fedora)
   package:
       name: "openvswitch"
@@ -20,9 +29,10 @@
   when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
 
 
-- name: Start openvswitch service
+- name: Start openvswitch service on Centos or Fedora
   become: yes
   become_method: sudo
   service:
       name: "openvswitch"
       state: started
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
