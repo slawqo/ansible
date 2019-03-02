@@ -9,16 +9,6 @@
     owner={{ ansible_user }}
 
 
-- name: Enable IPv6
-  become: yes
-  become_method: sudo
-  sysctl:
-    name: net.ipv6.conf.all.disable_ipv6
-    value: 0
-    sysctl_set: yes
-    state: present
-    reload: yes
-
 - name: Clone devstack
   git:
     repo={{ devstack_repo }}
