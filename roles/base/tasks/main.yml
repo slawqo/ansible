@@ -91,6 +91,7 @@
       - exuberant-ctags
       - gettext
       - golang-go
+      - unbound
 
 
 - name: Install CentOS specific packages
