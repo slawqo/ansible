@@ -36,7 +36,6 @@
       - python-devel
       - python36-devel
       - git-review
-      - python-tox
 
 
 - name: Install packages from pypi
@@ -45,7 +44,6 @@
   pip:
       name={{ item }} extra_args=--upgrade
   with_items:
-      - pip
       - pdbpp
       - remote_pdb
       - pbr

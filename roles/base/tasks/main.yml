@@ -108,11 +108,11 @@
       - go
 
 
-- name: Install new versions of packages
+- name: Install new versions of setuptools on Centos
   become: yes
   become_method: sudo
   pip:
-      name: ["setuptools", "pip", "tox"]
+      name: "setuptools"
       extra_args: --upgrade
   when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
 
