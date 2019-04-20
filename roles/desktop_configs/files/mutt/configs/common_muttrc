@@ -1,0 +1,32 @@
+### MUTT config file ###
+
+# Settings for sending mails
+unset record
+set use_from = yes
+set envelope_from = "yes"
+
+# General settings
+set mbox_type = Maildir
+set editor = "/usr/bin/vim"
+set mail_check = 120
+set collapse_unread = no
+set sort=threads
+set hide_thread_subject=yes
+set ascii_chars=no
+set sort_aux=last-date-received
+set pager_index_lines = 7
+auto_view text/html
+alternative_order text/plain text/html
+
+# Aliases file
+set alias_file=~/.mails/aliases
+source $alias_file
+
+macro index u "<clear-flag>N"
+macro index,pager ,c "<tag-pattern>.<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>"
+
+# Sidebar settings
+source ~/.mutt/configs/sidebar.muttrc
+
+# Colorscheme
+source ~/.mutt/colors/dracula.muttrc

@@ -1,0 +1,43 @@
+---
+- name: Synchronize mutt files
+  synchronize:
+      src: "files/mutt/"
+      dest: "{{ ansible_env.HOME }}/.mutt/"
+      use_ssh_args: yes
+
+
+- name: Copy work mutt config
+  copy:
+      src: "files/muttrc_work"
+      dest: "{{ ansible_env.HOME }}/.muttrc"
+
+
+- name: Copy private mutt config
+  copy:
+      src: "files/muttrc_private"
+      dest: "{{ ansible_env.HOME }}/.muttrc_kaplonskipl"
+
+
+- name: Copy offlineimaprc
+  copy:
+      src: "files/offlineimaprc"
+      dest: "{{ ansible_env.HOME }}/.offlineimaprc"
+
+
+- name: Synchronize weechat files
+  synchronize:
+      src: "files/weechat/"
+      dest: "{{ ansible_env.HOME }}/.weechat/"
+      use_ssh_args: yes
+
+
+- name: Create weechat irc config file
+  template:
+      src=weechat_irc_conf.j2
+      dest="{{ ansible_env.HOME }}/.weechat/irc.conf"
+
+
+- name: Create weechat sec config file
+  template:
+      src=weechat_sec_conf.j2
+      dest="{{ ansible_env.HOME }}/.weechat/sec.conf"

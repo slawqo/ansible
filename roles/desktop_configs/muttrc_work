@@ -1,0 +1,24 @@
+### MUTT config file ###
+
+# Accounts config
+source ~/.confidental_data/pass.muttrc
+
+# Common mutt settings
+source ~/.mutt/configs/common_muttrc
+
+# IMAP: offlineimap
+set folder = "~/.mails/redhat/"
+source ~/.mails/redhat_mailboxes
+set spoolfile = "+INBOX"
+set record = "+gmail.sent"
+set postponed = "+gmail.drafts"
+
+# Settings for sending mail
+set realname = "Slawek Kaplonski"
+set my_name = "Slawek Kaplonski"
+set from = "skaplons@redhat.com"
+my_hdr From: Slawek Kaplonski <skaplons@redhat.com>
+set signature="~/.mutt/configs/redhat_signature"
+
+set header_cache = ~/.mails/redhat_headers
+set message_cachedir = ~/.mails/redhat_cache
