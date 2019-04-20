@@ -1,0 +1,22 @@
+Host github.com
+    Hostname github.com
+    User {{ github_user }}
+    IdentityFile ~/.ssh/id_rsa_github
+
+Host review.openstack.org
+    User {{ os_gerrit_user }}
+    Port 29418
+    Hostname review.openstack.org
+    IdentityFile ~/.ssh/id_rsa_openstack_gerrit
+
+Host {{ dev_hostname }}
+    IdentityFile {{ dev_hostname_identity_file }}
+
+Host {{ rh_gerrit }}
+    User {{ rh_gerrit_user }}
+    IdentityFile {{ rh_gerrit_identity_file }}
+
+Host collab-shell
+    Hostname {{ collab_hostname }}
+    User {{ collab_user }}
+    PreferredAuthentications password

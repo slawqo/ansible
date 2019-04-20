@@ -1,0 +1,85 @@
+---
+- name: Copy bashrc
+  copy:
+      src: "files/bash/bashrc"
+      dest: "{{ ansible_env.HOME }}/.bashrc"
+
+
+- name: Copy bash profile
+  copy:
+      src: "files/bash/profile"
+      dest: "{{ ansible_env.HOME }}/.profile"
+
+
+- name: Copy zlogin
+  copy:
+      src: "files/zsh/zlogin"
+      dest: "{{ ansible_env.HOME }}/.zlogin"
+
+
+- name: Copy zlogout
+  copy:
+      src: "files/zsh/zlogout"
+      dest: "{{ ansible_env.HOME }}/.zlogout"
+
+
+- name: Copy zpreztorc
+  copy:
+      src: "files/zsh/zpreztorc"
+      dest: "{{ ansible_env.HOME }}/.zpreztorc"
+
+
+- name: Copy zprofile
+  copy:
+      src: "files/zsh/zprofile"
+      dest: "{{ ansible_env.HOME }}/.zprofile"
+
+
+- name: Copy zshrc
+  copy:
+      src: "files/zsh/zshrc"
+      dest: "{{ ansible_env.HOME }}/.zshrc"
+
+
+- name: Copy git config
+  template:
+      src=gitconfig.j2
+      dest="{{ ansible_env.HOME }}/.gitconfig"
+
+
+- name: Copy global gitignore file
+  copy:
+      src: "files/git/gitignore_globals"
+      dest: "{{ ansible_env.HOME }}/.gitignore_globals"
+
+
+- name: Copy vim config
+  copy:
+      src: "files/vim/vimrc"
+      dest: "{{ ansible_env.HOME }}/.vimrc"
+
+
+- name: Synchronize vim files
+  synchronize:
+      src: "files/vim/vim/"
+      dest: "{{ ansible_env.HOME }}/.vim/"
+      use_ssh_args: yes
+
+
+- name: Copy ssh keys
+  synchronize:
+      src: "files/ssh/"
+      dest: "{{ ansible_env.HOME }}/.ssh/"
+      use_ssh_args: yes
+
+
+- name: Copy tmux config
+  copy:
+      src: "files/tmux/tmux.conf"
+      dest: "{{ ansible_env.HOME }}/.tmux.conf"
+
+
+- name: Create ssh config file
+  template:
+      src=ssh_config.j2
+      dest="{{ ansible_env.HOME }}/.ssh/config"

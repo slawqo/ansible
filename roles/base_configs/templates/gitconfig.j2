@@ -1,0 +1,25 @@
+[user]
+    email = {{ git_email }}
+	name = {{ git_user }}
+[core]
+	editor = vim
+	excludesfile = ~/.gitignore_globals
+[alias]
+    s = status
+    co = checkout
+    ci = commit
+    b = branch
+    lg = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit --date=relative
+    o = !vim `git-open`
+[gitreview]
+	username = {{ os_gerrit_user }}
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[merge]
+	tool = vimdiff
+	conflictstyle = diff3
+[mergetool]
+	prompt = false
