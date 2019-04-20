@@ -5,7 +5,16 @@
   package:
       name: libselinux-python
       state: present
-  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
+
+
+- name: Install libselinux-python bindings on Fedora
+  become: yes
+  become_method: sudo
+  package:
+      name: ["python2-libselinux", "python3-libselinux"]
+      state: present
+  when: ansible_distribution == "Fedora"
 
 - name: Prepare hosts file
   become: yes
