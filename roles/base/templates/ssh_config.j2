@@ -7,6 +7,10 @@ Host review.openstack.org
     User {{ os_gerrit_user }}
     IdentityFile {{ os_gerrit_identity_file }}
 
+Host review.rdoproject.org
+    User {{ rdo_user }}
+    IdentityFile {{ github_identity_file }}
+
 Host {{ rh_gerrit_hostname }}
     User {{ rh_gerrit_user }}
     IdentityFile  {{ rh_gerrit_identity_file }}
