@@ -29,4 +29,4 @@ macro index,pager ,c "<tag-pattern>.<enter><tag-prefix><clear-flag>N<untag-patte
 source ~/.mutt/configs/sidebar.muttrc
 
 # Colorscheme
-source ~/.mutt/colors/dracula.muttrc
+source ~/.mutt/colors/vombatidae.muttrc
