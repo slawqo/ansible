@@ -1,7 +1,7 @@
 ### MUTT config file ###
 
 # Accounts config
-source ~/.confidental_data/pass.muttrc
+source ~/.confidential_data/pass.muttrc
 
 # Common mutt settings
 source ~/.mutt/configs/common_muttrc
