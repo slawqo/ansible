@@ -126,48 +126,6 @@
   when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
 
 
-- name: Copy bashrc
-  copy:
-      src: "files/bashrc"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.bashrc"
-
-
-- name: Copy zlogin
-  copy:
-      src: "files/zlogin"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zlogin"
-
-
-- name: Copy zlogout
-  copy:
-      src: "files/zlogout"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zlogout"
-
-
-- name: Copy zpreztorc
-  copy:
-      src: "files/zpreztorc"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zpreztorc"
-
-
-- name: Copy zprofile
-  copy:
-      src: "files/zprofile"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zprofile"
-
-
-- name: Copy zshrc
-  copy:
-      src: "files/zshrc"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.zshrc"
-
-
-- name: Copy git config
-  template:
-      src=templates/gitconfig.j2
-      dest="{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.gitconfig"
-
-
 - name: Clone zprezto
   git:
     repo=https://github.com/slawqo/prezto.git
@@ -181,38 +139,6 @@
   user:
       name={{ ansible_user }}
       shell="/bin/zsh"
-
-
-- name: Copy tmux config
-  copy:
-      src: "files/tmux.conf"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.tmux.conf"
-
-
-- name: Copy vim config
-  copy:
-      src: "files/vimrc"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.vimrc"
-
-
-- name: Synchronize vim files
-  synchronize:
-      src: "files/vim/"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.vim/"
-      use_ssh_args: yes
-
-
-- name: Copy ssh keys
-  synchronize:
-      src: "files/ssh_keys/"
-      dest: "{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.ssh/"
-      use_ssh_args: yes
-
-
-- name: Create ssh config file
-  template:
-      src=templates/ssh_config.j2
-      dest="{{ '/root' if ansible_user_id == 'root' else '/home/' + ansible_user_id }}/.ssh/config"
 
 
 - name: set timezone to Warsaw
