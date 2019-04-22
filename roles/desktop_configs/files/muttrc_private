@@ -22,3 +22,6 @@ set signature="~/.mutt/configs/kaplonskipl_signature"
 
 set header_cache = ~/.mails/kaplonskipl_headers
 set message_cachedir = ~/.mails/kaplonskipl_cache
+
+macro index,pager d "<save-message>=deleted_items<enter><enter>" "Trash"
+macro index,pager A "<save-message>=archive<enter><enter>" "Archive Mail"

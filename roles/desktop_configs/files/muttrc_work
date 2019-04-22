@@ -22,3 +22,8 @@ set signature="~/.mutt/configs/redhat_signature"
 
 set header_cache = ~/.mails/redhat_headers
 set message_cachedir = ~/.mails/redhat_cache
+
+macro index,pager d "<save-message>=gmail.trash<enter><enter>" "Trash"
+macro index,pager A "<save-message>=archive_mac<enter><enter>" "Archive"
+macro index,pager L "<save-message>=public.launchpad<enter><enter>" "Move to Launchpad"
+macro index,pager + "<save-message>=important<enter><enter>" "Move to important messages"
