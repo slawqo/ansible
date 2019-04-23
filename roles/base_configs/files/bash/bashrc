@@ -186,5 +186,7 @@ alias h='print_hints'
 
 alias ww="weather Wroclaw"
 
+alias todo="todo.sh"
+
 ### At the end do some stuff:
 print_hints

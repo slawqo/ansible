@@ -55,6 +55,8 @@ alias kerberos="pass -c Red-Hat/Kerberos/skaplons"
 
 alias nmutt="stty discard undef; neomutt"
 
+alias todo="todo.sh"
+
 # Settings for fzf searching tool
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'

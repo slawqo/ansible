@@ -41,3 +41,9 @@
   template:
       src=weechat_sec_conf.j2
       dest="{{ ansible_env.HOME }}/.weechat/sec.conf"
+
+
+- name: Copy todo.txt config
+  copy:
+      src: "files/todo.cfg"
+      dest: "{{ ansible_env.HOME }}/.todo.cfg"
