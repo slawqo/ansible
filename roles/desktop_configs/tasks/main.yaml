@@ -47,3 +47,23 @@
   copy:
       src: "files/todo.cfg"
       dest: "{{ ansible_env.HOME }}/.todo.cfg"
+
+
+- name: Ensure config dir exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config"
+      state: directory
+
+
+- name: Ensure gertty config dir exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/gertty"
+      state: directory
+
+
+- name: Create gertty config file
+  template:
+      src=gertty.yaml.j2
+      dest="{{ ansible_env.HOME }}/.config/gertty/gertty.yaml"
+      mode=0600
+
