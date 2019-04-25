@@ -6,13 +6,13 @@
 #
 # Mutt colorscheme loosely inspired by vim colorscheme wombat.vim.
 #
-# Changelog: 
+# Changelog:
 #   0.1 - Initial version
 
 
 # --- vombatidae text colors ---
 #  color normal		color230      color234
-#  color message      	color230      color234 
+#  color message      	color230      color234
 
 # --- slightly less yellow text colors ---
 color normal		color253	color234 # mod
@@ -20,17 +20,17 @@ color normal		color253	color234 # mod
 #  color normal		color253	default # mod
 color indicator    	color230     	color238
 color status       	color101     	color16
-#  color tree         	color113      	color234 
-#  color tree         	color173      	color234 
-color tree         	color208      	color234 
-color signature    	color102      	color234 
-color message      	color253      	color234 
-color attachment	color117      	color234 
-color error        	color30      	color234 
-color tilde        	color130     	color235 
+#  color tree         	color113      	color234
+#  color tree         	color173      	color234
+color tree         	color208      	color234
+color signature    	color102      	color234
+color message      	color253      	color234
+color attachment	color117      	color234
+color error        	color30      	color234
+color tilde        	color130     	color234
 
-color search       color100     default 
-color markers      color138     default 
+color search       color100     default
+color markers      color138     default
 
 #  mono bold          reverse
 #  color bold         color173 color191
@@ -56,7 +56,7 @@ color quoted9       color138     color234
 # color body          green default  "(^| )_[-a-z0-9_]+_[,.?]?[ \n]"
 color index		color202	color234  ~F         # Flagged
 color index         	color39     	color234  ~N          # New
-color index         	color39     	color234  ~O         
+color index         	color39     	color234  ~O
 color index         	color229     	color22  ~T         # Tagged
 color index         	color240     	color234  ~D         # Deleted
 
