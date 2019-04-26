@@ -3,10 +3,10 @@ Host github.com
     User {{ github_user }}
     IdentityFile ~/.ssh/id_rsa_github
 
-Host review.openstack.org
+Host review.opendev.org
     User {{ os_gerrit_user }}
     Port 29418
-    Hostname review.openstack.org
+    Hostname review.opendev.org
     IdentityFile ~/.ssh/id_rsa_openstack_gerrit
 
 Host {{ dev_hostname }}
