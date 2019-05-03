@@ -5,6 +5,11 @@
 # If not running interactively, don't do anything
 [ -z "$PS1" ] && return
 
+# Slaweq: fix locale in tmux session on Mac
+if [[ $LC_CTYPE == "UTF-8" ]]; then
+    export LC_CTYPE=""
+fi
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace

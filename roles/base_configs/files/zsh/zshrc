@@ -5,6 +5,11 @@
 #   Sorin Ionescu <sorin.ionescu@gmail.com>
 #
 
+# Slaweq: fix locale in tmux session on Mac
+if [[ $LC_CTYPE == "UTF-8" ]]; then
+    export LC_CTYPE=""
+fi
+
 export EDITOR="vim"
 
 # Source Prezto.
