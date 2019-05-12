@@ -73,6 +73,14 @@
       use_ssh_args: yes
 
 
+- name: Ensure ssh directory has proper permissions
+  file:
+      path: "{{ ansible_env.HOME }}/.ssh"
+      state: directory
+      mode: 0755
+
+
+
 - name: Copy tmux config
   copy:
       src: "files/tmux/tmux.conf"
