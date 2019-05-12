@@ -1,0 +1,53 @@
+enable_plugin networking-ovn {{ networking_ovn_repo }} {{ networking_ovn_branch }}
+enable_service ovn-northd
+enable_service ovn-controller
+enable_service networking-ovn-metadata-agent
+
+# Use Neutron instead of nova-network
+disable_service n-net
+enable_service q-svc
+
+# Disable Neutron agents not used with OVN.
+disable_service q-agt
+disable_service q-l3
+disable_service q-dhcp
+disable_service q-meta
+
+# TODO(slaweq): add installation of octavia
+
+# If you want to enable a provider network instead of the default private
+# network after your DevStack environment installation, you *must* set
+# the Q_USE_PROVIDER_NETWORKING to True, and also give FIXED_RANGE,
+# NETWORK_GATEWAY and ALLOCATION_POOL option to the correct value that can
+# be used in your environment. Specifying Q_AGENT is needed to allow devstack
+# to run various "ip link set" and "ovs-vsctl" commands for the provider
+# network setup.
+Q_AGENT=openvswitch
+PROVIDER_NETWORK_TYPE=flat
+{% if public_interface is defined %}
+    PUBLIC_INTERFACE={{ hostvars[inventory_hostname]['ansible_' + public_interface]['device'] }}
+{% endif %}
+
+# If the admin wants to enable this chassis to host gateway routers for
+# external connectivity, then set ENABLE_CHASSIS_AS_GW to True.
+# Then devstack will set ovn-cms-options with enable-chassis-as-gw
+# in Open_vSwitch table's external_ids column.
+# If this option is not set on any chassis, all the of them with bridge
+# mappings configured will be eligible to host a gateway.
+ENABLE_CHASSIS_AS_GW=True
+
+# NOTE: DO NOT MOVE THESE SECTIONS FROM THE END OF THIS FILE
+# IF YOU DO, THEY WON'T WORK!!!!!
+#
+
+# Enable Nova automatic host discovery for cell every 2 seconds
+# Only needed in case of multinode devstack, as otherwise there will be issues
+# when the 2nd compute node goes online.
+
+# The next line is used to insert extra configuration here from the vagrant
+# script, please don't modify or remove, keep it before any post-config items
+#EXTRA_CONFIG
+
+[[post-config|$NOVA_CONF]]
+[scheduler]
+discover_hosts_in_cells_interval = 2

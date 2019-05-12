@@ -94,73 +94,26 @@ IMAGE_URLS={{ image_url }}
     disable_service c-api c-sch c-vol
 {% endif %}
 
+# Skydive
+#enable_plugin skydive https://github.com/redhat-cip/skydive.git
+#enable_service skydive-analyzer
+#enable_service skydive-agent
+
+# -------
 # Network
 # -------
+
+# Enable services, these services depend on neutron plugin.
+enable_plugin neutron https://git.openstack.org/openstack/neutron
+enable_service q-trunk
+enable_service q-qos
+
 FIXED_RANGE={{ fixed_range }}
 NETWORK_GATEWAY={{ network_gw }}
 FLOATING_RANGE={{ floating_range }}
 
-enable_service neutron-svc
-enable_service neutron-agt
-enable_service neutron-dhcp
-enable_service neutron-meta
-PUBLIC_PHYSICAL_NETWORK=default
-Q_USE_SECGROUP=True
-{% if public_interface is defined %}
-    PUBLIC_INTERFACE={{ hostvars[inventory_hostname]['ansible_' + public_interface]['device'] }}
+{% if l2_agent == "ovn" %}
+    {% include "local.conf.ovn.j2" %}
+{% else %}
+    {% include "local.conf.default.j2" %}
 {% endif %}
-
-Q_PLUGIN=ml2
-Q_AGENT={{ l2_agent }}
-
-
-Q_SERVICE_PLUGIN_CLASSES="qos,trunk"
-enable_service neutron-l3
-PROVIDER_NETWORK_TYPE=local
-
-{% if neutron_lbaas is defined and neutron_lbaas == True %}
-    #
-    # Neutron-LBaaS
-    #
-    enable_plugin neutron-lbaas {{ neutron_lbaas_repo }} {{ neutron_lbaas_branch }}
-    enable_service q-lbaasv2
-{% endif %}
-
-{% if l2_agent == "linuxbridge" %}
-    FW_DRV=neutron.agent.linux.iptables_firewall.IptablesFirewallDriver
-    LB_INTERFACE_MAPPINGS=default:{{ hostvars[inventory_hostname]['ansible_' + iface]['device'] }}
-    OVS_PHYSICAL_BRIDGE=""
-    {% if public_interface is defined %}
-        LB_PHYSICAL_INTERFACE=$PUBLIC_INTERFACE
-        PUBLIC_INTERFACE=""
-    {% endif %}
-{% elif l2_agent == "openvswitch" %}
-    FW_DRV=openvswitch
-{% endif %}
-
-Q_DVR_MODE={{ l3_mode }}
-
-[[post-config|/$Q_PLUGIN_CONF_FILE]]
-[ml2]
-extension_drivers = port_security,qos
-
-[agent]
-extensions = qos
-
-[securitygroup]
-firewall_driver = $FW_DRV
-enable_security_group = True
-
-[vxlan]
-enable_vxlan = True
-local_ip = $HOST_IP
-l2_population = True
-
-[ml2_type_vxlan]
-vni_ranges = 1001:2000
-
-[linux_bridge]
-physical_interface_mappings = default:{{ hostvars[inventory_hostname]['ansible_' + iface]['device'] }}
-
-[ovs]
-bridge_mappings = default:br-ex

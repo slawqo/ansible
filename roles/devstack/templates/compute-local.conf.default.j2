@@ -1,0 +1,6 @@
+ENABLED_SERVICES=n-cpu,neutron,n-novnc,q-agt,q-l3,q-meta,placement-client
+Q_DVR_MODE={{ l3_mode }}
+
+[[post-config|/$Q_PLUGIN_CONF_FILE]]
+[ovs]
+bridge_mappings = default:br-ex

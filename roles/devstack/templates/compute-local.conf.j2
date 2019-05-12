@@ -15,8 +15,6 @@ LOGDAYS=2
 
 HOST_IP={{ hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['address'] }}
 
-ENABLED_SERVICES=n-cpu,neutron,n-novnc,q-agt,q-l3,q-meta,placement-client
-
 SERVICE_HOST={{ service_host }}
 MYSQL_HOST=$SERVICE_HOST
 RABBIT_HOST=$SERVICE_HOST
@@ -26,8 +24,8 @@ GLANCE_HOSTPORT=$SERVICE_HOST:9292
 VNCSERVER_PROXYCLIENT_ADDRESS=$HOST_IP
 VNCSERVER_LISTEN=0.0.0.0
 
-Q_DVR_MODE={{ l3_mode }}
-
-[[post-config|/$Q_PLUGIN_CONF_FILE]]
-[ovs]
-bridge_mappings = default:br-ex
+{% if l2_agent == "ovn" %}
+    {% include "compute-local.conf.ovn.j2" %}
+{% else %}
+    {% include "compute-local.conf.default.j2" %}
+{% endif %}

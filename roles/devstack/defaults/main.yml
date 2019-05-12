@@ -39,6 +39,9 @@ neutron_lbaas_repo: https://git.openstack.org/openstack/neutron-lbaas
 neutronclient_branch: master
 neutronclient_repo: https://git.openstack.org/openstack/python-neutronclient
 
+networking_ovn_branch: master
+networking_ovn_repo: https://git.openstack.org/openstack/networking-ovn
+
 heat: False
 heat_branch: master
 heat_repo: https://git.openstack.org/openstack/heat
