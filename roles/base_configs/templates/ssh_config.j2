@@ -3,6 +3,12 @@ Host github.com
     User {{ github_user }}
     IdentityFile ~/.ssh/id_rsa_github
 
+Host review.gerrithub.io
+    Hostname review.gerrithub.io
+    Port 29418
+    User {{ gerrithub_user }}
+    IdentityFile ~/.ssh/id_rsa_github
+
 Host review.opendev.org
     User {{ os_gerrit_user }}
     Port 29418
