@@ -80,7 +80,6 @@
       - git
       - python-pip
       - rsync
-      - zsh
       - tmux
       - dstat
       - stress
@@ -124,21 +123,6 @@
       name: "setuptools"
       extra_args: --upgrade
   when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
-
-
-- name: Clone zprezto
-  git:
-    repo=https://github.com/slawqo/prezto.git
-    version=master
-    dest=/home/{{ ansible_user }}/.zprezto
-
-
-- name: Set zsh as base shell for {{ ansible_user }}
-  become: yes
-  become_method: sudo
-  user:
-      name={{ ansible_user }}
-      shell="/bin/zsh"
 
 
 - name: set timezone to Warsaw

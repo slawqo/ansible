@@ -11,36 +11,6 @@
       dest: "{{ ansible_env.HOME }}/.profile"
 
 
-- name: Copy zlogin
-  copy:
-      src: "files/zsh/zlogin"
-      dest: "{{ ansible_env.HOME }}/.zlogin"
-
-
-- name: Copy zlogout
-  copy:
-      src: "files/zsh/zlogout"
-      dest: "{{ ansible_env.HOME }}/.zlogout"
-
-
-- name: Copy zpreztorc
-  copy:
-      src: "files/zsh/zpreztorc"
-      dest: "{{ ansible_env.HOME }}/.zpreztorc"
-
-
-- name: Copy zprofile
-  copy:
-      src: "files/zsh/zprofile"
-      dest: "{{ ansible_env.HOME }}/.zprofile"
-
-
-- name: Copy zshrc
-  copy:
-      src: "files/zsh/zshrc"
-      dest: "{{ ansible_env.HOME }}/.zshrc"
-
-
 - name: Copy git config
   template:
       src=gitconfig.j2
