@@ -31,6 +31,19 @@
       use_ssh_args: yes
 
 
+- name: Create IRC logs place
+  file:
+      path: "{{ ansible_env.HOME }}/.irc_logs"
+      state: directory
+
+
+- name: Create weechat irc logs link
+  file:
+      src: "{{ ansible_env.HOME }}/.irc_logs"
+      dest: "{{ ansible_env.HOME }}/.weechat/logs"
+      state: link
+
+
 - name: Create weechat irc config file
   template:
       src=weechat_irc_conf.j2
