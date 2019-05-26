@@ -34,17 +34,6 @@
         (private_iface | trim == ''))
 
 
-- name: Add gf-release YUM repository
-  become: yes
-  become_method: sudo
-  yum_repository:
-    name: gf-release
-    description: Repo with newer tmux version (>=2.1)
-    baseurl: http://mirror.ghettoforge.org/distributions/gf/el/$releasever/plus/$basearch/
-    gpgcheck: no
-  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
-
-
 - name: Add EPEL YUM repository
   become: yes
   become_method: sudo
