@@ -171,6 +171,33 @@ function c() {
     cd "$@" && ls
 }
 
+# Functions to call trello-sprint tool
+trello_tool_path="/Users/skaplons/dev/trello-sprint/trello_sprint"
+function trello_sprint() {
+    board=$1
+    if [ ! -n "$board" ]; then
+        board="DFG-Networking-vNES Squad"
+    fi
+    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf $board report
+}
+
+function trello_sprint_members() {
+    board=$1
+    if [ ! -n "$board" ]; then
+        board="DFG-Networking-vNES Squad"
+    fi
+    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf $board report --include-members
+
+}
+function trello_sprint_pm_score() {
+    board=$1
+    if [ ! -n "$board" ]; then
+        board="DFG-Networking-vNES Squad"
+    fi
+    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf $board pm-score
+
+}
+
 function weather() {
     curl -H "Accept-Language: pl" wttr.in/$1
 }
@@ -190,6 +217,8 @@ alias ls='ls -G'
 alias h='print_hints'
 
 alias ww="weather Wroclaw"
+
+alias nmutt="stty discard undef; neomutt"
 
 alias todo="todo.sh"
 
