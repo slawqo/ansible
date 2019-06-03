@@ -9,6 +9,15 @@
 export LC_ALL=pl_PL.UTF-8
 export LANG=pl_PL.UTF-8
 
+# running powerline
+POWERLINE_SCRIPT="/usr/local/lib/python3.7/site-packages/powerline/bindings/bash/powerline.sh"
+if [ -f $POWERLINE_SCRIPT ]; then
+    powerline-daemon -q
+    POWERLINE_BASH_CONTINUATION=1
+    POWERLINE_BASH_SELECT=1
+    . $POWERLINE_SCRIPT
+fi
+
 # don't put duplicate lines in the history. See bash(1) for more options
 # ... or force ignoredups and ignorespace
 HISTCONTROL=ignoredups:ignorespace
