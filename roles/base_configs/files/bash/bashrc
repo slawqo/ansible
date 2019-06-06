@@ -185,7 +185,7 @@ function trello_sprint() {
     if [ ! -n "$board" ]; then
         board="DFG-Networking-vNES Squad"
     fi
-    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf $board report
+    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf "$board" report
 }
 
 function trello_sprint_members() {
@@ -193,7 +193,7 @@ function trello_sprint_members() {
     if [ ! -n "$board" ]; then
         board="DFG-Networking-vNES Squad"
     fi
-    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf $board report --include-members
+    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf "$board" report --include-members
 
 }
 function trello_sprint_pm_score() {
@@ -201,7 +201,7 @@ function trello_sprint_pm_score() {
     if [ ! -n "$board" ]; then
         board="DFG-Networking-vNES Squad"
     fi
-    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf $board pm-score
+    python3 $trello_tool_path/main.py --config $trello_tool_path/auth.conf "$board" pm-score
 
 }
 
