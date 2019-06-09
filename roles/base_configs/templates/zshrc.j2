@@ -1,3 +1,8 @@
+# Slaweq: set proper lang if it's not set
+if [ -z $LANG ]; then
+    export LANG="pl_PL.UTF-8"
+fi
+
 # If you come from bash you might have to change your $PATH.
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
