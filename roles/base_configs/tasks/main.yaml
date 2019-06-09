@@ -1,4 +1,35 @@
 ---
+- name: Check tmux version
+  shell: tmux -V | awk '{print $2}'
+  environment:
+      PATH: '{{ ansible_env.PATH }}:/usr/local/bin:/usr/bin'
+  register: tmux_version
+
+
+- name: Set tmux config file name for old tmux
+  set_fact:
+    tmux_conf_file_name: "files/tmux/tmux.conf.legacy"
+  when: tmux_version.stdout is version('2.4', '<=')
+
+
+- name: Set tmux config file name
+  set_fact:
+    tmux_conf_file_name: "files/tmux/tmux.conf"
+  when: tmux_version.stdout is version('2.4', '>')
+
+
+- name: Check zsh version
+  shell: zsh --version |  awk '{print $2}'
+  environment:
+      PATH: '{{ ansible_env.PATH }}:/usr/local/bin:/usr/bin'
+  register: zsh_version_cmd
+
+
+- name: Set zsh version variable
+  set_fact:
+    zsh_version={{ zsh_version_cmd.stdout }}
+
+
 - name: Copy bashrc
   copy:
       src: "files/bash/bashrc"
@@ -54,25 +85,6 @@
       path: "{{ ansible_env.HOME }}/.ssh"
       state: directory
       mode: 0755
-
-
-- name: Check tmux version
-  shell: tmux -V | awk '{print $2}'
-  environment:
-      PATH: '{{ ansible_env.PATH }}:/usr/local/bin:/usr/bin'
-  register: tmux_version
-
-
-- name: Set tmux config file name for old tmux
-  set_fact:
-    tmux_conf_file_name: "files/tmux/tmux.conf.legacy"
-  when: tmux_version.stdout is version('2.4', '<=')
-
-
-- name: Set tmux config file name
-  set_fact:
-    tmux_conf_file_name: "files/tmux/tmux.conf"
-  when: tmux_version.stdout is version('2.4', '>')
 
 
 - name: Copy tmux config

@@ -122,6 +122,13 @@
     dest=/home/{{ ansible_user }}/.oh-my-zsh
 
 
+- name: Clone powerlevel10k zsh theme
+  git:
+    repo=https://github.com/romkatv/powerlevel10k.git
+    version=master
+    dest=/home/{{ ansible_user }}/.oh-my-zsh/custom/themes/powerlevel10k
+
+
 - name: Clone zsh-autosuggestions
   git:
     repo=https://github.com/zsh-users/zsh-autosuggestions
