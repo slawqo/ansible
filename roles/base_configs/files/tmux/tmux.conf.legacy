@@ -4,7 +4,6 @@ set -g default-terminal "screen-256color" # colors!
 setw -g xterm-keys on
 set -s escape-time 10                     # faster command sequences
 set -sg repeat-time 600                   # increase repeat timeout
-set -s focus-events on
 
 set -q -g status-utf8 on                  # expect UTF-8 (tmux < 2.2)
 setw -q -g utf8 on
@@ -93,34 +92,49 @@ set-option -g bell-action none
 
 #  modes
 setw -g clock-mode-colour colour5
-setw -g mode-style bold
-setw -g mode-style fg=colour1,bg=colour18
+setw -g mode-attr bold
+setw -g mode-fg colour1
+setw -g mode-bg colour18
 
 # panes
-set -g pane-border-style bg=default,fg=colour243
-set -g pane-active-border-style bg=default,fg=colour44
+set -g pane-border-bg default
+set -g pane-border-fg colour243
+set -g pane-active-border-bg default
+set -g pane-active-border-fg colour44
 
 # statusbar
 set -g status-position bottom
 set -g status-justify left
-set -g status-style bg=default,fg=colour137,dim
+set -g status-bg default
+set -g status-fg colour137
+set -g status-attr dim
 set -g status-left ''
 set -g status-right ' #[fg=colour16,bg=colour246,bold] %H:%M #[fg=colour232,bg=colour241,bold] %d/%m/%y '
 set -g status-right-length 50
 set -g status-left-length 20
 
-setw -g window-status-current-style fg=colour44,bg=colour239,bold
+setw -g window-status-current-fg colour44
+setw -g window-status-current-bg colour239
+setw -g window-status-current-attr bold
 #setw -g window-status-current-format ' #I:#W#F '
 setw -g window-status-current-format ' #I#[fg=colour249]:#[fg=colour255]#W#[fg=colour44]#F '
 
-setw -g window-status-style fg=colour245,bg=colour237,none
+setw -g window-status-fg colour245
+setw -g window-status-bg colour237
+setw -g window-status-attr none
 #setw -g window-status-format ' #I:#W#F '
 setw -g window-status-format ' #[fg=colour217]#I#[fg=colour240]:#[fg=colour245]#W#[fg=colour240]#F '
 
 # I'm not sure yet for what those colors are:
-setw -g window-status-bell-style fg=colour16,bg=colour88,bold
+setw -g window-status-bell-attr bold
+setw -g window-status-bell-fg colour16
+setw -g window-status-bell-bg colour88
 
-setw -g window-status-activity-style fg=colour88,bold
+setw -g window-status-activity-attr bold
+setw -g window-status-activity-fg colour88
+#setw -g window-status-activity-bg colour88
 
 # messages
-set -g message-style fg=colour16,bg=colour226,none
+set -g message-attr none
+set -g message-fg colour16
+set -g message-bg colour226
