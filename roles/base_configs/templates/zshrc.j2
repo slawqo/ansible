@@ -99,6 +99,10 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 
 #### My additional stuff ####
+
+# ZSH autosuggestions support
+source {{ ansible_env.HOME }}/.zsh-autosuggestions/zsh-autosuggestions.zsh
+
 # Slaweq: fix locale in tmux session on Mac
 if [[ $LC_CTYPE == "UTF-8" ]]; then
     export LC_CTYPE=""

@@ -122,6 +122,13 @@
     dest=/home/{{ ansible_user }}/.oh-my-zsh
 
 
+- name: Clone zsh-autosuggestions
+  git:
+    repo=https://github.com/zsh-users/zsh-autosuggestions
+    version=master
+    dest=/home/{{ ansible_user }}/.zsh-autosuggestions
+
+
 - name: Set zsh as base shell for {{ ansible_user }}
   become: yes
   become_method: sudo
