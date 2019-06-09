@@ -11,6 +11,12 @@
       dest: "{{ ansible_env.HOME }}/.profile"
 
 
+- name: Copy zshrc
+  template:
+      src=zshrc.j2
+      dest="{{ ansible_env.HOME }}/.zshrc"
+
+
 - name: Copy git config
   template:
       src=gitconfig.j2
