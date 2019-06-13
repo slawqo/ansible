@@ -37,9 +37,6 @@ PROVIDER_NETWORK_TYPE=local
 Q_DVR_MODE={{ l3_mode }}
 
 [[post-config|/$Q_PLUGIN_CONF_FILE]]
-[ml2]
-extension_drivers = port_security
-
 [securitygroup]
 firewall_driver = $FW_DRV
 enable_security_group = True
