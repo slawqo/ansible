@@ -1,0 +1,31 @@
+---
+- name: Clone tripleo-repos repository
+  git:
+    repo=https://github.com/openstack/tripleo-repos.git
+    version=master
+    dest={{ ansible_env.HOME }}/tripleo-repos
+    accept_hostkey=True
+    force=yes
+
+- name: Install tripleo-repos
+  shell: python setup.py install
+  args:
+    chdir: "{{ ansible_env.HOME }}/tripleo-repos"
+  become: yes
+  become_method: sudo
+
+- name: Enable TripleO repositories
+  shell: tripleo-repos current
+  become: yes
+  become_method: sudo
+
+- name: Install python-tripleoclient
+  become: yes
+  become_method: sudo
+  package:
+    name: ["python-tripleoclient"]
+
+- name: Create bootstrap script
+  template:
+    src=standalone.sh.j2
+    dest="{{ ansible_env.HOME }}/standalone.sh"
