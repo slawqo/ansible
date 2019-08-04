@@ -9,6 +9,12 @@ Host review.gerrithub.io
     User {{ gerrithub_user }}
     IdentityFile ~/.ssh/id_rsa_github
 
+Host review.rdoproject.org
+    Hostname review.rdoproject.org
+    Port 29418
+    User {{ gerrithub_user }}
+    IdentityFile ~/.ssh/id_rsa_github
+
 Host review.opendev.org
     User {{ os_gerrit_user }}
     Port 29418
