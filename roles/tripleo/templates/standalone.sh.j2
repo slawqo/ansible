@@ -13,9 +13,18 @@ parameter_defaults:
       name_prefix: centos-binary-
       name_suffix: ''
       namespace: docker.io/tripleomaster
-      neutron_driver: null
       tag: current-tripleo
     tag_from_label: rdo_version
+  - push_destination: $IP:8787
+    includes:
+    - neutron-server
+    modify_role: tripleo-modify-image
+    modify_append_tag: "-devel"
+    modify_vars:
+      tasks_from: dev_install.yml
+      source_image: docker.io/tripleomaster/centos-binary-neutron-server:current-tripleo
+      python_dir:
+        - /opt/stack/neutron
 EOF
 
 cat <<EOF > $HOME/standalone_parameters.yaml
@@ -49,6 +58,7 @@ sudo openstack tripleo deploy \
   --templates \
   --local-ip=$IP/$NETMASK \
   -e /usr/share/openstack-tripleo-heat-templates/environments/standalone/standalone-tripleo.yaml \
+  -e /usr/share/openstack-tripleo-heat-templates/environments/services/neutron-ovs.yaml \
   -r /usr/share/openstack-tripleo-heat-templates/roles/Standalone.yaml \
   -e $HOME/containers-prepare-parameters.yaml \
   -e $HOME/standalone_parameters.yaml \
