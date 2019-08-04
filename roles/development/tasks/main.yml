@@ -1,49 +1,34 @@
 ---
 - name: Install Ubuntu dev packages
-  action: >
-      {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+  package:
+      name: ['python-dev', 'python3-dev', 'git-review', 'tox']
+      state: present
   become: yes
   become_method: sudo
   when: ansible_distribution == "Ubuntu"
-  with_items:
-      - python-dev
-      - python3-dev
-      - git-review
-      - tox
 
 
 - name: Install Fedora dev packages
   package:
-      name: "{{ item }}"
+      name: ['python2-devel', 'python3-devel', 'git-review', 'tox']
       state: latest
   become: yes
   become_method: sudo
-  with_items:
-      - python2-devel
-      - python3-devel
-      - git-review
-      - tox
   when: ansible_distribution == "Fedora"
 
 
 - name: Install Centos dev packages
-  action: >
-      {{ ansible_pkg_mgr }} name={{ item }} state=present update_cache=yes
+  package:
+      name: ['python-devel', 'python36-devel', 'git-review']
+      state: latest
   become: yes
   become_method: sudo
   when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
-  with_items:
-      - python-devel
-      - python36-devel
-      - git-review
 
 
 - name: Install packages from pypi
   become: yes
   become_method: sudo
   pip:
-      name={{ item }} extra_args=--upgrade
-  with_items:
-      - pdbpp
-      - remote_pdb
-      - pbr
+      name: ['pdbpp', 'remote_pdb', 'pbr']
+      extra_args: --upgrade
