@@ -50,7 +50,7 @@
   become_method: sudo
   sysctl:
     name: net.ipv6.conf.all.disable_ipv6
-    value: 0
+    value: '0'
     sysctl_set: yes
     state: present
     reload: yes
@@ -58,52 +58,29 @@
 
 - name: Install base packages
   package:
-      name: "{{ item }}"
+      name: ['htop', 'bmon', 'ccze', 'git', 'python-pip', 'rsync', 'zsh',
+             'tmux', 'dstat', 'stress', 'tig', 'telnet', 'tar']
       state: latest
   become: yes
   become_method: sudo
-  with_items:
-      - htop
-      - bmon
-      - ccze
-      - git
-      - python-pip
-      - rsync
-      - zsh
-      - tmux
-      - dstat
-      - stress
-      - tig
-      - telnet
-      - tar
 
 
 - name: Install Ubuntu specific packages
   package:
-      name: "{{ item }}"
+      name: ['exuberant-ctags', 'gettext', 'golang-go', 'unbound']
       state: latest
   become: yes
   become_method: sudo
   when: ansible_distribution == "Ubuntu"
-  with_items:
-      - exuberant-ctags
-      - gettext
-      - golang-go
-      - unbound
 
 
 - name: Install CentOS specific packages
   package:
-      name: "{{ item }}"
+      name: ['vim-minimal', 'global-ctags', 'vim', 'go']
       state: latest
   become: yes
   become_method: sudo
   when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
-  with_items:
-      - vim-minimal
-      - global-ctags
-      - vim
-      - go
 
 
 - name: Install new versions of setuptools on Centos
