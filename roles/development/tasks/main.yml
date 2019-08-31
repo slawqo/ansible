@@ -19,7 +19,10 @@
 
 - name: Install Centos dev packages
   package:
-      name: ['python-devel', 'python36-devel', 'git-review']
+      name: ['python-devel', 'python36-devel', 'git-review', 'gcc', 'gcc-c++',
+             'make', 'openssl-devel', 'libcap-ng-devel', 'kernel-devel',
+             'autoconf', 'automake', 'clang-devel', 'libtool', 'sparse',
+             'sparse-devel', '@Development Tools']
       state: latest
   become: yes
   become_method: sudo
