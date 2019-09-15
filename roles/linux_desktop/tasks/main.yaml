@@ -3,7 +3,12 @@
   become: yes
   become_method: sudo
   package:
-      name: ["vim", "tmux", "git", "mutt", "weechat", "xsel", "feh", "keepassx", "rxvt-unicode-256color", "rsync", "zsh", "glibc-langpack-pl", "NetworkManager", "network-manager-applet", "offlineimap", "i3lock"]
+      name: ["vim", "tmux", "git",
+             "mutt", "weechat", "xsel",
+             "feh", "keepassxc", "rxvt-unicode-256color",
+             "rsync", "zsh", "glibc-langpack-pl",
+             "NetworkManager", "network-manager-applet", "offlineimap",
+             "i3lock", "thunar"]
       state: present
   when: ansible_distribution == "Fedora"
 

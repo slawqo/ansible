@@ -182,3 +182,4 @@ bindsym $mod+Shift+e mode "$mode_system"
 # Custom key bindings
 
 bindsym $mod+b exec firefox
+bindsym $mod+t exec thunar
