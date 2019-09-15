@@ -26,15 +26,22 @@ URxvt.keysym.M-v: perl:clipboard:paste
 ! Urxvt fonts settings
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
-URxvt.font: xft:Inconsolata:style=Regular:size=10
-URxvt.boldFont: xft:Inconsolata:style=Bold:size=10
-URxvt.italicFont: xft:Inconsolata:style=Italic:size=10
-URxvt.boldItalicFont: xft:Inconsolata:style=Bold Italic:size=10
+URxvt.font: xft:Inconsolata:style=Regular:size=11
+URxvt.boldFont: xft:Inconsolata:style=Regular:size=11
+URxvt.italicFont: xft:Inconsolata:style=Italic:size=11
+URxvt.boldItalicFont: xft:Inconsolata:style=Italic:size=11
 URxvt.letterSpace: -1
+
+!-- Xft settings -- !
+Xft.dpi:        96
+Xft.antialias:  true
+Xft.rgba:       rgb
+Xft.hinting:    true
+Xft.hintstyle:  hintslight
 
 ! ---------------------------
 ! Urxvt colors
-! special
+! ! special
 *.foreground:   #ffffff
 *.background:   #000000
 *.cursorColor:  #ffffff
@@ -45,29 +52,28 @@ URxvt.letterSpace: -1
 
 ! red
 *.color1:       #cc0403
-*.color9:       #3e0605
+*.color9:       #830909
 
 ! green
 *.color2:       #19cb00
-*.color10:      #23fd00
+*.color10:      #8ffd7d
 
 ! yellow
 *.color3:       #cecb00
 *.color11:      #fffd00
 
 ! blue
-*.color4:       #001cd1
-*.color12:      #0026ff
+*.color4:       #0057d1
+*.color12:      #2161ff
 
 ! magenta
 *.color5:       #cb1ed1
-*.color13:      #fd28ff
+*.color13:      #de28ff
 
 ! cyan
 *.color6:       #0dcdcd
-*.color14:      #14ffff
+*.color14:      #7cfffc
 
 ! white
 *.color7:       #e5e5e5
 *.color15:      #ffffff
-
