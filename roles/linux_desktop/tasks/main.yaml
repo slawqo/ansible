@@ -8,7 +8,9 @@
              "feh", "keepassxc", "rxvt-unicode-256color",
              "rsync", "zsh", "glibc-langpack-pl",
              "NetworkManager", "network-manager-applet", "offlineimap",
-             "i3lock", "thunar"]
+             "i3lock", "thunar",
+             # Needed for BlueJeans app
+             "GConf2"]
       state: present
   when: ansible_distribution == "Fedora"
 
