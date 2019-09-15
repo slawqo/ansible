@@ -1,0 +1,73 @@
+! Urxvt various settings
+
+! do not scroll with output
+URxvt*scrollTtyOutput: false
+
+! scroll in relation to buffer (with mouse scroll or Shift+Page Up)
+URxvt*scrollWithBuffer: true
+
+! scroll back to the bottom on keypress
+URxvt*scrollTtyKeypress: true
+
+! Extensions
+URxvt.perl-ext-common: default,matcher,resize-font
+
+! Make clicable urls
+URxvt.url-launcher: /usr/bin/xdg-open
+URxvt.matcher.button: 1
+
+! Copy-Paste
+URxvt.clipboard.autocopy: true
+URxvt.keysym.M-c: perl:clipboard:copy
+URxvt.keysym.M-v: perl:clipboard:paste
+
+
+! ---------------------------
+! Urxvt fonts settings
+URxvt.scrollBar: false
+URxvt.scrollBar_right: false
+URxvt.font: xft:Inconsolata:style=Regular:size=10
+URxvt.boldFont: xft:Inconsolata:style=Bold:size=10
+URxvt.italicFont: xft:Inconsolata:style=Italic:size=10
+URxvt.boldItalicFont: xft:Inconsolata:style=Bold Italic:size=10
+URxvt.letterSpace: -1
+
+! ---------------------------
+! Urxvt colors
+! special
+*.foreground:   #ffffff
+*.background:   #000000
+*.cursorColor:  #ffffff
+
+! black
+*.color0:       #000000
+*.color8:       #4d4d4d
+
+! red
+*.color1:       #cc0403
+*.color9:       #3e0605
+
+! green
+*.color2:       #19cb00
+*.color10:      #23fd00
+
+! yellow
+*.color3:       #cecb00
+*.color11:      #fffd00
+
+! blue
+*.color4:       #001cd1
+*.color12:      #0026ff
+
+! magenta
+*.color5:       #cb1ed1
+*.color13:      #fd28ff
+
+! cyan
+*.color6:       #0dcdcd
+*.color14:      #14ffff
+
+! white
+*.color7:       #e5e5e5
+*.color15:      #ffffff
+

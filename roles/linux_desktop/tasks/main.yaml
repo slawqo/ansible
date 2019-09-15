@@ -1,0 +1,30 @@
+---
+- name: Install base packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["vim", "tmux", "git", "mutt", "weechat", "xsel", "feh", "keepassx", "rxvt-unicode-256color", "rsync", "zsh", "glibc-langpack-pl", "NetworkManager", "network-manager-applet", "offlineimap", "i3lock"]
+      state: present
+  when: ansible_distribution == "Fedora"
+
+
+- name: Clone oh-my-zsh
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh.git
+    version=master
+    dest=/home/{{ ansible_user }}/.oh-my-zsh
+
+
+- name: Clone zsh-autosuggestions
+  git:
+    repo=https://github.com/zsh-users/zsh-autosuggestions
+    version=master
+    dest=/home/{{ ansible_user }}/.zsh-autosuggestions
+
+
+- name: Set zsh as base shell for {{ ansible_user }}
+  become: yes
+  become_method: sudo
+  user:
+      name={{ ansible_user }}
+      shell="/bin/zsh"
