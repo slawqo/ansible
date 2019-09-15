@@ -15,6 +15,17 @@
   when: ansible_distribution == "Fedora"
 
 
+- name: Install development packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["@development-tools",
+             "kernel-devel", "kernel-headers", "dkms",
+             "qt5-qtx11extras", "elfutils-libelf-devel", "zlib-devel"]
+      state: present
+  when: ansible_distribution == "Fedora"
+
+
 - name: Clone oh-my-zsh
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh.git
