@@ -25,7 +25,8 @@ localfolders = ~/.mails/redhat
 [Repository redhat-remote]
 # Remote repos can be IMAP or Gmail, the latter being a preconfigured IMAP.
 type = Gmail
-sslcacertfile = /usr/local/etc/openssl/cert.pem
+sslcacertfile = {{ ssl_certs_path }}
+ssl_version = tls1_2
 remotehost = imap.gmail.com
 remoteuser = skaplons@redhat.com
 remotepassfile = ~/.confidential_data/offlineimap.gmail.pass

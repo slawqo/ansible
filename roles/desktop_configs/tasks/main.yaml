@@ -18,10 +18,33 @@
       dest: "{{ ansible_env.HOME }}/.muttrc_kaplonskipl"
 
 
-- name: Copy offlineimaprc
-  copy:
-      src: "files/offlineimaprc"
-      dest: "{{ ansible_env.HOME }}/.offlineimaprc"
+- name: Ensure mails directory exists
+  file:
+      path: '{{ ansible_env.HOME }}/.mails'
+      state: directory
+
+- name: Ensure mail aliases file exists
+  file:
+      path: '{{ ansible_env.HOME }}/.mails/aliases'
+      state: file
+
+
+- name: Set SSL certs path on Fedora
+  set_fact:
+      ssl_certs_path="/etc/ssl/certs/ca-bundle.crt"
+  when: ansible_distribution == 'Fedora'
+
+
+- name: Set SSL certs path on Mac OS
+  set_fact:
+      ssl_certs_path="/usr/local/etc/openssl/cert.pem"
+  when: ansible_distribution == 'MacOSX'
+
+
+- name: Create offlineimaprc
+  template:
+      src=offlineimaprc.j2
+      dest="{{ ansible_env.HOME }}/.offlineimaprc"
 
 
 - name: Synchronize weechat files
