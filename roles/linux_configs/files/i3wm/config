@@ -194,3 +194,10 @@ bindsym $mod+t exec thunar
 # Autostart
 exec nm-applet
 exec keepassx
+exec blueman-applet
+# Set wallpaper
+exec --no-startup-id ~/.fehbg
+# Notifications daemon
+exec --no-startup-id dunst
+# Keyboard repeat rate
+exec --no-startup-id xset r rate 200 25
