@@ -1,0 +1,48 @@
+[global]
+    font = "SourceCodePro-Regular 10"
+    # Allow html
+    allow_markup = yes
+    # Format of notifications
+    # %s - summary
+    # %p - progress value
+    # %b - body
+    format = "<b>%a</b>\n<i>%s %p</i>\n%b"
+    sort = yes
+    indicate_hidden = true
+    idle_threshold = 0
+    geometry = "300x5-20+20"
+    alignment = center
+    show_age_threshold = 60
+    sticky_history = yes
+    follow = mouse
+    word_wrap = yes
+    separator_height = 2
+    padding = 10
+    horizontal_padding = 10
+    separator_color = frame
+    startup_notification = true
+
+[frame]
+    width = 1
+    color = "#6092BE"
+
+[shortcuts]
+    close = ctrl+space
+    close_all = ctrl+shift+space
+    history = ctrl+grave
+    context = ctrl+shift+period
+
+[urgency_low]
+    background = "#9ba2a8"
+    foreground = "#000000"
+    timeout = 3
+
+[urgency_normal]
+    background = "#94DBFF"
+    foreground = "#000000"
+    timeout = 7
+
+[urgency_critical]
+    background = "#ff9999"
+    foreground = "#000000"
+    timeout = 0

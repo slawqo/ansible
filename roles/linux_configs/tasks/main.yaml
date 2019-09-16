@@ -24,3 +24,16 @@
   copy:
       src: 'files/i3wm/config'
       dest: '{{ ansible_env.HOME }}/.config/i3/config'
+
+
+- name: Ensure dunst config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/dunst"
+      state: directory
+      mode: 0755
+
+
+- name: Copy dunst config file
+  copy:
+      src: 'files/dunst/dunstrc'
+      dest: '{{ ansible_env.HOME }}/.config/dunst/dunstrc'
