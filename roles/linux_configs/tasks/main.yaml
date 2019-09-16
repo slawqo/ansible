@@ -6,6 +6,13 @@
       dest: '{{ ansible_env.HOME }}/.Xresources'
 
 
+- name: Copy X11 brightness config file
+  become: yes
+  become_method: sudo
+  copy:
+      src: 'files/X11/10-backlight'
+      dest: '/etc/X11/xorg.conf.d/10-backlight.conf'
+
 - name: Ensure i3wm config directory exists
   file:
       path: "{{ ansible_env.HOME }}/.config/i3"
