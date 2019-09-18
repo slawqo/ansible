@@ -16,6 +16,11 @@ autorefresh = 1
 # refresh, regardless of type.
 quick = 5
 
+# Workaround to avoid hangs after resume of OS
+# see https://github.com/OfflineIMAP/offlineimap/issues/56
+# for details
+socktimeout = 10
+
 [Repository redhat-local]
 # OfflineIMAP supports Maildir, GmailMaildir, and IMAP for local repositories.
 type = GmailMaildir
