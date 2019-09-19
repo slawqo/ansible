@@ -75,7 +75,7 @@ localfolders = ~/.mails/kaplonskipl
 [Repository kaplonskipl-remote]
 # Remote repos can be IMAP or Gmail, the latter being a preconfigured IMAP.
 type = IMAP
-sslcacertfile = /usr/local/etc/openssl/cert.pem
+sslcacertfile = {{ ssl_certs_path }}
 remotehost = ssl0.ovh.net
 remoteuser = slawek@kaplonski.pl
 remotepassfile = ~/.confidential_data/offlineimap.kaplonskipl.pass
