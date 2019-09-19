@@ -37,3 +37,15 @@
   copy:
       src: 'files/dunst/dunstrc'
       dest: '{{ ansible_env.HOME }}/.config/dunst/dunstrc'
+
+
+- name: Copy conky config file
+  copy:
+      src: 'files/conky/conkyrc'
+      dest: '{{ ansible_env.HOME }}/.conkyrc'
+
+
+- name: Copy conky runner script
+  copy:
+      src: 'files/conky/run_conky.sh'
+      dest: '{{ ansible_env.HOME }}/.run_conky.sh'
