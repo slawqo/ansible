@@ -195,6 +195,7 @@ bindsym $mod+t exec thunar
 exec nm-applet
 exec keepassx
 exec blueman-applet
+exec volumeicon
 # Set wallpaper
 exec --no-startup-id ~/.fehbg
 # Notifications daemon

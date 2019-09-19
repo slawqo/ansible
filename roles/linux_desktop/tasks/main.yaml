@@ -9,7 +9,7 @@
              "rsync", "zsh", "glibc-langpack-pl",
              "NetworkManager", "network-manager-applet", "offlineimap",
              "i3lock", "ranger", "htop", "bmon", "xbacklight",
-             "blueman", "dunst",
+             "blueman", "dunst", "volumeicon",
              # Needed for BlueJeans app
              "GConf2"]
       state: present
