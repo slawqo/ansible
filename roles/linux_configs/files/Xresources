@@ -26,10 +26,10 @@ URxvt.keysym.M-v: perl:clipboard:paste
 ! Urxvt fonts settings
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
-URxvt.font: xft:Inconsolata:style=Regular:size=11
-URxvt.boldFont: xft:Inconsolata:style=Regular:size=11
-URxvt.italicFont: xft:Inconsolata:style=Italic:size=11
-URxvt.boldItalicFont: xft:Inconsolata:style=Italic:size=11
+URxvt.font: xft:Monospace:style=Regular:size=11
+URxvt.boldFont: xft:Monospace:style=Regular:size=11
+URxvt.italicFont: xft:Monospace:style=Italic:size=11
+URxvt.boldItalicFont: xft:Monospace:style=Italic:size=11
 URxvt.letterSpace: -1
 
 !-- Xft settings -- !
