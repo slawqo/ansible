@@ -1,3 +1,2 @@
-Image/JPEG;/Applications/Preview.app/Contents/MacOS/Preview %s
-Image/png;/Applications/Preview.app/Contents/MacOS/Preview %s
-text/html; w3m -I %{charset} -T text/html; copiousoutput;
+text/html; links %s; nametemplate=%s.html
+text/html; links -dump %s; nametemplate=%s.html; copiousoutput
