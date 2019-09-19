@@ -44,14 +44,6 @@ nametrans = lambda foldername: re.sub ('^\[gmail\]', 'gmail',
                                re.sub ('starred', 'flagged',
                                re.sub (' ', '_', foldername.lower()))))
 
-[mbnames]
-enabled = yes
-filename = ~/.mails/redhat_mailboxes
-header = "mailboxes "
-peritem = "+%(foldername)s"
-sep = " "
-footer = "\n"
-
 [Account kaplonskipl]
 # Identifier for the local repository; e.g. the maildir to be synced via IMAP.
 localrepository = kaplonskipl-local
