@@ -203,6 +203,10 @@ exec nm-applet
 exec keepassx
 exec blueman-applet
 exec volumeicon
+
+# Autolock screen
+exec_always --no-startup-id xautolock -time 5  -locker "i3lock -c 000000  && sleep 1"
+
 # Set wallpaper
 exec --no-startup-id ~/.fehbg
 # Notifications daemon
