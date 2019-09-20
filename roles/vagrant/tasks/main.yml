@@ -1,12 +1,23 @@
 ---
 - name: Install Vagrant package
   package:
-      name: "{{ item }}"
+      name: "vagrant"
       state: latest
   become: yes
   become_method: sudo
-  with_items:
-      - vagrant
-      - vagrant-libvirt
-      - vagrant-libvirt-doc
   when: ansible_distribution != "CentOS" and ansible_distribution != 'Red Hat Enterprise Linux'
+
+
+- name: "Check if libvirt is installed"
+  package_facts:
+    manager: "auto"
+
+
+- name: Install Vagrant libvirt plugin
+  package:
+      name: ["vagrant-libvirt", "vagrant-libvirt-doc"]
+      state: latest
+  become: yes
+  become_method: sudo
+  when: (ansible_distribution != "CentOS" and ansible_distribution != 'Red Hat Enterprise Linux' and
+         'libvirt-daemon-kvm' in ansible_facts.packages)
