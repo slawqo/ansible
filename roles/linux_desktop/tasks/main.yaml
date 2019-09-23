@@ -17,6 +17,14 @@
   when: ansible_distribution == "Fedora"
 
 
+- name: Install packages needed for printers
+  become: yes
+  become_method: sudo
+  package:
+      name: ["system-config-printer", "cups"]
+  when: ansible_distribution == "Fedora"
+
+
 - name: Install development packages
   become: yes
   become_method: sudo
