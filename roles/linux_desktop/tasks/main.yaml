@@ -56,3 +56,60 @@
   user:
       name={{ ansible_user }}
       shell="/bin/zsh"
+
+
+- name: "Check if offlineimap is installed"
+  package_facts:
+    manager: "auto"
+
+
+- name: Set offlineimap for RH mails in crontab
+  cron:
+    name: "check Red Hat mails"
+    minute: "*/5"
+    job: "timeout 4m --kill-after=30s --signal=KILL /usr/bin/offlineimap -o -a redhat"
+  when: "'offlineimap' in ansible_facts.packages"
+
+
+- name: Set offlineimap for private mails in crontab
+  cron:
+    name: "check private mails"
+    minute: "*/10"
+    job: "timeout 4m --kill-after=30s --signal=KILL /usr/bin/offlineimap -o -a kaplonskipl"
+  when: "'offlineimap' in ansible_facts.packages"
+
+
+- name: Create offlineimap running script
+  become: yes
+  become_method: sudo
+  copy:
+      src: 'files/scripts/offlineimap-is-running'
+      dest: '/usr/local/bin/offlineimap-is-running'
+  when: "'offlineimap' in ansible_facts.packages"
+
+
+- name: Ensure offlineimap-is-running script is executable
+  become: yes
+  become_method: sudo
+  file:
+    path: /usr/local/bin/offlineimap-is-running
+    mode: '0755'
+  when: "'offlineimap' in ansible_facts.packages"
+
+
+- name: Create offlineimap-is-running systemd service
+  become: yes
+  become_method: sudo
+  copy:
+      src: 'files/systemd/offlineimap-is-running.service'
+      dest: '/etc/systemd/system/offlineimap-is-running.service'
+  when: "'offlineimap' in ansible_facts.packages"
+
+
+- name: Ensure offlineimap-is-running systemd service has proper permissions
+  become: yes
+  become_method: sudo
+  file:
+    path: /etc/systemd/system/offlineimap-is-running.service
+    mode: '0755'
+  when: "'offlineimap' in ansible_facts.packages"
