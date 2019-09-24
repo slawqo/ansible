@@ -124,6 +124,24 @@ bindsym $mod+Shift+8 move container to workspace $ws8
 bindsym $mod+Shift+9 move container to workspace $ws9
 bindsym $mod+Shift+0 move container to workspace $ws10
 
+# move current workspace between monitors
+bindsym $mod+Control+h move workspace to output left
+bindsym $mod+Control+j move workspace to output down
+bindsym $mod+Control+k move workspace to output up
+bindsym $mod+Control+l move workspace to output right
+
+# Assign workspaces to the monitors
+workspace $ws1  output HDMI1
+workspace $ws2  output HDMI1
+workspace $ws3  output HDMI1
+workspace $ws4  output HDMI1
+workspace $ws5  output HDMI1
+workspace $ws6  output HDMI1
+workspace $ws7  output eDP1
+workspace $ws8  output eDP1
+workspace $ws9  output eDP1
+workspace $ws10 output HDMI1
+
 # Windows look
 
 default_border pixel
