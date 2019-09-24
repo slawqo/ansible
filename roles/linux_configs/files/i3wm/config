@@ -231,3 +231,6 @@ exec --no-startup-id ~/.fehbg
 exec --no-startup-id dunst
 # Keyboard repeat rate
 exec --no-startup-id xset r rate 200 25
+
+# Set Logitech mouse acceleration
+exec --no-startup-id xinput set-prop "Logitech Anywhere MX" "libinput Accel Speed" -0.3
