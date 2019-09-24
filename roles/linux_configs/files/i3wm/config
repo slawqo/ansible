@@ -183,6 +183,7 @@ bindsym $mod+r mode "resize"
 bar {
 	position top
         status_command ~/.run_conky.sh
+    tray_output primary
 }
 
 set $Locker i3lock -c 000000 && sleep 1
