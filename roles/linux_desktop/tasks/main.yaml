@@ -67,7 +67,7 @@
   cron:
     name: "check Red Hat mails"
     minute: "*/5"
-    job: "timeout 4m --kill-after=30s --signal=KILL /usr/bin/offlineimap -o -a redhat"
+    job: "timeout --kill-after=30s --signal=KILL 4m /usr/bin/offlineimap -o -a redhat"
   when: "'offlineimap' in ansible_facts.packages"
 
 
@@ -75,7 +75,7 @@
   cron:
     name: "check private mails"
     minute: "*/10"
-    job: "timeout 4m --kill-after=30s --signal=KILL /usr/bin/offlineimap -o -a kaplonskipl"
+    job: "timeout --kill-after=30s --signal=KILL 4m /usr/bin/offlineimap -o -a kaplonskipl"
   when: "'offlineimap' in ansible_facts.packages"
 
 
