@@ -3,21 +3,21 @@
   become: yes
   become_method: sudo
   yum_repository:
-    name: rdopkg
-    description: rdopkg repo
-    baseurl: https://copr-be.cloud.fedoraproject.org/results/jruzicka/rdopkg/fedora-$releasever-$basearch/
-    baseurl: {{ rdopkg_repo_url }}
-    gpgcheck: no
+    name="rdopkg"
+    description="rdopkg repo"
+    baseurl="https://copr-be.cloud.fedoraproject.org/results/jruzicka/rdopkg/fedora-$releasever-$basearch/"
+    baseurl="{{ rdopkg_repo_url }}"
+    gpgcheck="no"
 
 
 - name: Add RCM Tools repo
   become: yes
   become_method: sudo
   yum_repository:
-    name: rcm_tools
-    description: RCM Tools for Fedora $releasever (RPMs)
-    baseurl: {{ rcm_repo_url }}
-    gpgcheck: no
+    name="rcm_tools"
+    description="RCM Tools for Fedora $releasever (RPMs)"
+    baseurl="{{ rcm_repo_url }}"
+    gpgcheck="no"
 
 
 - name: Install kerberos kinit package
@@ -54,4 +54,4 @@
       - koji
       - brewkoji
       - rhpkg
-      - yum-utils
+      - dnf-utils
