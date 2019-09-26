@@ -36,6 +36,14 @@
   when: ansible_distribution == "Fedora"
 
 
+- name: Install Rofi
+  become: yes
+  become_method: sudo
+  package:
+      name: ["rofi", "rofi-themes"]
+  when: ansible_distribution == "Fedora"
+
+
 - name: Clone oh-my-zsh
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh.git

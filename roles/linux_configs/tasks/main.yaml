@@ -62,3 +62,16 @@
   copy:
       src: 'files/ranger/rc.conf'
       dest: '{{ ansible_env.HOME }}/.config/ranger/rc.conf'
+
+
+- name: Ensure rofi config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/rofi"
+      state: directory
+      mode: 0755
+
+
+- name: Copy rofi config file
+  copy:
+      src: 'files/rofi/config'
+      dest: '{{ ansible_env.HOME }}/.config/rofi/config'
