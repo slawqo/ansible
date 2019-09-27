@@ -3,31 +3,37 @@ default = FILE:/var/log/krb5libs.log
 kdc = FILE:/var/log/krb5kdc.log
 admin_server = FILE:/var/log/kadmind.log
 
-
 [libdefaults]
-
-ticket_lifetime = 24000
-default_realm = {{ default_realm }}
-dns_lookup_realm = false
-dns_lookup_kdc = false
-
+ default_realm = {{ ipa_realm }}
+ dns_lookup_realm = true
+ dns_lookup_kdc = true
+ rdns = false
+ dns_canonicalize_hostname = true
+ ticket_lifetime = 24h
+ forwardable = true
+ udp_preference_limit = 0
+ default_ccache_name = KEYRING:persistent:%{uid}
 
 [realms]
-
-{{ default_realm }} = {
- kdc = {{ default_realm_server }}
- admin_server = {{ default_realm_server }}
- default_domain = {{ default_realm_domain }}
+{{ rh_realm }} = {
+ kdc = {{ kdc_server_1 }}
+ kdc = {{ kdc_server_2 }}
+ kdc = {{ kdc_server_3 }}
+ admin_server = {{ admin_server }}
+ default_domain = {{ default_rh_realm_domain }}
+}
+{{ ipa_realm }} = {
+ pkinit_anchors = FILE:/etc/ipa/ca.crt
+ pkinit_pool = FILE:/etc/ipa/ca.crt
+ default_domain = {{ default_ipa_realm_domain }}
+ dns_lookup_kdc = true
+ # Trust tickets issued by legacy realm on this host
+ auth_to_local = RULE:[1:$1@$0](.*@REDHAT\.COM)s/@.*//
+ auth_to_local = DEFAULT
 }
 
-
-[domain_realm]
-
-.{{ default_realm_domain }} = {{ default_realm }}
-{{ default_realm_domain }} = {{ default_realm }}
-
-
-[appdefaults]
+[kdc]
+ profile = /var/kerberos/krb5kdc/kdc.conf
 
 pam = {
   debug = false

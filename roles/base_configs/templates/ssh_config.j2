@@ -28,7 +28,6 @@ Host {{ rh_gerrit }}
     User {{ rh_gerrit_user }}
     IdentityFile {{ rh_gerrit_identity_file }}
 
-Host collab-shell
-    Hostname {{ collab_hostname }}
-    User {{ collab_user }}
-    PreferredAuthentications password
+Host support-shell
+    Hostname {{ support_shell_hostname }}
+    User {{ support_shell_user }}
