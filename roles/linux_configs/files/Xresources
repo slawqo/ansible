@@ -1,5 +1,8 @@
 ! Urxvt various settings
 
+! term name
+URxvt*termName: xterm-256color
+
 ! do not scroll with output
 URxvt*scrollTtyOutput: false
 
@@ -26,10 +29,10 @@ URxvt.keysym.M-v: perl:clipboard:paste
 ! Urxvt fonts settings
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
-URxvt.font: xft:Monospace:style=Regular:size=11
-URxvt.boldFont: xft:Monospace:style=Regular:size=11
-URxvt.italicFont: xft:Monospace:style=Italic:size=11
-URxvt.boldItalicFont: xft:Monospace:style=Italic:size=11
+URxvt.font: xft:Monospace:style=Regular:size=10
+URxvt.boldFont: xft:Monospace:style=Regular:size=10
+URxvt.italicFont: xft:Monospace:style=Italic:size=10
+URxvt.boldItalicFont: xft:Monospace:style=Italic:size=10
 URxvt.letterSpace: -1
 
 !-- Xft settings -- !
