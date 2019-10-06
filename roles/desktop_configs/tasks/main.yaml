@@ -79,12 +79,6 @@
       dest="{{ ansible_env.HOME }}/.weechat/sec.conf"
 
 
-- name: Copy todo.txt config
-  copy:
-      src: "files/todo.cfg"
-      dest: "{{ ansible_env.HOME }}/.todo.cfg"
-
-
 - name: Ensure config dir exists
   file:
       path: "{{ ansible_env.HOME }}/.config"
