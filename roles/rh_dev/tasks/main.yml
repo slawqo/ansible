@@ -8,6 +8,7 @@
     baseurl="https://copr-be.cloud.fedoraproject.org/results/jruzicka/rdopkg/fedora-$releasever-$basearch/"
     baseurl="{{ rdopkg_repo_url }}"
     gpgcheck="no"
+  when: ansible_os_family == 'RedHat'
 
 
 - name: Add RCM Tools repo
@@ -18,6 +19,7 @@
     description="RCM Tools for Fedora $releasever (RPMs)"
     baseurl="{{ rcm_repo_url }}"
     gpgcheck="no"
+  when: ansible_os_family == 'RedHat'
 
 
 - name: Install kerberos kinit package
@@ -26,6 +28,7 @@
       state: latest
   become: yes
   become_method: sudo
+  when: ansible_os_family == 'RedHat'
 
 
 - name: Copy krb5 config file
@@ -42,6 +45,7 @@
       state: latest
   become: yes
   become_method: sudo
+  when: ansible_os_family == 'RedHat'
 
 
 - name: Install Brew and rhpkg tools
@@ -55,3 +59,4 @@
       - brewkoji
       - rhpkg
       - dnf-utils
+  when: ansible_os_family == 'RedHat'
