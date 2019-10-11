@@ -144,6 +144,10 @@ function trello_sprint_pm_score() {
 
 # My changes (taken from bashrc)
 function weather() {
+    curl -H "Accept-Language: en" wttr.in/$1
+}
+
+function weather2() {
     curl -H "Accept-Language: en" v2.wttr.in/$1
 }
 
@@ -159,11 +163,17 @@ function pass() {
 
 
 alias ww="weather Wroclaw"
+alias ww2="weather2 Wroclaw"
 
 alias nmutt="stty discard undef; neomutt"
 
 alias home_config="~/.screenlayout/2_monitors_i3wm.sh"
 alias laptop_config="~/.screenlayout/only_laptop.sh"
+
+# aliases for taskwarrior
+alias yesterday="task list due:yesterday"
+alias today="task list due:today"
+alias tomorrow="task list due:tomorrow"
 
 # Settings for fzf searching tool
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
