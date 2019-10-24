@@ -1,0 +1,49 @@
+---
+- name: Install base tools with Homebrew
+  homebrew:
+    name: ["coreutils"]
+    state: present
+
+
+- name: Clone oh-my-zsh
+  git:
+    repo=https://github.com/robbyrussell/oh-my-zsh.git
+    version=master
+    dest=/Users/{{ ansible_user }}/.oh-my-zsh
+
+
+- name: Clone zsh-autosuggestions
+  git:
+    repo=https://github.com/zsh-users/zsh-autosuggestions
+    version=master
+    dest=/Users/{{ ansible_user }}/.zsh-autosuggestions
+
+
+- name: Set zsh as base shell for {{ ansible_user }}
+  become: yes
+  become_method: sudo
+  user:
+      name={{ ansible_user }}
+      shell="/bin/zsh"
+
+
+- name: Check if offlineimap is installed
+  stat:
+    path: /usr/local/bin/offlineimap
+  register: offlineimap_binary
+
+
+- name: Set offlineimap for RH mails in crontab
+  cron:
+    name: "check Red Hat mails"
+    minute: "*/5"
+    job: "/usr/local/bin/gtimeout --kill-after=30s --signal=KILL 4m /usr/local/bin/offlineimap -o -a redhat"
+  when: offlineimap_binary.stat.exists == True
+
+
+- name: Set offlineimap for private mails in crontab
+  cron:
+    name: "check private mails"
+    minute: "*/10"
+    job: "/usr/local/bin/gtimeout --kill-after=30s --signal=KILL 4m /usr/local/bin/offlineimap -o -a kaplonskipl"
+  when: offlineimap_binary.stat.exists == True
