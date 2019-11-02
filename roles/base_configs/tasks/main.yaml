@@ -9,13 +9,19 @@
 - name: Set tmux config file name for old tmux
   set_fact:
     tmux_conf_file_name: "files/tmux/tmux.conf.legacy"
-  when: tmux_version.stdout is version('2.4', '<=')
+    when: tmux_version.stdout is version('2.4', '<=')
 
 
 - name: Set tmux config file name
   set_fact:
     tmux_conf_file_name: "files/tmux/tmux.conf"
-  when: tmux_version.stdout is version('2.4', '>')
+  when: tmux_version.stdout is version('2.4', '>') and tmux_config == "simple"
+
+
+- name: Set tmux config file name for fancy tmux
+  set_fact:
+    tmux_conf_file_name: "files/tmux/tmux.conf.fancy"
+  when: tmux_version.stdout is version('2.4', '>') and tmux_config == "fancy"
 
 
 - name: Check zsh version
@@ -93,6 +99,13 @@
       dest: "{{ ansible_env.HOME }}/.tmux.conf"
 
 
+- name: Copy local config for fancy tmux
+  copy:
+      src: "files/tmux/tmux.conf.local"
+      dest: "{{ ansible_env.HOME }}/.tmux.conf.local"
+
+
+  when: tmux_version.stdout is version('2.4', '>') and tmux_config == "fancy"
 - name: Create ssh config file
   template:
       src=ssh_config.j2
