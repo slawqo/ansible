@@ -161,6 +161,17 @@ function pass() {
     LC_CTYPE=$orig_ctype&& LANG=$orig_lang
 }
 
+function print_today_tasks() {
+    which task > /dev/null
+    if [ $? -ne 0 ]; then
+        return
+    fi
+    echo "               Today's tasks"
+    task list due:today
+    if [ $? -eq 1 ]; then
+        echo "You can open some beer now \o/  "
+    fi
+}
 
 alias ww="weather Wroclaw"
 alias ww2="weather2 Wroclaw"
@@ -178,3 +189,6 @@ alias tomorrow="task list due:tomorrow"
 # Settings for fzf searching tool
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 export FZF_DEFAULT_OPTS='--height 40% --reverse --border'
+
+# And at the end display today's tasks
+print_today_tasks
