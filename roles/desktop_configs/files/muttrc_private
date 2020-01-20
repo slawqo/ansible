@@ -10,7 +10,7 @@ source ~/.mutt/configs/common_muttrc
 set folder = "~/.mails/kaplonskipl/"
 source ~/.mails/kaplonskipl_mailboxes
 set spoolfile = "+inbox"
-set record = "+inbox.sent"
+set record = "+sent_items"
 set postponed = "+drafts"
 
 # Settings for sending mail
