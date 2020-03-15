@@ -24,6 +24,11 @@ Host review.opendev.org
 Host {{ dev_hostname }}
     IdentityFile {{ dev_hostname_identity_file }}
 
+Host {{ local_dev_hostname }}
+    Hostname {{ local_dev_ip }}
+    User slawek
+    IdentityFile {{ dev_hostname_identity_file }}
+
 Host {{ rh_gerrit }}
     User {{ rh_gerrit_user }}
     IdentityFile {{ rh_gerrit_identity_file }}
