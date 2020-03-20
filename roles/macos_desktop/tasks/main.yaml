@@ -37,7 +37,7 @@
   cron:
     name: "check Red Hat mails"
     minute: "*/5"
-    job: "/usr/local/bin/gtimeout --kill-after=30s --signal=KILL 4m /usr/local/bin/offlineimap -o -a redhat"
+    job: "/usr/local/bin/gtimeout --kill-after=30s --signal=KILL 4m /usr/local/bin/offlineimap -o -a redhat > /dev/null 2>&1"
   when: offlineimap_binary.stat.exists == True
 
 
@@ -45,5 +45,5 @@
   cron:
     name: "check private mails"
     minute: "*/10"
-    job: "/usr/local/bin/gtimeout --kill-after=30s --signal=KILL 4m /usr/local/bin/offlineimap -o -a kaplonskipl"
+    job: "/usr/local/bin/gtimeout --kill-after=30s --signal=KILL 4m /usr/local/bin/offlineimap -o -a kaplonskipl > /dev/null 2>&1"
   when: offlineimap_binary.stat.exists == True
