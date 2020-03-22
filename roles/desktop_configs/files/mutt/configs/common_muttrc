@@ -17,6 +17,8 @@ set sort_aux=last-date-received
 set pager_index_lines = 7
 auto_view text/html
 alternative_order text/plain text/html
+# Increase loading of mails when entering directory
+folder-hook . 'set read_inc=1000'
 
 # Aliases file
 set alias_file=~/.mails/aliases
