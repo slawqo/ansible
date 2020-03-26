@@ -1,21 +1,4 @@
 ---
-- name: Install libselinux-python bindings
-  become: yes
-  become_method: sudo
-  package:
-      name: libselinux-python
-      state: present
-  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
-
-
-- name: Install libselinux-python bindings on Fedora
-  become: yes
-  become_method: sudo
-  package:
-      name: ["python2-libselinux", "python3-libselinux"]
-      state: present
-  when: ansible_distribution == "Fedora"
-
 - name: Prepare hosts file
   become: yes
   become_method: sudo
@@ -23,6 +6,8 @@
     path: /etc/hosts
     line: "{{ hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['address'] }} {{ inventory_hostname }}"
     state: present
+  when: iface is defined
+
 
 - name: Configure private network interface
   become: yes
@@ -32,17 +17,7 @@
         (private_iface is undefined) or
         (private_iface is none) or
         (private_iface | trim == ''))
-
-
-- name: Add EPEL YUM repository
-  become: yes
-  become_method: sudo
-  yum_repository:
-    name: epel
-    description: Extra Packages for Enterprise Linux Repo
-    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
-    gpgcheck: no
-  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
+  when: private_iface is defined
 
 
 - name: Enable IPv6
@@ -56,40 +31,26 @@
     reload: yes
 
 
-- name: Install base packages
-  package:
-      name: ['htop', 'bmon', 'ccze', 'git', 'python-pip', 'rsync', 'zsh',
-             'tmux', 'dstat', 'stress', 'tig', 'telnet', 'tar']
-      state: latest
-  become: yes
-  become_method: sudo
+- name: Do Centos 7/RHEL 7 base configs
+  include_tasks: centos7.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 7)
 
 
-- name: Install Ubuntu specific packages
-  package:
-      name: ['exuberant-ctags', 'gettext', 'golang-go', 'unbound']
-      state: latest
-  become: yes
-  become_method: sudo
+- name: Do Centos 8/RHEL 8 base configs
+  include_tasks: centos8.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 8)
+
+
+- name: Do Fedora base configs
+  include_tasks: fedora.yml
+  when: ansible_distribution == "Fedora"
+
+
+- name: Do ubuntu base configs
+  include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
-
-
-- name: Install CentOS specific packages
-  package:
-      name: ['vim-minimal', 'global-ctags', 'vim', 'go']
-      state: latest
-  become: yes
-  become_method: sudo
-  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
-
-
-- name: Install new versions of setuptools on Centos
-  become: yes
-  become_method: sudo
-  pip:
-      name: "setuptools"
-      extra_args: --upgrade
-  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
 
 
 - name: Clone oh-my-zsh

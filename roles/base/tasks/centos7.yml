@@ -1,0 +1,37 @@
+---
+- name: Install libselinux-python bindings
+  become: yes
+  become_method: sudo
+  package:
+      name: libselinux-python
+      state: present
+
+
+- name: Add EPEL YUM repository
+  become: yes
+  become_method: sudo
+  yum_repository:
+    name: epel
+    description: Extra Packages for Enterprise Linux Repo
+    baseurl: https://download.fedoraproject.org/pub/epel/$releasever/$basearch/
+    gpgcheck: no
+
+
+- name: Install base packages
+  package:
+      name: ['htop', 'bmon', 'ccze', 'git', 'python-pip', 'rsync', 'zsh',
+             'tmux', 'dstat', 'stress', 'tig', 'telnet', 'tar',
+             'vim-minimal', 'global-ctags', 'vim', 'go']
+      state: latest
+  become: yes
+  become_method: sudo
+
+
+- name: Install new versions of setuptools
+  become: yes
+  become_method: sudo
+  pip:
+      name: "setuptools"
+      extra_args: --upgrade
+
+

@@ -1,0 +1,35 @@
+---
+- name: Install libselinux-python bindings
+  become: yes
+  become_method: sudo
+  package:
+      name: python3-libselinux
+      state: present
+
+
+- name: Set python 3.6 to be default python
+  become: yes
+  become_method: sudo
+  alternatives:
+      name: python
+      path: /usr/bin/python3
+
+
+- name: Install base packages
+  package:
+      name: ['git', 'rsync', 'zsh',
+             'tmux', 'dstat', 'telnet', 'tar',
+             'vim-minimal', 'vim', 'go']
+      state: latest
+  become: yes
+  become_method: sudo
+
+
+- name: Install new versions of setuptools
+  become: yes
+  become_method: sudo
+  pip:
+      name: ["setuptools", "wheel"]
+      extra_args: --upgrade
+
+
