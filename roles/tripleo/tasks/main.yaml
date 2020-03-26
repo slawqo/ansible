@@ -7,6 +7,13 @@
     accept_hostkey=True
     force=yes
 
+- name: Install python3-requests
+  become: yes
+  become_method: sudo
+  package:
+      name: python3-requests
+      state: latest
+
 - name: Install tripleo-repos
   shell: python setup.py install
   args:
@@ -15,7 +22,7 @@
   become_method: sudo
 
 - name: Enable TripleO repositories
-  shell: tripleo-repos current
+  shell: /usr/local/bin/tripleo-repos current
   become: yes
   become_method: sudo
 
@@ -23,7 +30,7 @@
   become: yes
   become_method: sudo
   package:
-    name: ["python-tripleoclient"]
+    name: ["python3-tripleoclient"]
 
 - name: Create bootstrap script
   template:
