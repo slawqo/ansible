@@ -48,6 +48,22 @@
   when: ansible_distribution == "Ubuntu"
 
 
+- name: Install new versions of setuptools
+  become: yes
+  become_method: sudo
+  pip:
+      name: "setuptools"
+      extra_args: --upgrade
+
+
+- name: Install new versions of wheel
+  become: yes
+  become_method: sudo
+  pip:
+      name: "wheel"
+      extra_args: --upgrade
+
+
 - name: Clone oh-my-zsh
   git:
     repo=https://github.com/robbyrussell/oh-my-zsh.git

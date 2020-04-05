@@ -1,8 +1,8 @@
 ---
 - name: Install base packages
   package:
-      name: ['htop', 'bmon', 'ccze', 'git', 'python-pip', 'rsync', 'zsh',
-             'tmux', 'dstat', 'stress', 'tig', 'telnet', 'tar',
+      name: ['htop', 'bmon', 'ccze', 'git', 'python3-pip', 'python-pip',
+             'rsync', 'zsh', 'tmux', 'dstat', 'stress', 'tig', 'telnet', 'tar',
              'exuberant-ctags', 'gettext', 'golang-go', 'tzdata']
       state: latest
   become: yes

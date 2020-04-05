@@ -25,13 +25,3 @@
       state: latest
   become: yes
   become_method: sudo
-
-
-- name: Install new versions of setuptools
-  become: yes
-  become_method: sudo
-  pip:
-      name: "setuptools"
-      extra_args: --upgrade
-
-
