@@ -1,0 +1,13 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    # This base role is needed to install some base packages, like python,
+    # I don't want to duplicate all of this in development role just to run
+    # molecule tests on it
+    - name: "Include base"
+      include_role:
+        name: "base"
+    - name: "Include development"
+      include_role:
+        name: "development"

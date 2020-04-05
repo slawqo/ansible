@@ -1,0 +1,7 @@
+---
+- name: Install dev packages
+  package:
+      name: ['python-dev', 'python3-dev', 'tox', 'python3-pip']
+      state: present
+  become: yes
+  become_method: sudo

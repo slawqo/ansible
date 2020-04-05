@@ -1,37 +1,24 @@
 ---
-- name: Install Ubuntu dev packages
-  package:
-      name: ['python-dev', 'python3-dev', 'git-review', 'tox']
-      state: present
-  become: yes
-  become_method: sudo
+- name: Install Centos 7/RHEL 7 development tools
+  include_tasks: centos7.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 7)
+
+
+- name: Install Centos 8/RHEL 8 development tools
+  include_tasks: centos8.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 8)
+
+
+- name: Install ubuntu development tools
+  include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
-
-
-- name: Install Fedora dev packages
-  package:
-      name: ['python2-devel', 'python3-devel', 'git-review', 'tox']
-      state: latest
-  become: yes
-  become_method: sudo
-  when: ansible_distribution == "Fedora"
-
-
-- name: Install Centos dev packages
-  package:
-      name: ['python-devel', 'python36-devel', 'git-review', 'gcc', 'gcc-c++',
-             'make', 'openssl-devel', 'libcap-ng-devel', 'kernel-devel',
-             'autoconf', 'automake', 'clang-devel', 'libtool', 'sparse',
-             'sparse-devel', '@Development Tools']
-      state: latest
-  become: yes
-  become_method: sudo
-  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux'
 
 
 - name: Install packages from pypi
   become: yes
   become_method: sudo
   pip:
-      name: ['pdbpp', 'remote_pdb', 'pbr']
+      name: ['pdbpp', 'remote_pdb', 'pbr', 'git-review']
       extra_args: --upgrade
