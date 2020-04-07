@@ -1,0 +1,4 @@
+#!/bin/bash
+
+CONFIGURE_ARGS="with-libvirt-include=/usr/include/libvirt with-libvirt-lib=/usr/lib"
+vagrant plugin install vagrant-libvirt

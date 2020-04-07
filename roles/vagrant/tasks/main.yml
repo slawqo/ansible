@@ -1,23 +1,10 @@
 ---
-- name: Install Vagrant package
-  package:
-      name: "vagrant"
-      state: latest
-  become: yes
-  become_method: sudo
-  when: ansible_distribution != "CentOS" and ansible_distribution != 'Red Hat Enterprise Linux'
+- name: Install Vagrant on Centos 8/RHEL 8
+  include_tasks: centos8.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 8)
 
 
-- name: "Check if libvirt is installed"
-  package_facts:
-    manager: "auto"
-
-
-- name: Install Vagrant libvirt plugin
-  package:
-      name: ["vagrant-libvirt", "vagrant-libvirt-doc"]
-      state: latest
-  become: yes
-  become_method: sudo
-  when: (ansible_distribution != "CentOS" and ansible_distribution != 'Red Hat Enterprise Linux' and
-         'libvirt-daemon-kvm' in ansible_facts.packages)
+- name: Install Vagrant on Ubuntu
+  include_tasks: ubuntu.yml
+  when: ansible_distribution == "Ubuntu"

@@ -1,0 +1,34 @@
+---
+- name: Install vagrant packages
+  package:
+      name: https://releases.hashicorp.com/vagrant/2.2.7/vagrant_2.2.7_x86_64.rpm
+      state: present
+  become: yes
+  become_method: sudo
+
+
+- name: "Check if libvirt is installed"
+  package_facts:
+    manager: "auto"
+
+
+- name: Install Vagrant libvirt plugin
+  block:
+    - name: Install libvirt-devel
+      package:
+          name: "libvirt-devel"
+          state: latest
+
+    - name: Copy plugin install script
+      copy:
+          src: "files/install_vagrant_libvirt"
+          dest: "{{ ansible_env.HOME }}/install_vagrant_libvirt"
+
+    - name: Install vagrant-libvirt plugin
+      shell: "/bin/bash install_vagrant_libvirt"
+      args:
+          chdir: "{{ ansible_env.HOME }}"
+
+  become: yes
+  become_method: sudo
+  when: "'libvirt-daemon-kvm' in ansible_facts.packages"
