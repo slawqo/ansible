@@ -7,11 +7,13 @@ platforms:
   - name: centos8
     image: centos:8
     privileged: true
+    pkg_extras: git
     dockerfile: Dockerfile
 
   - name: ubuntu
     image: ubuntu:bionic
     privileged: true
+    pkg_extras: git
     dockerfile: Dockerfile
 
 provisioner:

@@ -8,3 +8,10 @@
 - name: Install Vagrant on Ubuntu
   include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
+
+
+- name: Clone my vagrant repo
+  git:
+    repo=https://github.com/slawqo/vagrant
+    version=master
+    dest=/home/{{ ansible_user }}/vagrant
