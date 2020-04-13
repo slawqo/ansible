@@ -1,0 +1,7 @@
+---
+- name: Enable EPEL
+  become: True
+  become_method: sudo
+  package:
+    name: epel-release
+    state: present

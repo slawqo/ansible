@@ -1,7 +1,20 @@
 ---
+- name: Include Centos 8/RHEL 8 tasks
+  include_tasks: centos8.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 8)
+
+
 - name: Install ansible package
   package:
       name: "ansible"
       state: latest
   become: yes
   become_method: sudo
+
+
+- name: Clone my ansible roles repo
+  git:
+    repo=https://github.com/slawqo/ansible
+    version=master
+    dest=/home/{{ ansible_user }}/ansible
