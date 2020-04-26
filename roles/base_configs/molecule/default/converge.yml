@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include base_configs"
+      include_role:
+        name: "base_configs"

@@ -1,39 +1,61 @@
 ---
-- name: Check tmux version
-  shell: tmux -V | awk '{print $2}'
-  environment:
-      PATH: '{{ ansible_env.PATH }}:/usr/local/bin:/usr/bin'
-  register: tmux_version
+- name: "Check installed packages"
+  package_facts:
+    manager: "auto"
 
 
-- name: Set tmux config file name for old tmux
-  set_fact:
-    tmux_conf_file_name: "files/tmux/tmux.conf.legacy"
-    when: tmux_version.stdout is version('2.4', '<=')
+- name: Configure tmux
+  block:
+    - name: Check tmux version
+      shell: tmux -V | awk '{print $2}'
+      environment:
+          PATH: '{{ ansible_env.PATH }}:/usr/local/bin:/usr/bin'
+      register: tmux_version
+
+    - name: Set tmux config file name for old tmux
+      set_fact:
+        tmux_conf_file_name: "files/tmux/tmux.conf.legacy"
+        when: tmux_version.stdout is version('2.4', '<=')
+
+    - name: Set tmux config file name
+      set_fact:
+        tmux_conf_file_name: "files/tmux/tmux.conf"
+      when: tmux_version.stdout is version('2.4', '>') and tmux_config == "simple"
+
+    - name: Set tmux config file name for fancy tmux
+      set_fact:
+        tmux_conf_file_name: "files/tmux/tmux.conf.fancy"
+      when: tmux_version.stdout is version('2.4', '>') and tmux_config == "fancy"
+
+    - name: Copy tmux config
+      copy:
+          src: "{{ tmux_conf_file_name }}"
+          dest: "{{ ansible_env.HOME }}/.tmux.conf"
+
+    - name: Copy local config for fancy tmux
+      copy:
+          src: "files/tmux/tmux.conf.local"
+          dest: "{{ ansible_env.HOME }}/.tmux.conf.local"
+  when: "'tmux' in ansible_facts.packages"
 
 
-- name: Set tmux config file name
-  set_fact:
-    tmux_conf_file_name: "files/tmux/tmux.conf"
-  when: tmux_version.stdout is version('2.4', '>') and tmux_config == "simple"
+- name: Configure ZSH
+  block:
+    - name: Check zsh version
+      shell: zsh --version |  awk '{print $2}'
+      environment:
+          PATH: '{{ ansible_env.PATH }}:/usr/local/bin:/usr/bin'
+      register: zsh_version_cmd
 
+    - name: Set zsh version variable
+      set_fact:
+        zsh_version={{ zsh_version_cmd.stdout }}
 
-- name: Set tmux config file name for fancy tmux
-  set_fact:
-    tmux_conf_file_name: "files/tmux/tmux.conf.fancy"
-  when: tmux_version.stdout is version('2.4', '>') and tmux_config == "fancy"
-
-
-- name: Check zsh version
-  shell: zsh --version |  awk '{print $2}'
-  environment:
-      PATH: '{{ ansible_env.PATH }}:/usr/local/bin:/usr/bin'
-  register: zsh_version_cmd
-
-
-- name: Set zsh version variable
-  set_fact:
-    zsh_version={{ zsh_version_cmd.stdout }}
+    - name: Copy zshrc
+      template:
+          src=zshrc.j2
+          dest="{{ ansible_env.HOME }}/.zshrc"
+  when: "'zsh' in ansible_facts.packages"
 
 
 - name: Copy bashrc
@@ -46,12 +68,6 @@
   copy:
       src: "files/bash/profile"
       dest: "{{ ansible_env.HOME }}/.profile"
-
-
-- name: Copy zshrc
-  template:
-      src=zshrc.j2
-      dest="{{ ansible_env.HOME }}/.zshrc"
 
 
 - name: Copy git config
@@ -93,19 +109,6 @@
       mode: 0755
 
 
-- name: Copy tmux config
-  copy:
-      src: "{{ tmux_conf_file_name }}"
-      dest: "{{ ansible_env.HOME }}/.tmux.conf"
-
-
-- name: Copy local config for fancy tmux
-  copy:
-      src: "files/tmux/tmux.conf.local"
-      dest: "{{ ansible_env.HOME }}/.tmux.conf.local"
-
-
-  when: tmux_version.stdout is version('2.4', '>') and tmux_config == "fancy"
 - name: Create ssh config file
   template:
       src=ssh_config.j2
