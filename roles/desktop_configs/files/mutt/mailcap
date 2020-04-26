@@ -12,7 +12,12 @@ application/pdf; ~/.mutt/view_attachement.sh %s pdf
 
 #
 # # HTML
-text/html; ~/.mutt/view_attachement.sh %s html; copiousoutput
+# First line will open mail in e.g. Firefox when "v" and then "m" (view-mailcap)
+# is choosen,
+# Second line will open html mail in mutt using links so it will looks more or
+# less fine
+text/html; ~/.mutt/view_attachement.sh %s html; needsterminal
+text/html; links -dump %s; nametemplate=%s.html; copiousoutput
 #
 # # Unidentified files
 application/octet-stream; ~/.mutt/view_attachement.sh %s "-"
