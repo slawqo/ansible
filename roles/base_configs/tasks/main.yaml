@@ -2,6 +2,7 @@
 - name: "Check installed packages"
   package_facts:
     manager: "auto"
+  when: ansible_distribution != 'MacOSX'
 
 
 - name: Configure tmux
@@ -36,7 +37,7 @@
       copy:
           src: "files/tmux/tmux.conf.local"
           dest: "{{ ansible_env.HOME }}/.tmux.conf.local"
-  when: "'tmux' in ansible_facts.packages"
+  when: "ansible_distribution == 'MacOSX' or 'tmux' in ansible_facts.packages"
 
 
 - name: Configure ZSH
@@ -55,7 +56,7 @@
       template:
           src=zshrc.j2
           dest="{{ ansible_env.HOME }}/.zshrc"
-  when: "'zsh' in ansible_facts.packages"
+  when: "ansible_distribution == 'MacOSX' or 'zsh' in ansible_facts.packages"
 
 
 - name: Copy bashrc
