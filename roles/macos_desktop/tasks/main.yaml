@@ -36,7 +36,7 @@
 - name: Set offlineimap for RH mails in crontab
   cron:
     name: "check Red Hat mails"
-    minute: "*/5"
+    minute: "*/2"
     job: "/usr/local/bin/gtimeout --kill-after=30s --signal=KILL 4m /usr/local/bin/offlineimap -o -a redhat > /dev/null 2>&1"
   when: offlineimap_binary.stat.exists == True
 
@@ -44,6 +44,6 @@
 - name: Set offlineimap for private mails in crontab
   cron:
     name: "check private mails"
-    minute: "*/10"
+    minute: "*/5"
     job: "/usr/local/bin/gtimeout --kill-after=30s --signal=KILL 4m /usr/local/bin/offlineimap -o -a kaplonskipl > /dev/null 2>&1"
   when: offlineimap_binary.stat.exists == True
