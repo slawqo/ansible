@@ -1,8 +1,9 @@
 ---
 - name: Install openvswitch package (Ubuntu)
-  package:
+  apt:
       name: "{{ item }}"
       state: latest
+      update_cache: true
   become: yes
   become_method: sudo
   with_items:
@@ -19,80 +20,23 @@
       state: started
   when: ansible_distribution == 'Ubuntu'
 
-# NOTE: openvswitch rpms are available in RDO repo and it is causing some
-# dependency issues when I added this repo, so as temporary workaround let's
-# simply copy ovs binaries to dest host and install them
-# TODO: check how it is done on centos vm with devstack and do it in same way
-# here
-- block:
-    - name: Copy openvswitch rpm to the host
-      copy:
-          src: 'files/openvswitch-2.11.0-4.el7.x86_64.rpm'
-          dest: '{{ ansible_env.HOME }}/openvswitch-2.11.0-4.el7.x86_64.rpm'
 
-    - name: Copy openvswitch-ovn-central rpm to the host
-      copy:
-          src: 'files/openvswitch-ovn-central-2.11.0-4.el7.x86_64.rpm'
-          dest: '{{ ansible_env.HOME }}/openvswitch-ovn-central-2.11.0-4.el7.x86_64.rpm'
-
-    - name: Copy openvswitch-ovn-common rpm to the host
-      copy:
-          src: 'files/openvswitch-ovn-common-2.11.0-4.el7.x86_64.rpm'
-          dest: '{{ ansible_env.HOME }}/openvswitch-ovn-common-2.11.0-4.el7.x86_64.rpm'
-
-    - name: Copy openvswitch-ovn-host rpm to the host
-      copy:
-          src: 'files/openvswitch-ovn-host-2.11.0-4.el7.x86_64.rpm'
-          dest: '{{ ansible_env.HOME }}/openvswitch-ovn-host-2.11.0-4.el7.x86_64.rpm'
-
-    - name: Copy python-openvswitch rpm to the host
-      copy:
-          src: 'files/python-openvswitch-2.11.0-4.el7.x86_64.rpm'
-          dest: '{{ ansible_env.HOME }}/python-openvswitch-2.11.0-4.el7.x86_64.rpm'
-
-    - name: Install openvswitch rpm
-      become: yes
-      become_method: sudo
-      yum:
-          name: '{{ ansible_env.HOME }}/openvswitch-2.11.0-4.el7.x86_64.rpm'
-          state: present
-
-    - name: Install openvswitch-ovn-common rpm
-      become: yes
-      become_method: sudo
-      yum:
-          name: '{{ ansible_env.HOME }}/openvswitch-ovn-common-2.11.0-4.el7.x86_64.rpm'
-          state: present
-
-    - name: Install openvswitch-ovn-central rpm
-      become: yes
-      become_method: sudo
-      yum:
-          name: '{{ ansible_env.HOME }}/openvswitch-ovn-central-2.11.0-4.el7.x86_64.rpm'
-          state: present
-
-    - name: Install openvswitch-ovn-host rpm
-      become: yes
-      become_method: sudo
-      yum:
-          name: '{{ ansible_env.HOME }}/openvswitch-ovn-host-2.11.0-4.el7.x86_64.rpm'
-          state: present
-
-    - name: Install python-openvswitch rpm
-      become: yes
-      become_method: sudo
-      yum:
-          name: '{{ ansible_env.HOME }}/python-openvswitch-2.11.0-4.el7.x86_64.rpm'
-          state: present
+- name: Enable Centos repository
+  become: yes
+  become_method: sudo
+  yum:
+      name: centos-release-openstack-train
+      state: present
   when: ansible_distribution == "CentOS"
 
-- name: Install openvswitch package (RHEL or Fedora)
+
+- name: Install openvswitch package (CentOS)
   package:
       name: "openvswitch"
       state: latest
   become: yes
   become_method: sudo
-  when: ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
+  when: ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux' or ansible_distribution == "Fedora"
 
 
 - name: Start openvswitch service on Centos or Fedora
