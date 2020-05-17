@@ -49,3 +49,33 @@
     -- --may-exist add-port {{ neutron_external_bridge_name }} patch-{{ infra_bridge_name }}
     -- set interface patch-{{ infra_bridge_name }} type=patch options:peer=patch-{{ neutron_external_bridge_name }}
 
+
+- name: Configure IP address on the bridge
+  block:
+    - name: Get {{ iface }} CIDR
+      set_fact:
+        iface_cidr: "{{ hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['address'] }}/{{ hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['netmask'] }}"
+
+    - name: Remove IP {{ iface_cidr }} from the {{ iface }}
+      shell: "/sbin/ip address del {{ iface_cidr }} dev  {{ iface }}"
+      become: yes
+      become_method: sudo
+      ignore_errors: True
+
+
+    - name: Add IP {{ iface_cidr }} on the {{ infra_bridge_name }}
+      shell: "/sbin/ip address add {{ iface_cidr }} dev  {{ infra_bridge_name }}"
+      become: yes
+      become_method: sudo
+      ignore_errors: True
+
+    - name: Ensure {{ iface }} is up
+      shell: "/sbin/ip link set up dev {{ iface }}"
+      become: yes
+      become_method: sudo
+
+    - name: Ensure {{ infra_bridge_name }} is up
+      shell: "/sbin/ip link set up dev {{ infra_bridge_name }}"
+      become: yes
+      become_method: sudo
+  when: hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['address'] is defined
