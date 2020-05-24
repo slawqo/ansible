@@ -1,7 +1,7 @@
 ---
 - name: Install base tools with Homebrew
   homebrew:
-    name: ["coreutils"]
+    name: ["coreutils", "reattach-to-user-namespace"]
     state: present
 
 
