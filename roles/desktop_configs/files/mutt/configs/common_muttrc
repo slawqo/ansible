@@ -33,7 +33,7 @@ set mailcap_path 	= ~/.mutt/mailcap
 alternative_order text/plain text text/html #prefer plaintext over dumped html
 auto_view text/html #load html emails with links (config in ~/.mailcap)
 
-macro index u "<clear-flag>N"
+macro index r "<clear-flag>N"
 macro index,pager ,c "<tag-pattern>.<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>"
 
 # Sidebar settings
