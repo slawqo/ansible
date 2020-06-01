@@ -15,7 +15,7 @@
       state: latest
 
 - name: Install tripleo-repos
-  shell: python setup.py install
+  shell: python3 setup.py install
   args:
     chdir: "{{ ansible_env.HOME }}/tripleo-repos"
   become: yes
@@ -36,3 +36,4 @@
   template:
     src=standalone.sh.j2
     dest="{{ ansible_env.HOME }}/standalone.sh"
+  when: iface is defined

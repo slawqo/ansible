@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: docker
+platforms:
+  - name: centos8
+    image: centos:8
+    privileged: true
+    pkg_extras: git
+    dockerfile: Dockerfile
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      centos8:
+        ansible_user: root
+
+verifier:
+  name: ansible
+
+scenario:
+  test_sequence:
+    - destroy
+    - create
+    - prepare
+    - converge
+    - verify
+    - destroy
