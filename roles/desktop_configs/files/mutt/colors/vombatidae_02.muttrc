@@ -95,3 +95,12 @@ color header		color29     	color233    '^reply-to:'
 #color index	green black '~h "^content-type: *multipart/(signed|encrypted)"'
 
 #color sidebar_new color39 default 
+
+# Colors in diffs
+color body green default "^diff \-.*"
+color body green default "^index [a-f0-9].*"
+color body green default "^\-\-\- .*"
+color body green default "^[\+]{3} .*"
+color body brightgreen default "^[\+][^\+]+.*"
+color body red  default "^\-[^\-]+.*"
+color body brightblue default "^@@ .*"
