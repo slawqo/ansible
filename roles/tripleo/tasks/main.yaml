@@ -32,8 +32,13 @@
   package:
     name: ["python3-tripleoclient"]
 
-- name: Create bootstrap script
+- name: Create standalone script
   template:
     src=standalone.sh.j2
     dest="{{ ansible_env.HOME }}/standalone.sh"
   when: iface is defined
+
+- name: Create OS bootstrap script
+  template:
+    src=os_bootstrap.sh.j2
+    dest="{{ ansible_env.HOME }}/os_bootstrap.sh"
