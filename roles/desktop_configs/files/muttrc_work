@@ -26,8 +26,7 @@ my_hdr From: Slawek Kaplonski <skaplons@redhat.com>
 set signature="~/.mutt/configs/redhat_signature"
 
 #macro index,pager d "<save-message>=gmail.trash<enter><enter>" "Trash"
-macro index,pager A "<save-message>=archive_mac<enter><enter>" "Archive"
-macro index,pager L "<save-message>=public.launchpad<enter><enter>" "Move to Launchpad"
-macro index,pager S "<save-message>=public.openstack<enter><enter>" "Move to OpenStack"
-macro index,pager + "<save-message>=important<enter><enter>" "Move to important messages"
+macro index,pager A "<save-message>=Archive_mac<enter><enter>" "Archive"
+macro index,pager L "<save-message>=Public/Launchpad<enter><enter>" "Move to Launchpad"
+macro index,pager S "<save-message>=Public/Openstack<enter><enter>" "Move to OpenStack"
 
