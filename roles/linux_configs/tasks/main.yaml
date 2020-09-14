@@ -49,6 +49,7 @@
   copy:
       src: 'files/conky/run_conky.sh'
       dest: '{{ ansible_env.HOME }}/.run_conky.sh'
+      mode: a+x
 
 
 - name: Ensure ranger config directory exists

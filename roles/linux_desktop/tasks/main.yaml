@@ -5,7 +5,7 @@
   package:
       name: ["vim", "tmux", "git",
              "mutt", "weechat", "xsel",
-             "feh", "keepassxc", "rxvt-unicode-256color",
+             "feh", "keepassxc", "rxvt-unicode",
              "rsync", "zsh", "glibc-langpack-pl",
              "NetworkManager", "network-manager-applet", "offlineimap",
              "i3lock", "ranger", "htop", "bmon", "xbacklight",

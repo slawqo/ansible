@@ -42,7 +42,6 @@ conky.text = [[
     { "full_text": " Root ${fs_used /} / ${fs_size /} " , "color": "\#ffffff" },
     { "full_text": " Home ${fs_used /home} /${fs_size /home} " , "color": "\#ffffff" },
     { "full_text": " BAT0 ${battery BAT0} ${if_match ${battery_percent BAT0} != 100}(${battery_time BAT0}) ${endif}" , "color":  ${if_match ${battery_percent BAT0}>15}"\#ffffff"${else}"\#ff0000"${endif} },
-    { "full_text": " BAT1 ${battery BAT1} ${if_match ${battery_percent BAT1} != 100}(${battery_time BAT1}) ${endif}" , "color":  ${if_match ${battery_percent BAT1}>15}"\#ffffff"${else}"\#ff0000"${endif} },
     { "full_text": " ${time %d.%m.%y %H:%M:%S} ", "color":  "\#ffffff" }
 ],
 ]];
