@@ -258,3 +258,7 @@ exec --no-startup-id xset r rate 200 25
 
 # Set Logitech mouse acceleration
 exec --no-startup-id xinput set-prop "Logitech Anywhere MX" "libinput Accel Speed" -0.3
+
+# Set screens layout and dpi
+exec --no-startup-id ~/.config/i3/screens.sh
+exec --no-startup-id ~/.config/i3/dpi.sh

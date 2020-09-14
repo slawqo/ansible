@@ -30,6 +30,41 @@
   copy:
       src: 'files/i3wm/dpi.sh'
       dest: '{{ ansible_env.HOME }}/.config/i3/dpi.sh'
+      mode: a+x
+
+
+- name: Copy script to set screens layout
+  copy:
+      src: 'files/i3wm/screens.sh'
+      dest: '{{ ansible_env.HOME }}/.config/i3/screens.sh'
+      mode: a+x
+
+
+- name: Ensure screenlayouts directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.screenlayout"
+      state: directory
+      mode: 0755
+
+
+- name: Copy only laptop screen layout
+  copy:
+      src: 'files/screenlayouts/only_laptop.sh'
+      dest: '{{ ansible_env.HOME }}/.screenlayout/only_laptop.sh'
+      mode: a+x
+
+
+- name: Copy 2 external monitors screen layout
+  copy:
+      src: 'files/screenlayouts/2_external_closed_lid.sh'
+      dest: '{{ ansible_env.HOME }}/.screenlayout/2_external_closed_lid.sh'
+      mode: a+x
+
+
+- name: Copy script to set screens layout
+  copy:
+      src: 'files/i3wm/screens.sh'
+      dest: '{{ ansible_env.HOME }}/.config/i3/screens.sh'
 
 
 - name: Ensure dunst config directory exists
