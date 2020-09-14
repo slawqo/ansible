@@ -7,7 +7,7 @@
              "mutt", "weechat", "xsel",
              "feh", "keepassxc", "rxvt-unicode",
              "rsync", "zsh", "glibc-langpack-pl",
-             "NetworkManager", "network-manager-applet", "offlineimap",
+             "NetworkManager", "network-manager-applet",
              "i3lock", "ranger", "htop", "bmon", "xbacklight",
              "blueman", "dunst", "volumeicon", "zathura", "zathura-pdf-mupdf",
              "task", "conky", "links", "xautolock", "lxappearance",
