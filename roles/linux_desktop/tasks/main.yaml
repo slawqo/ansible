@@ -10,7 +10,7 @@
              "NetworkManager", "network-manager-applet",
              "i3lock", "ranger", "htop", "bmon", "xbacklight",
              "blueman", "dunst", "volumeicon", "zathura", "zathura-pdf-mupdf",
-             "task", "conky", "links", "xautolock", "lxappearance",
+             "task", "conky", "links", "xautolock", "lxappearance", "timew",
              # Needed for BlueJeans app
              "GConf2"]
       state: present
