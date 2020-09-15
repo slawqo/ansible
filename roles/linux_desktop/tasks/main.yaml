@@ -11,6 +11,7 @@
              "i3lock", "ranger", "htop", "bmon", "xbacklight",
              "blueman", "dunst", "volumeicon", "zathura", "zathura-pdf-mupdf",
              "task", "conky", "links", "xautolock", "lxappearance", "timew",
+             "lm_sensors",
              # Needed for BlueJeans app
              "GConf2"]
       state: present
