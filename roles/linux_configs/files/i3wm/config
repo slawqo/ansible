@@ -240,6 +240,11 @@ bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
 bindsym $mod+b exec firefox
 bindsym $mod+t exec thunar
 
+
+# Set screens layout and dpi
+exec --no-startup-id ~/.config/i3/screens.sh
+exec --no-startup-id ~/.config/i3/dpi.sh
+
 # Autostart
 exec nm-applet
 exec keepassx
@@ -258,7 +263,3 @@ exec --no-startup-id xset r rate 200 25
 
 # Set Logitech mouse acceleration
 exec --no-startup-id xinput set-prop "Logitech MX Master 3" "libinput Accel Speed" -0.3
-
-# Set screens layout and dpi
-exec --no-startup-id ~/.config/i3/screens.sh
-exec --no-startup-id ~/.config/i3/dpi.sh
