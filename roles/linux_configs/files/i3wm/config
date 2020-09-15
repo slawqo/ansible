@@ -91,6 +91,9 @@ bindsym $mod+Shift+minus move scratchpad
 # Show the first scratchpad window
 bindsym $mod+minus scratchpad show
 
+# Shortcut to configure external displays
+bindsym $mod+m  exec ~/.config/i3/configure_display.sh
+
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
 set $ws1 "1"
@@ -135,16 +138,16 @@ bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+l move workspace to output right
 
 # Assign workspaces to the monitors
-workspace $ws1  output HDMI1
-workspace $ws2  output HDMI1
-workspace $ws3  output HDMI1
-workspace $ws4  output HDMI1
-workspace $ws5  output HDMI1
-workspace $ws6  output HDMI1
-workspace $ws7  output eDP1
-workspace $ws8  output eDP1
-workspace $ws9  output eDP1
-workspace $ws10 output HDMI1
+workspace $ws1  output DP2-3
+workspace $ws2  output DP2-3
+workspace $ws3  output DP2-3
+workspace $ws4  output DP2-3
+workspace $ws5  output DP2-3
+workspace $ws6  output DP3
+workspace $ws7  output DP3
+workspace $ws8  output DP3
+workspace $ws9  output DP3
+workspace $ws10 output DP3
 
 # Windows look
 default_border pixel
@@ -242,8 +245,7 @@ bindsym $mod+t exec thunar
 
 
 # Set screens layout and dpi
-exec --no-startup-id ~/.config/i3/screens.sh
-exec --no-startup-id ~/.config/i3/dpi.sh
+exec --no-startup-id ~/.config/i3/configure_display.sh
 
 # Autostart
 exec nm-applet
@@ -260,6 +262,8 @@ exec --no-startup-id ~/.fehbg
 exec --no-startup-id dunst
 # Keyboard repeat rate
 exec --no-startup-id xset r rate 200 25
+# Disable beep
+exec --no-startup-id xset b off
 
 # Set Logitech mouse acceleration
 exec --no-startup-id xinput set-prop "Logitech MX Master 3" "libinput Accel Speed" -0.3
