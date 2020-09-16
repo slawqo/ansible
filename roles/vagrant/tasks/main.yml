@@ -5,6 +5,11 @@
          ansible_distribution_version|int == 8)
 
 
+- name: Install Vagrant on Fedora
+  include_tasks: fedora.yml
+  when: ansible_distribution == "Fedora"
+
+
 - name: Install Vagrant on Ubuntu
   include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"
