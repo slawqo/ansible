@@ -5,6 +5,16 @@
       state: latest
   become: yes
   become_method: sudo
+  when: ansible_distribution == "CentOS"
+
+
+- name: Install virtualization packages (Fedora)
+  package:
+      name: "@virtualization"
+      state: latest
+  become: yes
+  become_method: sudo
+  when: ansible_distribution == "Fedora"
 
 
 - name: Ensure group "libvirt" exists
