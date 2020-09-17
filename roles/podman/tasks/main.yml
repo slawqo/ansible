@@ -1,0 +1,7 @@
+---
+- name: Install podman package
+  become: yes
+  become_method: sudo
+  package:
+      name: podman
+      state: present

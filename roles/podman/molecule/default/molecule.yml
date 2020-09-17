@@ -1,0 +1,30 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: podman
+log: true
+platforms:
+  - name: fedora
+    image: fedora:32
+    privileged: true
+    dockerfile: Dockerfile
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      fedora:
+        ansible_user: root
+
+verifier:
+  name: ansible
+
+scenario:
+  test_sequence:
+    - destroy
+    - create
+    - prepare
+    - converge
+    - verify
+    - destroy
