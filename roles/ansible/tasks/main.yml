@@ -13,6 +13,14 @@
   become_method: sudo
 
 
+- name: Install molecule package
+  pip:
+      name: "molecule"
+      state: latest
+  become: yes
+  become_method: sudo
+
+
 - name: Clone my ansible roles repo
   git:
     repo=https://github.com/slawqo/ansible
