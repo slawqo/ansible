@@ -243,6 +243,7 @@ bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
 # Custom key bindings
 bindsym $mod+b exec firefox
 bindsym $mod+t exec thunar
+bindsym $mod+p exec pavucontrol
 
 
 # Set screens layout and dpi
