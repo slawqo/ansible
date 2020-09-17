@@ -17,5 +17,5 @@ fi
 
 sed -i -e 's/Xft.dpi:        96/Xft.dpi:        144/g' /home/slaweq/.Xresources
 xrandr --dpi 144
-xrdb ~/.Xresources
+xrdb /home/slaweq/.Xresources
 i3-msg restart

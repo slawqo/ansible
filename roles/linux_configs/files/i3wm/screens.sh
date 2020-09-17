@@ -7,10 +7,10 @@ if [ "$lid_status" == "open" ]; then
     # Now check if external displays are connected or not
     xrandr | grep -v disconnected | grep -v eDP1 | grep connected -q
     if [ $? -eq 0 ]; then
-        ~/.screenlayout/2_external_and_laptop.sh
+        /home/slaweq/.screenlayout/2_external_and_laptop.sh
     else
-        ~/.screenlayout/only_laptop.sh
+        /home/slaweq/.screenlayout/only_laptop.sh
     fi
 else
-    ~/.screenlayout/2_external_closed_lid.sh
+    /home/slaweq/.screenlayout/2_external_closed_lid.sh
 fi

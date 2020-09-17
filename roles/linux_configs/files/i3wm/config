@@ -229,6 +229,7 @@ mode "$mode_system" {
 }
 
 bindsym $mod+Shift+e mode "$mode_system"
+bindsym $mod+Shift+x exec --no-startup-id $Locker
 
 # Functional keys
 # (currently not needed as volumeicon handles that)
@@ -254,7 +255,7 @@ exec blueman-applet
 exec volumeicon
 
 # Autolock screen
-exec_always --no-startup-id xautolock -time 5  -locker "i3lock -c 000000  && sleep 1"
+# exec_always --no-startup-id xautolock -time 5  -locker "i3lock -c 000000  && sleep 1"
 
 # Set wallpaper
 exec --no-startup-id ~/.fehbg
