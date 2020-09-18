@@ -11,7 +11,7 @@
              "i3lock", "ranger", "htop", "bmon", "xbacklight",
              "blueman", "dunst", "volumeicon", "zathura", "zathura-pdf-mupdf",
              "task", "conky", "links", "xautolock", "lxappearance", "timew",
-             "lm_sensors", "python3-virtualenv",
+             "python3-virtualenv",
              # Needed for BlueJeans app
              "GConf2"]
       state: present
@@ -31,6 +31,14 @@
   become_method: sudo
   package:
       name: ["system-config-printer", "cups"]
+  when: ansible_distribution == "Fedora"
+
+
+- name: Install power management related packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["powertop", "lm_sensors"]
   when: ansible_distribution == "Fedora"
 
 
