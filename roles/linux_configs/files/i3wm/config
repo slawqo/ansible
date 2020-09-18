@@ -155,9 +155,9 @@ default_border pixel
 # Colors
 client.focused          #1D90CD #1D90CD #FFFFFF #1D90CD   #1D90CD
 client.focused_inactive #115477 #115477 #DDDDDD #115477   #5F676A
-client.unfocused        #444444 #444444 #DDDDDD #292D2E   #222222
+client.unfocused        #0e0f10 #0e0f10 #DDDDDD #292D2E   #222222
 client.urgent           #2F343A #900000 #FFFFFF #900000   #900000
-client.placeholder      #444444 #444444 #FFFFFF #000000   #0C0C0C
+client.placeholder      #0e0f10 #0e0f10 #FFFFFF #000000   #0C0C0C
 
 client.background       #FFFFFF
 
@@ -200,13 +200,13 @@ bar {
         status_command ~/.run_conky.sh
     tray_output primary
     colors {
-        background #444444
+        background #0e0f10
         statusline #FFFFFF
         separator  #666666
 
         focused_workspace  #1D90CD #1D90CD #FFFFFF
         active_workspace   #115477 #115477 #DDDDDD
-        inactive_workspace #444444 #444444 #dddddd
+        inactive_workspace #0e0f10 #0e0f10 #dddddd
         urgent_workspace   #2F343A #900000 #FFFFFF
         binding_mode       #2F343A #900000 #FFFFFF
     }
