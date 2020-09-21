@@ -53,6 +53,18 @@
   when: ansible_distribution == "Fedora"
 
 
+- name: Install themes packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["breeze-icon-theme", "breeze-gtk.x86_64",
+             "numix-gtk-theme", "numix-icon-theme-circle",
+             "numix-icon-theme-square",
+             "glib2-devel", "gdk-pixbuf2-devel"]
+      state: present
+  when: ansible_distribution == "Fedora"
+
+
 - name: Install Rofi
   become: yes
   become_method: sudo
