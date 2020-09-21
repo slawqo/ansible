@@ -40,6 +40,13 @@
       mode: a+x
 
 
+- name: Copy script to set screen backlight in i3
+  copy:
+      src: 'files/i3wm/setbacklight.sh'
+      dest: '{{ ansible_env.HOME }}/.config/i3/setbacklight.sh'
+      mode: a+x
+
+
 - name: Copy script to set screens layout
   copy:
       src: 'files/i3wm/screens.sh'

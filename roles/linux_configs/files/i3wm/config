@@ -237,8 +237,8 @@ bindsym $mod+Shift+x exec --no-startup-id $Locker
 #bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1%- unmute"
 #bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
 
-bindsym XF86MonBrightnessUp exec "xbacklight -inc 10"
-bindsym XF86MonBrightnessDown exec "xbacklight -dec 10"
+bindsym XF86MonBrightnessUp exec "~/.config/i3/setbacklight.sh inc 10"
+bindsym XF86MonBrightnessDown exec "~/.config/i3/setbacklight.sh dec 10"
 
 # Custom key bindings
 bindsym $mod+b exec firefox
