@@ -29,10 +29,10 @@ URxvt.keysym.M-v: perl:clipboard:paste
 ! Urxvt fonts settings
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
-URxvt.font: xft:Monospace:style=Regular:size=9
-URxvt.boldFont: xft:Monospace:style=Regular:size=9
-URxvt.italicFont: xft:Monospace:style=Italic:size=9
-URxvt.boldItalicFont: xft:Monospace:style=Italic:size=9
+URxvt.font: xft:Monospace:style=Regular:size=10
+URxvt.boldFont: xft:Monospace:style=Regular:size=10
+URxvt.italicFont: xft:Monospace:style=Italic:size=10
+URxvt.boldItalicFont: xft:Monospace:style=Italic:size=10
 URxvt.letterSpace: -1
 
 !-- Xft settings -- !
@@ -40,8 +40,8 @@ Xft.dpi:        96
 Xft.antialias:  true
 Xft.rgba:       rgb
 Xft.hinting:    true
-Xft.hintstyle:  hintslight
-Xft.autohint:   0
+Xft.hintstyle:  hintfull
+Xft.autohint:   1
 Xft.lcdfilter:  lcddefault
 
 ! ---------------------------
