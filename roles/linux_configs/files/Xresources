@@ -29,10 +29,10 @@ URxvt.keysym.M-v: perl:clipboard:paste
 ! Urxvt fonts settings
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
-URxvt.font: xft:Monospace:style=Regular:size=10
-URxvt.boldFont: xft:Monospace:style=Regular:size=10
-URxvt.italicFont: xft:Monospace:style=Italic:size=10
-URxvt.boldItalicFont: xft:Monospace:style=Italic:size=10
+URxvt.font: xft:DejaVu Sans Mono:style=Regular:size=9
+URxvt.boldFont: xft:DejaVu Sans Mono:style=Regular:size=9
+URxvt.italicFont: xft:DejaVu Sans Mono:style=Italic:size=9
+URxvt.boldItalicFont: xft:DejaVu Sans Mono:style=Italic:size=9
 URxvt.letterSpace: -1
 
 !-- Xft settings -- !
