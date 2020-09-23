@@ -65,6 +65,24 @@
   when: ansible_distribution == "Fedora"
 
 
+- name: Install multimedia packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["mpv"]
+      state: present
+  when: ansible_distribution == "Fedora"
+
+
+- name: Install Libreoffice
+  become: yes
+  become_method: sudo
+  package:
+      name: ["libreoffice"]
+      state: present
+  when: ansible_distribution == "Fedora"
+
+
 - name: Install Rofi
   become: yes
   become_method: sudo
