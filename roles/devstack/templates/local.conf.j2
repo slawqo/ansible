@@ -37,6 +37,10 @@ NEUTRONCLIENT_BRANCH={{ neutronclient_branch }}
 HORIZON_BRANCH={{ horizion_branch }}
 KEYSTONE_BRANCH={{ keystone_branch }}
 
+{% if run_compute_on_controller is defined and run_compute_on_controller == False %}
+disable_service n-cpu
+{% endif %}
+
 # Tempest with neutron-tempest-plugin
 # -------
 INSTALL_TEMPEST=True

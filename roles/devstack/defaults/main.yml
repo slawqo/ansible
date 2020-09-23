@@ -9,6 +9,7 @@ network_gw: 192.168.0.254
 floating_range: 10.10.0.128/25
 l2_agent: openvswitch
 l3_mode: legacy
+run_compute_on_controller: True
 python3: True
 
 swift: False
