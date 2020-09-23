@@ -15,6 +15,7 @@ set spoolfile = "+INBOX"
 # Location of drafts
 set postponed = "+[Gmail]/Wersje robocze"
 set record="+[Gmail]/Wysłane"
+set copy=no
 set trash="+[Gmail]/Kosz"
 
 # Settings for sending mail (I'm sending emails from ssl0.ovb.net still)

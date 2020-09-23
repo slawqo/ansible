@@ -12,6 +12,7 @@ set spoolfile = "+INBOX"
 # Location of drafts
 set postponed = "+[Gmail]/Drafts"
 set record="+[Gmail]/Sent Mail"
+set copy=no
 set trash="+[Gmail]/Trash"
 
 # Activate caching, as it can greatly improve speed
