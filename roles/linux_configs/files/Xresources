@@ -20,9 +20,8 @@ URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
 
 ! Copy-Paste
-URxvt.clipboard.autocopy: true
-URxvt.keysym.M-c: perl:clipboard:copy
-URxvt.keysym.M-v: perl:clipboard:paste
+URxvt.keysym.Shift-Control-C: perl:clipboard:copy
+URxvt.keysym.Shift-Control-V: perl:clipboard:paste
 
 
 ! ---------------------------
