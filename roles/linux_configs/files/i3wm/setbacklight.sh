@@ -19,4 +19,4 @@ fi
 
 /usr/bin/xbacklight -set $new_level
 
-/usr/bin/notify-send -u low -h string:x-canonical-private-synchronous:anything "Screen backlight [ $new_level% ]"
+/usr/bin/notify-send -a "Screen backlight" -u low -h string:x-canonical-private-synchronous:anything "[ $new_level% ]"

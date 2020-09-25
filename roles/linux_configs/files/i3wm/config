@@ -233,9 +233,9 @@ bindsym $mod+Shift+x exec --no-startup-id $Locker
 
 # Functional keys
 # (currently not needed as volumeicon handles that)
-#bindsym XF86AudioRaiseVolume exec "amixer -q sset Master,0 1%+ unmute"
-#bindsym XF86AudioLowerVolume exec "amixer -q sset Master,0 1%- unmute"
-#bindsym XF86AudioMute exec "amixer -q sset Master,0 toggle"
+bindsym XF86AudioRaiseVolume exec "~/.config/i3/setvolume.sh inc 5"
+bindsym XF86AudioLowerVolume exec "~/.config/i3/setvolume.sh dec 5"
+bindsym XF86AudioMute exec "~/.config/i3/setvolume.sh mute"
 
 bindsym XF86MonBrightnessUp exec "~/.config/i3/setbacklight.sh inc 10"
 bindsym XF86MonBrightnessDown exec "~/.config/i3/setbacklight.sh dec 10"
@@ -253,7 +253,6 @@ exec --no-startup-id ~/.config/i3/configure_display.sh
 exec nm-applet
 exec keepassx
 exec blueman-applet
-exec volumeicon
 
 # Autolock screen
 # exec_always --no-startup-id xautolock -time 5  -locker "i3lock -c 000000  && sleep 1"
