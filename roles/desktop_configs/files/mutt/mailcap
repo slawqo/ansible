@@ -1,23 +1,14 @@
-application/msword; ~/.mutt/view_attachement.sh %s "-" '/Applications/TextEdit.app'
-#
-# # Images
-image/jpg; ~/.mutt/view_attachement.sh %s jpg
-image/jpeg; ~/.mutt/view_attachement.sh %s jpg
-image/pjpeg; ~/.mutt/view_attachement.sh %s jpg
-image/png; ~/.mutt/view_attachement.sh %s png
-image/gif; ~/.mutt/view_attachement.sh %s gif
-#
-# # PDFs
-application/pdf; ~/.mutt/view_attachement.sh %s pdf
-
-#
 # # HTML
 # First line will open mail in e.g. Firefox when "v" and then "m" (view-mailcap)
 # is choosen,
 # Second line will open html mail in mutt using links so it will looks more or
 # less fine
-text/html; ~/.mutt/view_attachement.sh %s html; needsterminal
-text/html; links -dump %s; nametemplate=%s.html; copiousoutput
+text/html; firefox %s ; needsterminal;
+text/html; w3m -I %{charset} -T text/html; copiousoutput;
+
+image/*; feh %s ; copiousoutput;
+
+application/pdf; zathura %s; copiousoutput
 #
 # # Unidentified files
 application/octet-stream; ~/.mutt/view_attachement.sh %s "-"
