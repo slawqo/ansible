@@ -18,6 +18,20 @@
   when: ansible_distribution == "Fedora"
 
 
+- name: Install Thunar
+  become: yes
+  become_method: sudo
+  package:
+    name: ['thunar', 'thunar-archive-plugin', 'thunar-volman']
+
+
+- name: Install web browser
+  become: yes
+  become_method: sudo
+  package:
+    name: ['firefox']
+
+
 - name: Install RSS reader
   become: yes
   become_method: sudo
