@@ -13,16 +13,11 @@ URxvt*scrollWithBuffer: true
 URxvt*scrollTtyKeypress: true
 
 ! Extensions
-URxvt.perl-ext-common: default,matcher,resize-font,clipboard
+URxvt.perl-ext-common: default,matcher,resize-font
 
 ! Make clicable urls
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
-
-! Copy-Paste
-URxvt.keysym.Shift-Control-C: perl:clipboard:copy
-URxvt.keysym.Shift-Control-V: perl:clipboard:paste
-
 
 ! ---------------------------
 ! Urxvt fonts settings

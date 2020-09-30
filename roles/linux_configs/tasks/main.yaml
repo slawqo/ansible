@@ -155,19 +155,3 @@
   copy:
       src: 'files/rofi/config'
       dest: '{{ ansible_env.HOME }}/.config/rofi/config'
-
-
-- name: Ensure urxvt scripts directory exists
-  become: yes
-  become_method: sudo
-  file:
-      path: '/usr/lib64/urxvt/perl'
-      state: directory
-      mode: 0755
-
-- name: Copy clipboard perl script for urxvt
-  become: yes
-  become_method: sudo
-  copy:
-      src: 'files/urxvt/clipboard'
-      dest: '/usr/lib64/urxvt/perl/clipboard'
