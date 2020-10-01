@@ -32,14 +32,6 @@
     name: ['firefox']
 
 
-- name: Install RSS reader
-  become: yes
-  become_method: sudo
-  package:
-    name: "liferea"
-    state: present
-
-
 - name: Install packages needed for printers
   become: yes
   become_method: sudo
