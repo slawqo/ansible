@@ -23,10 +23,10 @@ URxvt.matcher.button: 1
 ! Urxvt fonts settings
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
-URxvt.font: xft:DejaVu Sans Mono:style=Regular:size=10,xft:DejaVu Sans:size=10,xft:Symbola,xft:Noto Emoji:minspace=False
-URxvt.boldFont: xft:DejaVu Sans Mono:style=Regular:size=10,xft:DejaVu Sans:size=10,xft:Symbola,xft:Noto Emoji:minspace=False
-URxvt.italicFont: xft:DejaVu Sans Mono:style=Italic:size=10,xft:DejaVu Sans:size=10,xft:Symbola,xft:Noto Emoji:minspace=False
-URxvt.boldItalicFont: xft:DejaVu Sans Mono:style=Italic:size=10xft:DejaVu Sans:size=10,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt.font: xft:Source Code Pro:style=Regular:size=10,xft:DejaVu Sans:size=10,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt.boldFont: xft:Source Code Pro:style=Regular:size=10,xft:DejaVu Sans:size=10,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt.italicFont: xft:Source Code Pro:style=Italic:size=10,xft:DejaVu Sans:size=10,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt.boldItalicFont: xft:Source Code Pro:style=Italic:size=10xft:DejaVu Sans:size=10,xft:Symbola,xft:Noto Emoji:minspace=False
 URxvt.letterSpace: -1
 
 !-- Xft settings -- !
