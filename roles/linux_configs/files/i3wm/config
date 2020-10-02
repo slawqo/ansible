@@ -138,16 +138,16 @@ bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+l move workspace to output right
 
 # Assign workspaces to the monitors
-workspace $ws1  output DP2-3
-workspace $ws2  output DP2-3
-workspace $ws3  output DP2-3
-workspace $ws4  output DP2-3
-workspace $ws5  output DP2-3
-workspace $ws6  output DP3
-workspace $ws7  output DP3
-workspace $ws8  output DP3
-workspace $ws9  output DP3
-workspace $ws10 output DP3
+workspace $ws1  output DP3-3
+workspace $ws2  output DP3-3
+workspace $ws3  output DP3-3
+workspace $ws4  output DP3-3
+workspace $ws5  output DP3-3
+workspace $ws6  output DP2
+workspace $ws7  output DP2
+workspace $ws8  output DP2
+workspace $ws9  output DP2
+workspace $ws10 output DP2
 
 # Windows look
 default_border pixel
