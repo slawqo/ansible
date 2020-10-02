@@ -26,3 +26,4 @@
     repo=https://github.com/slawqo/ansible
     version=master
     dest=/home/{{ ansible_user }}/ansible
+  when: clone_roles == true
