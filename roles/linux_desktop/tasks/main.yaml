@@ -4,7 +4,7 @@
   become_method: sudo
   package:
       name: ["vim", "tmux", "git",
-             "mutt", "weechat", "xsel",
+             "weechat", "xsel",
              "feh", "keepassxc", "rxvt-unicode",
              "rsync", "zsh", "glibc-langpack-pl",
              "NetworkManager", "network-manager-applet",
@@ -16,6 +16,21 @@
              "GConf2"]
       state: present
   when: ansible_distribution == "Fedora"
+
+
+- name: Install Neomutt email client
+  block:
+    - name: enable copr repo
+      command:
+        cmd: dnf copr enable -y flatcap/neomutt
+        creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:flatcap:neomutt.repo
+
+    - name: Install neomutt package
+      package:
+        name: ['neomutt']
+        state: present
+  become: yes
+  become_method: sudo
 
 
 - name: Install Thunar
