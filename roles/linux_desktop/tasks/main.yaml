@@ -22,7 +22,7 @@
   become: yes
   become_method: sudo
   package:
-    name: ['thunar', 'thunar-archive-plugin', 'thunar-volman']
+    name: ['thunar']
 
 
 - name: Install web browser
