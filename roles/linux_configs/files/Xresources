@@ -18,6 +18,9 @@ URxvt.perl-ext-common: default,matcher,resize-font
 ! Make clicable urls
 URxvt.url-launcher: /usr/bin/xdg-open
 URxvt.matcher.button: 1
+URxvt.keysym.C-Delete:    matcher:last
+URxvt.keysym.M-Delete:    matcher:list
+URxvt.keysym.C-u:         matcher:select
 
 ! ---------------------------
 ! Urxvt fonts settings
