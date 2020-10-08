@@ -96,16 +96,16 @@ bindsym $mod+m  exec ~/.config/i3/configure_display.sh
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+set $ws1 "1:web"
+set $ws2 "2:web"
+set $ws3 "3:web"
+set $ws4 "4:web"
+set $ws5 "5:meetings"
+set $ws6 "6:dev"
+set $ws7 "7:dev"
+set $ws8 "8:dev"
+set $ws9 "9:dev"
+set $ws10 "0:base"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -138,16 +138,16 @@ bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+l move workspace to output right
 
 # Assign workspaces to the monitors
-workspace $ws1  output DP3-3
-workspace $ws2  output DP3-3
-workspace $ws3  output DP3-3
-workspace $ws4  output DP3-3
-workspace $ws5  output DP3-3
-workspace $ws6  output DP2
-workspace $ws7  output DP2
-workspace $ws8  output DP2
-workspace $ws9  output DP2
-workspace $ws10 output DP2
+workspace $ws1  output DP2-3
+workspace $ws2  output DP2-3
+workspace $ws3  output DP2-3
+workspace $ws4  output DP2-3
+workspace $ws5  output DP2-3
+workspace $ws6  output DP3
+workspace $ws7  output DP3
+workspace $ws8  output DP3
+workspace $ws9  output DP3
+workspace $ws10 output DP3
 
 # Windows look
 default_border pixel
