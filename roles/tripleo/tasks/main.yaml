@@ -38,7 +38,7 @@
     dest="{{ ansible_env.HOME }}/standalone.sh"
   when: iface is defined
 
-- name: Create OS bootstrap script
-  template:
-    src=os_bootstrap.sh.j2
-    dest="{{ ansible_env.HOME }}/os_bootstrap.sh"
+#- name: Create OS bootstrap script
+#  template:
+#    src=os_bootstrap.sh.j2
+#    dest="{{ ansible_env.HOME }}/os_bootstrap.sh"
