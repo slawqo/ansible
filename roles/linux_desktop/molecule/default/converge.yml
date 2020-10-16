@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include linux_desktop"
+      include_role:
+        name: "linux_desktop"
