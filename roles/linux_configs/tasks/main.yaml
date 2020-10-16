@@ -26,13 +26,6 @@
       dest: '{{ ansible_env.HOME }}/.config/i3/config'
 
 
-- name: Copy script to switch screen dpi
-  copy:
-      src: 'files/i3wm/dpi.sh'
-      dest: '{{ ansible_env.HOME }}/.config/i3/dpi.sh'
-      mode: a+x
-
-
 - name: Copy script to configure displays in i3
   copy:
       src: 'files/i3wm/configure_display.sh'

@@ -247,7 +247,7 @@ bindsym $mod+p exec pavucontrol
 
 
 # Set screens layout and dpi
-exec --no-startup-id ~/.config/i3/configure_display.sh
+exec --no-startup-id ~/.config/i3/screens.sh
 
 # Autostart
 exec nm-applet
