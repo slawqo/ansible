@@ -14,3 +14,7 @@ if [ "$lid_status" == "open" ]; then
 else
     /home/slaweq/.screenlayout/2_external_closed_lid.sh
 fi
+
+# and also set correct Xserver settings
+xset r rate 200 25
+xset b off

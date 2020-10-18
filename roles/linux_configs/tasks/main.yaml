@@ -18,12 +18,6 @@
         src: 'files/i3wm/config'
         dest: '{{ ansible_env.HOME }}/.config/i3/config'
 
-  - name: Copy script to configure displays in i3
-    copy:
-        src: 'files/i3wm/configure_display.sh'
-        dest: '{{ ansible_env.HOME }}/.config/i3/configure_display.sh'
-        mode: a+x
-
   - name: Copy script to set screen backlight in i3
     copy:
         src: 'files/i3wm/setbacklight.sh'
