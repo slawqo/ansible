@@ -26,6 +26,7 @@ folder-hook . 'set read_inc=1000'
 
 # IMAP settings
 set imap_check_subscribed=yes
+set imap_keepalive = 60
 
 # Aliases file
 set alias_file=~/.mails/aliases
