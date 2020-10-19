@@ -92,7 +92,7 @@ bindsym $mod+Shift+minus move scratchpad
 bindsym $mod+minus scratchpad show
 
 # Shortcut to configure external displays
-bindsym $mod+m  exec ~/.config/i3/configure_display.sh
+bindsym $mod+m  exec ~/.config/i3/screens.sh
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
