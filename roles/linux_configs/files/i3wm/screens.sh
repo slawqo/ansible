@@ -18,3 +18,6 @@ fi
 # and also set correct Xserver settings
 xset r rate 200 25
 xset b off
+
+# Set wallpaper
+/home/slaweq/.fehbg
