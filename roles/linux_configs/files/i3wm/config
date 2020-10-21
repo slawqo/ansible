@@ -96,16 +96,16 @@ bindsym $mod+m  exec ~/.config/i3/screens.sh
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:web"
-set $ws2 "2:web"
-set $ws3 "3:web"
-set $ws4 "4:web"
-set $ws5 "5:meetings"
-set $ws6 "6:dev"
-set $ws7 "7:dev"
-set $ws8 "8:dev"
-set $ws9 "9:dev"
-set $ws10 "0:base"
+set $ws1 "1:"
+set $ws2 "2:"
+set $ws3 "3:"
+set $ws4 "4:"
+set $ws5 "5:"
+set $ws6 "6:"
+set $ws7 "7:"
+set $ws8 "8:"
+set $ws9 "9:"
+set $ws10 "10:"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
