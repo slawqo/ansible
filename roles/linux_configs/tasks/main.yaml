@@ -103,6 +103,12 @@
         src: 'files/rofi/config'
         dest: '{{ ansible_env.HOME }}/.config/rofi/config'
 
+  - name: Copy rofi web-search script
+    copy:
+        src: 'files/rofi/web-search.sh'
+        dest: '{{ ansible_env.HOME }}/.config/rofi/web-search.sh'
+        mode: a+x
+
   - name: Ensure urxvt scripts directory exists
     become: yes
     become_method: sudo
