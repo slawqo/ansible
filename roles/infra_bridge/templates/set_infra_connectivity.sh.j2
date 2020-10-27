@@ -1,0 +1,11 @@
+#!/bin/bash
+
+ovs-vsctl --may-exist add-port {{ infra_bridge_name }} patch-{{ neutron_external_bridge_name }} \
+    -- set interface patch-{{ neutron_external_bridge_name }} type=patch options:peer=patch-{{ infra_bridge_name }} \
+    -- --may-exist add-port {{ neutron_external_bridge_name }} patch-{{ infra_bridge_name }} \
+    -- set interface patch-{{ infra_bridge_name }} type=patch options:peer=patch-{{ neutron_external_bridge_name }} \
+
+/sbin/ip address del {{ iface_cidr }} dev {{ iface }}
+/sbin/ip address add {{ iface_cidr }} dev  {{ infra_bridge_name }}
+/sbin/ip link set up dev {{ iface }}
+/sbin/ip link set up dev {{ infra_bridge_name }}

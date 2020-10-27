@@ -29,6 +29,7 @@
   become_method: sudo
   openvswitch_bridge:
     bridge={{ neutron_external_bridge_name }}
+    fail_mode=standalone
 
 
 - name: Ensure physical interface in infra bridge
@@ -62,7 +63,6 @@
       become_method: sudo
       ignore_errors: True
 
-
     - name: Add IP {{ iface_cidr }} on the {{ infra_bridge_name }}
       shell: "/sbin/ip address add {{ iface_cidr }} dev  {{ infra_bridge_name }}"
       become: yes
@@ -78,4 +78,13 @@
       shell: "/sbin/ip link set up dev {{ infra_bridge_name }}"
       become: yes
       become_method: sudo
+
+    - name: Create script to configure IP address on the bridge
+      template:
+        src=templates/set_infra_connectivity.sh.j2
+        dest=/usr/local/bin/set_infra_connectivity
+        mode=a+x
+      become: yes
+      become_method: sudo
+
   when: hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['address'] is defined
