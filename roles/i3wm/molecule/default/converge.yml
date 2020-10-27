@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include i3wm"
+      include_role:
+        name: "i3wm"

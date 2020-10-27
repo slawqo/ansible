@@ -1,0 +1,197 @@
+---
+- name: Install base i3wm packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["xsel", "feh", "rxvt-unicode", "network-manager-applet",
+             "i3lock", "ranger", "xbacklight", "blueman", "dunst",
+             "volumeicon", "zathura", "zathura-pdf-mupdf", "conky",
+             "links", "xautolock", "lxappearance"]
+      state: present
+  when: ansible_distribution == "Fedora"
+
+- name: Install Neomutt email client
+  block:
+    - name: enable copr repo
+      command:
+        cmd: dnf copr enable -y flatcap/neomutt
+        creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:flatcap:neomutt.repo
+
+    - name: Install neomutt package
+      package:
+        name: ['neomutt']
+        state: present
+  become: yes
+  become_method: sudo
+
+- name: Install Thunar
+  become: yes
+  become_method: sudo
+  package:
+    name: ['thunar']
+
+- name: Install themes packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["breeze-icon-theme", "breeze-gtk.x86_64",
+             "numix-gtk-theme", "numix-icon-theme-circle",
+             "numix-icon-theme-square",
+             "glib2-devel", "gdk-pixbuf2-devel"]
+      state: present
+  when: ansible_distribution == "Fedora"
+
+- name: Install multimedia packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["mpv"]
+      state: present
+  when: ansible_distribution == "Fedora"
+
+- name: Install Rofi
+  become: yes
+  become_method: sudo
+  package:
+      name: ["rofi", "rofi-themes"]
+  when: ansible_distribution == "Fedora"
+
+- name: "Check if offlineimap is installed"
+  package_facts:
+    manager: "auto"
+
+- name: Set offlineimap for RH mails in crontab
+  cron:
+    name: "check Red Hat mails"
+    minute: "*/5"
+    job: "timeout --kill-after=30s --signal=KILL 4m /usr/bin/offlineimap -o -a redhat"
+  when: "'offlineimap' in ansible_facts.packages"
+
+- name: Set offlineimap for private mails in crontab
+  cron:
+    name: "check private mails"
+    minute: "*/10"
+    job: "timeout --kill-after=30s --signal=KILL 4m /usr/bin/offlineimap -o -a kaplonskipl"
+  when: "'offlineimap' in ansible_facts.packages"
+
+- name: Copy .Xresources file
+  copy:
+      src: 'files/Xresources'
+      dest: '{{ ansible_env.HOME }}/.Xresources'
+
+- name: Ensure i3wm config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/i3"
+      state: directory
+      mode: 0755
+
+- name: Copy i3wm config file
+  copy:
+      src: 'files/i3wm/config'
+      dest: '{{ ansible_env.HOME }}/.config/i3/config'
+
+- name: Copy script to set screen backlight in i3
+  copy:
+      src: 'files/i3wm/setbacklight.sh'
+      dest: '{{ ansible_env.HOME }}/.config/i3/setbacklight.sh'
+      mode: a+x
+
+- name: Copy script to set screens layout
+  copy:
+      src: 'files/i3wm/screens.sh'
+      dest: '{{ ansible_env.HOME }}/.config/i3/screens.sh'
+      mode: a+x
+
+- name: Ensure screenlayouts directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.screenlayout"
+      state: directory
+      mode: 0755
+
+- name: Copy only laptop screen layout
+  copy:
+      src: 'files/screenlayouts/only_laptop.sh'
+      dest: '{{ ansible_env.HOME }}/.screenlayout/only_laptop.sh'
+      mode: a+x
+
+- name: Copy 2 external monitors screen layout
+  copy:
+      src: 'files/screenlayouts/2_external_closed_lid.sh'
+      dest: '{{ ansible_env.HOME }}/.screenlayout/2_external_closed_lid.sh'
+      mode: a+x
+
+- name: Copy 2 external monitors and open LID screen layout
+  copy:
+      src: 'files/screenlayouts/2_external_and_laptop.sh'
+      dest: '{{ ansible_env.HOME }}/.screenlayout/2_external_and_laptop.sh'
+      mode: a+x
+
+- name: Copy script to set screens layout
+  copy:
+      src: 'files/i3wm/screens.sh'
+      dest: '{{ ansible_env.HOME }}/.config/i3/screens.sh'
+
+- name: Ensure dunst config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/dunst"
+      state: directory
+      mode: 0755
+
+- name: Copy dunst config file
+  copy:
+      src: 'files/dunst/dunstrc'
+      dest: '{{ ansible_env.HOME }}/.config/dunst/dunstrc'
+
+- name: Copy conky config file
+  copy:
+      src: 'files/conky/conkyrc'
+      dest: '{{ ansible_env.HOME }}/.conkyrc'
+
+- name: Copy conky runner script
+  copy:
+      src: 'files/conky/run_conky.sh'
+      dest: '{{ ansible_env.HOME }}/.run_conky.sh'
+      mode: a+x
+
+- name: Ensure ranger config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/ranger"
+      state: directory
+      mode: 0755
+
+- name: Copy ranger config file
+  copy:
+      src: 'files/ranger/rc.conf'
+      dest: '{{ ansible_env.HOME }}/.config/ranger/rc.conf'
+
+- name: Ensure rofi config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/rofi"
+      state: directory
+      mode: 0755
+
+- name: Copy rofi config file
+  copy:
+      src: 'files/rofi/config'
+      dest: '{{ ansible_env.HOME }}/.config/rofi/config'
+
+- name: Copy rofi web-search script
+  copy:
+      src: 'files/rofi/web-search.sh'
+      dest: '{{ ansible_env.HOME }}/.config/rofi/web-search.sh'
+      mode: a+x
+
+- name: Ensure urxvt scripts directory exists
+  become: yes
+  become_method: sudo
+  file:
+      path: '/usr/lib64/urxvt/perl'
+      state: directory
+      mode: 0755
+
+- name: Copy resize-font perl script for urxvt
+  become: yes
+  become_method: sudo
+  copy:
+      src: 'files/urxvt/resize-font'
+      dest: '/usr/lib64/urxvt/perl/resize-font'
