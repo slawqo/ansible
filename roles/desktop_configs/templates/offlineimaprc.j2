@@ -30,7 +30,9 @@ localfolders = ~/.mails/redhat
 [Repository redhat-remote]
 # Remote repos can be IMAP or Gmail, the latter being a preconfigured IMAP.
 type = Gmail
+{% if ssl_certs_path is defined %}
 sslcacertfile = {{ ssl_certs_path }}
+{% endif %}
 ssl_version = tls1_2
 remotehost = imap.gmail.com
 remoteuser = skaplons@redhat.com
@@ -67,7 +69,9 @@ localfolders = ~/.mails/kaplonskipl
 [Repository kaplonskipl-remote]
 # Remote repos can be IMAP or Gmail, the latter being a preconfigured IMAP.
 type = IMAP
+{% if ssl_certs_path is defined %}
 sslcacertfile = {{ ssl_certs_path }}
+{% endif %}
 remotehost = ssl0.ovh.net
 remoteuser = slawek@kaplonski.pl
 remotepassfile = ~/.confidential_data/offlineimap.kaplonskipl.pass

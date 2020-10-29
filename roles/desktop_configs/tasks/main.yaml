@@ -23,12 +23,6 @@
       path: '{{ ansible_env.HOME }}/.mails'
       state: directory
 
-- name: Ensure mail aliases file exists
-  file:
-      path: '{{ ansible_env.HOME }}/.mails/aliases'
-      state: file
-
-
 - name: Set SSL certs path on Fedora
   set_fact:
       ssl_certs_path="/etc/ssl/certs/ca-bundle.crt"
