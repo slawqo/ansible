@@ -3,7 +3,7 @@ service_token: servicetoken
 admin_password: adminpass
 db_password: dbpass
 rabbit_password: rabbitpass
-image_url: http://download.cirros-cloud.net/0.3.4/cirros-0.3.4-i386-disk.img
+image_url: http://download.cirros-cloud.net/0.5.1/cirros-0.5.1-x86_64-disk.img
 fixed_range: 192.168.0.0/24
 network_gw: 192.168.0.254
 floating_range: 10.10.0.128/25
