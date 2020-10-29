@@ -1,11 +1,13 @@
-enable_plugin networking-ovn {{ networking_ovn_repo }} {{ networking_ovn_branch }}
-enable_service ovn-northd
-enable_service ovn-controller
-enable_service networking-ovn-metadata-agent
-
 # Use Neutron instead of nova-network
 disable_service n-net
 enable_service q-svc
+
+# Enable ovn related services
+enable_service ovs-vswitchd
+enable_service ovsdb-server
+enable_service ovn-northd
+enable_service ovn-controller
+enable_service q-ovn-metadata-agent
 
 # Disable Neutron agents not used with OVN.
 disable_service q-agt
@@ -22,11 +24,15 @@ disable_service q-meta
 # be used in your environment. Specifying Q_AGENT is needed to allow devstack
 # to run various "ip link set" and "ovs-vsctl" commands for the provider
 # network setup.
-Q_AGENT=openvswitch
+Q_AGENT=ovn
 PROVIDER_NETWORK_TYPE=flat
 {% if public_interface is defined %}
     PUBLIC_INTERFACE={{ hostvars[inventory_hostname]['ansible_' + public_interface]['device'] }}
 {% endif %}
+Q_AGENT=ovn
+Q_ML2_PLUGIN_MECHANISM_DRIVERS=ovn,logger
+Q_ML2_PLUGIN_TYPE_DRIVERS=local,flat,vlan,geneve
+Q_ML2_TENANT_NETWORK_TYPE="geneve"
 
 # If the admin wants to enable this chassis to host gateway routers for
 # external connectivity, then set ENABLE_CHASSIS_AS_GW to True.
