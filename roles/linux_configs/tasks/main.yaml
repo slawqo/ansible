@@ -5,20 +5,3 @@
   copy:
       src: 'files/X11/10-backlight'
       dest: '/etc/X11/xorg.conf.d/10-backlight.conf'
-
-
-- name: Ensure systemd sleep directory exists
-  become: yes
-  become_method: sudo
-  file:
-      path: "/lib/systemd/system-sleep"
-      state: directory
-      mode: 0755
-
-
-- name: Copy script which systemd will run before and after suspend/hibernation
-  become: yes
-  become_method: sudo
-  copy:
-      src: 'files/systemd/suspend.sh'
-      dest: '/lib/systemd/system-sleep/suspend.sh'
