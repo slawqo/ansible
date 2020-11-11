@@ -1,0 +1,12 @@
+- name: Install base i3wm packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["xsel", "feh", "rxvt-unicode", "urxvt-perls",
+             "network-manager-applet",
+             "i3-gaps", "i3lock", "ranger", "xorg-xbacklight",
+             "blueman", "dunst", "w3m", "pavucontrol",
+             "zathura", "zathura-pdf-mupdf", "conky",
+             "links", "xautolock", "lxappearance"]
+      state: present
+

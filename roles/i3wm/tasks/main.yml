@@ -1,26 +1,17 @@
 ---
-- name: Install base i3wm packages
-  become: yes
-  become_method: sudo
-  package:
-      name: ["xsel", "feh", "rxvt-unicode", "network-manager-applet",
-             "i3lock", "ranger", "xbacklight", "blueman", "dunst",
-             "volumeicon", "zathura", "zathura-pdf-mupdf", "conky",
-             "links", "xautolock", "lxappearance"]
-      state: present
+
+- name: Instal i3wm on Fedora
+  include_tasks: fedora.yml
   when: ansible_distribution == "Fedora"
 
-- name: Install Neomutt email client
-  block:
-    - name: enable copr repo
-      command:
-        cmd: dnf copr enable -y flatcap/neomutt
-        creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:flatcap:neomutt.repo
+- name: Instal i3wm on Arch Linux
+  include_tasks: archlinux.yml
+  when: ansible_distribution == "Archlinux"
 
-    - name: Install neomutt package
-      package:
-        name: ['neomutt']
-        state: present
+- name: Install Neomutt email client
+  package:
+    name: ['neomutt']
+    state: present
   become: yes
   become_method: sudo
 
@@ -30,31 +21,18 @@
   package:
     name: ['thunar']
 
-- name: Install themes packages
-  become: yes
-  become_method: sudo
-  package:
-      name: ["breeze-icon-theme", "breeze-gtk.x86_64",
-             "numix-gtk-theme", "numix-icon-theme-circle",
-             "numix-icon-theme-square",
-             "glib2-devel", "gdk-pixbuf2-devel"]
-      state: present
-  when: ansible_distribution == "Fedora"
-
 - name: Install multimedia packages
   become: yes
   become_method: sudo
   package:
       name: ["mpv"]
       state: present
-  when: ansible_distribution == "Fedora"
 
 - name: Install Rofi
   become: yes
   become_method: sudo
   package:
-      name: ["rofi", "rofi-themes"]
-  when: ansible_distribution == "Fedora"
+      name: ["rofi"]
 
 - name: "Check if offlineimap is installed"
   package_facts:
