@@ -1,0 +1,18 @@
+---
+- name: Install vagrant packages
+  package:
+    name: ['vagrant']
+    state: present
+  become: yes
+  become_method: sudo
+
+
+- name: "Check if libvirt is installed"
+  package_facts:
+    manager: "auto"
+
+
+- name: Install Vagrant libvirt plugin
+  command: 'vagrant plugin install vagrant-libvirt'
+  when: "'libvirt' in ansible_facts.packages"
+

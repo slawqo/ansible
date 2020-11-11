@@ -15,6 +15,11 @@
   when: ansible_distribution == "Ubuntu"
 
 
+- name: Install Vagrant on Arch Linux
+  include_tasks: arch.yml
+  when: ansible_distribution == "Arch Linux"
+
+
 - name: Clone my vagrant repo
   git:
     repo=https://github.com/slawqo/vagrant

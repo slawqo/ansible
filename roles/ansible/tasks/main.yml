@@ -21,6 +21,19 @@
   become_method: sudo
 
 
+- name: "Check if podman is installed"
+  package_facts:
+    manager: "auto"
+
+
+- name: Install molecule podman driver
+  pip:
+    name: ['molecule-podman']
+  become: yes
+  become_method: sudo
+  when: "'podman' in ansible_facts.packages"
+
+
 - name: Clone my ansible roles repo
   git:
     repo=https://github.com/slawqo/ansible

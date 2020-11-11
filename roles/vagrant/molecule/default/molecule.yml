@@ -16,15 +16,21 @@ platforms:
     pkg_extras: git
     dockerfile: Dockerfile
 
+  - name: archlinux
+    image: docker.io/archlinux:latest
+    privileged: true
+    pkg_extras: git
+    dockerfile: Dockerfile
+
 provisioner:
   name: ansible
   inventory:
     host_vars:
-      centos7:
-        ansible_user: root
       centos8:
         ansible_user: root
       ubuntu:
+        ansible_user: root
+      archlinux:
         ansible_user: root
 
 verifier:
