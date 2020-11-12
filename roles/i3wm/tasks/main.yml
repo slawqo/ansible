@@ -92,16 +92,10 @@
       dest: '{{ ansible_env.HOME }}/.screenlayout/only_laptop.sh'
       mode: a+x
 
-- name: Copy 2 external monitors screen layout
+- name: Copy 3 external monitors screen layout
   copy:
-      src: 'files/screenlayouts/2_external_closed_lid.sh'
-      dest: '{{ ansible_env.HOME }}/.screenlayout/2_external_closed_lid.sh'
-      mode: a+x
-
-- name: Copy 2 external monitors and open LID screen layout
-  copy:
-      src: 'files/screenlayouts/2_external_and_laptop.sh'
-      dest: '{{ ansible_env.HOME }}/.screenlayout/2_external_and_laptop.sh'
+      src: 'files/screenlayouts/3_external_monitors.sh'
+      dest: '{{ ansible_env.HOME }}/.screenlayout/3_external_monitors.sh'
       mode: a+x
 
 - name: Copy script to set screens layout
