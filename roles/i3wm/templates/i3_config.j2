@@ -19,7 +19,11 @@ font pango:Inconsolata-g 9
 floating_modifier $mod
 
 # start a terminal
+{% if ansible_distribution == 'Fedora' %}
 bindsym $mod+Return exec urxvt256c
+{%- else %}
+bindsym $mod+Return exec urxvt
+{%- endif %}
 
 # kill focused window
 bindsym $mod+Shift+q kill
@@ -97,16 +101,16 @@ bindsym $mod+m  exec ~/.config/i3/screens.sh
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:"
-set $ws2 "2:"
-set $ws3 "3:"
-set $ws4 "4:"
-set $ws5 "5:"
-set $ws6 "6:"
-set $ws7 "7:"
-set $ws8 "8:"
-set $ws9 "9:"
-set $ws10 "10:"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -139,16 +143,16 @@ bindsym $mod+Control+k move workspace to output up
 bindsym $mod+Control+l move workspace to output right
 
 # Assign workspaces to the monitors
-workspace $ws1  output DP3-3
-workspace $ws2  output DP3-3
-workspace $ws3  output DP3-3
-workspace $ws4  output DP3-3
-workspace $ws5  output DP3-3
-workspace $ws6  output DP3-2
-workspace $ws7  output DP3-2
-workspace $ws8  output DP3-2
-workspace $ws9  output DP3-2
-workspace $ws10 output DP3-2
+workspace $ws1  output DP-3-3
+workspace $ws2  output DP-3-3
+workspace $ws3  output DP-3-3
+workspace $ws4  output DP-3-3
+workspace $ws5  output DP-3-3
+workspace $ws6  output DP-3-2
+workspace $ws7  output DP-3-2
+workspace $ws8  output DP-3-1
+workspace $ws9  output DP-3-1
+workspace $ws10 output DP-3-2
 
 # Windows look
 default_border pixel

@@ -64,9 +64,9 @@
       mode: 0755
 
 - name: Copy i3wm config file
-  copy:
-      src: 'files/i3wm/config'
-      dest: '{{ ansible_env.HOME }}/.config/i3/config'
+  template:
+      src=i3_config.j2
+      dest="{{ ansible_env.HOME }}/.config/i3/config"
 
 - name: Copy script to set screen backlight in i3
   copy:
