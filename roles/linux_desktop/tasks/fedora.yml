@@ -1,0 +1,28 @@
+---
+- name: Install Fedora base packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["python3-virtualenv", "jq", "glibc-langpack-pl",
+             "NetworkManager",
+             # Needed for BlueJeans app
+             "GConf2"]
+      state: present
+
+
+- name: Install development packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["@development-tools",
+             "kernel-devel", "kernel-headers", "dkms",
+             "qt5-qtx11extras", "elfutils-libelf-devel", "zlib-devel"]
+      state: present
+
+
+- name: Install Libreoffice
+  become: yes
+  become_method: sudo
+  package:
+      name: ["libreoffice"]
+      state: present

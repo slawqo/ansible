@@ -1,0 +1,15 @@
+---
+- name: Install Network Manager
+  become: yes
+  become_method: sudo
+  package:
+    name: ["networkmanager"]
+  
+- name: Install Libreoffice
+  become: yes
+  become_method: sudo
+  package:
+    name: ["libreoffice", "libreoffice-fresh-pl",
+           "hunspell", "libmythes", "mythes-en",
+           "mythes-pl"]
+    state: present
