@@ -4,7 +4,7 @@
   become_method: sudo
   package:
     name: ["networkmanager"]
-  
+
 - name: Install Libreoffice
   become: yes
   become_method: sudo
@@ -13,3 +13,23 @@
            "hunspell", "libmythes", "mythes-en",
            "mythes-pl"]
     state: present
+
+- name: Install hplip for HP printers
+  become: yes
+  become_method: sudo
+  package:
+    name: "hplip"
+    state: present
+
+- name: Install pyqt5 (for hplip gui)
+  become: yes
+  become_method: sudo
+  package:
+    name: "python-pyqt5"
+    state: present
+
+- name: Make sure a org.cups.cupsd.socket is running
+  systemd:
+    state: started
+    name: org.cups.cupsd.socket
+    enabled: true

@@ -38,7 +38,7 @@
 
 - name: Install Vagrant on Arch Linux
   include_tasks: arch.yml
-  when: ansible_distribution == "Arch Linux"
+  when: ansible_distribution == "Archlinux"
 
 
 - name: Clone oh-my-zsh
