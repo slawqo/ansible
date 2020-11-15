@@ -1,4 +1,10 @@
 ---
+- name: Install Intel X11 driver
+  become: yes
+  become_method: sudo
+  package:
+    name: ["xf86-video-intel"]
+
 - name: Install Network Manager
   become: yes
   become_method: sudo
