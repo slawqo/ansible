@@ -7,6 +7,7 @@
              "i3-gaps", "i3lock", "ranger", "xorg-xbacklight",
              "blueman", "dunst", "w3m", "pavucontrol",
              "zathura", "zathura-pdf-mupdf", "conky",
-             "links", "xautolock", "lxappearance"]
+             "links", "xautolock", "lxappearance", "xorg-xinput",
+             "alsa-utils"]
       state: present
 

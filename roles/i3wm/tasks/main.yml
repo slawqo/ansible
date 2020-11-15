@@ -74,6 +74,12 @@
       dest: '{{ ansible_env.HOME }}/.config/i3/setbacklight.sh'
       mode: a+x
 
+- name: Copy script to set volume in i3
+  copy:
+      src: 'files/i3wm/setvolume.sh'
+      dest: '{{ ansible_env.HOME }}/.config/i3/setvolume.sh'
+      mode: a+x
+
 - name: Copy script to set screens layout
   copy:
       src: 'files/i3wm/screens.sh'
@@ -167,3 +173,10 @@
   copy:
       src: 'files/urxvt/resize-font'
       dest: '/usr/lib64/urxvt/perl/resize-font'
+
+- name: Copy X11 brightness config file
+  become: yes
+  become_method: sudo
+  copy:
+      src: 'files/X11/10-backlight'
+      dest: '/etc/X11/xorg.conf.d/10-backlight.conf'
