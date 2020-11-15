@@ -272,9 +272,13 @@ exec --no-startup-id dunst
 # Keyboard repeat rate
 exec --no-startup-id xset r rate 200 25
 # Keyboard layout
-setxkbmap -layout pl
+exec --no-startup-id setxkbmap -layout pl
 # Disable beep
 exec --no-startup-id xset b off
 
 # Set Logitech mouse acceleration
 exec --no-startup-id xinput set-prop "Logitech MX Master 3" "libinput Accel Speed" -0.3
+
+# Set natural scrolling for touchpad (18 is touchpad id get from "xinput
+# command"
+exec --no-startup-id xinput set-prop 18 "libinput Natural Scrolling Enabled" 1
