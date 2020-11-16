@@ -5,6 +5,12 @@
   package:
     name: ["xf86-video-intel"]
 
+- name: Install Desktop Manager
+  become: yes
+  become_method: sudo
+  package:
+    name: ["sddm"]
+
 - name: Install Network Manager
   become: yes
   become_method: sudo
