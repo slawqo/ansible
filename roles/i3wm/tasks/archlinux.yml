@@ -11,3 +11,9 @@
              "alsa-utils"]
       state: present
 
+- name: Install GTK engines
+  become: yes
+  become_method: sudo
+  package:
+    name: ["gtk-engine-murrine"]
+    state: present
