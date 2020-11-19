@@ -26,11 +26,11 @@ URxvt.keysym.C-u:         matcher:select
 ! Urxvt fonts settings
 URxvt.scrollBar: false
 URxvt.scrollBar_right: false
-URxvt.font: xft:Monospace:style=Regular:size=9,xft:DejaVu Sans:size=9,xft:Symbola,xft:Noto Emoji:minspace=False
-URxvt.boldFont: xft:Monospace:style=Regular:size=9,xft:DejaVu Sans:size=9,xft:Symbola,xft:Noto Emoji:minspace=False
-URxvt.italicFont: xft:Monospace:style=Italic:size=9,xft:DejaVu Sans:size=9,xft:Symbola,xft:Noto Emoji:minspace=False
-URxvt.boldItalicFont: xft:Monospace:style=Italic:size=9,xft:DejaVu Sans:size=9,xft:Symbola,xft:Noto Emoji:minspace=False
-URxvt.letterSpace: -1
+URxvt.font: xft:xos4 Terminus:style=Regular:pixelsize=11,xft:DejaVu Sans:size=9,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt.boldFont: xft:xos4 Terminus:style=Regular:pixelsize=11,xft:DejaVu Sans:size=9,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt.italicFont: xft:xos4 Terminus:style=Italic:pixelsize=11,xft:DejaVu Sans:size=9,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt.boldItalicFont: xft:xos4 Terminus:style=Italic:pixelsize=11,xft:DejaVu Sans:size=9,xft:Symbola,xft:Noto Emoji:minspace=False
+URxvt.letterSpace: 0
 !-- transparency in URxvt
 URxvt.transparent:   false
 URxvt.shading:       5
