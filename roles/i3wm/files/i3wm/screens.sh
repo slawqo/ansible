@@ -5,7 +5,7 @@ lid_status=$(cat /proc/acpi/button/lid/LID/state | grep state | awk -F':' '{prin
 
 if [ "$lid_status" == "open" ]; then
     # Now check if external displays are connected or not
-    xrandr | grep -v disconnected | grep -v eDP-1 | grep connected -q
+    xrandr | grep -v disconnected | grep -v eDP | grep connected -q
     if [ $? -eq 0 ]; then
         /home/slaweq/.screenlayout/3_external_monitors.sh
     else
