@@ -8,7 +8,7 @@
              "blueman", "dunst", "w3m", "pavucontrol",
              "zathura", "zathura-pdf-mupdf", "conky",
              "links", "xautolock", "lxappearance", "xorg-xinput",
-             "alsa-utils"]
+             "alsa-utils", "pulsemixer"]
       state: present
 
 - name: Install GTK engines
