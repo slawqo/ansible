@@ -40,8 +40,9 @@
     name: "python-pyqt5"
     state: present
 
-- name: Make sure a org.cups.cupsd.socket is running
-  systemd:
-    state: started
-    name: org.cups.cupsd.socket
-    enabled: true
+- name: Install packages needed for printers
+  become: yes
+  become_method: sudo
+  package:
+      name: ["cups"]
+      state: present

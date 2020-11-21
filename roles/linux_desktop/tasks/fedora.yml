@@ -20,6 +20,14 @@
       state: present
 
 
+- name: Install packages needed for printers
+  become: yes
+  become_method: sudo
+  package:
+      name: ["system-config-printer", "cups"]
+      state: present
+
+
 - name: Install Libreoffice
   become: yes
   become_method: sudo
