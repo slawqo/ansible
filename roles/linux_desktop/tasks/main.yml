@@ -61,3 +61,10 @@
   user:
       name={{ ansible_user }}
       shell="/bin/zsh"
+
+- name: Copy systemd power management file
+  become: yes
+  become_method: sudo
+  copy:
+      src: 'files/systemd/logind.conf'
+      dest: '/etc/systemd/logind.conf'
