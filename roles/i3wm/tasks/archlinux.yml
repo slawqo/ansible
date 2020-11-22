@@ -3,17 +3,42 @@
   become_method: sudo
   package:
       name: ["xsel", "feh", "rxvt-unicode", "urxvt-perls",
-             "network-manager-applet", "arandr",
-             "i3-gaps", "i3lock", "ranger", "xorg-xbacklight",
-             "blueman", "dunst", "w3m", "pavucontrol",
-             "zathura", "zathura-pdf-mupdf", "conky",
-             "links", "xautolock", "lxappearance", "xorg-xinput",
-             "alsa-utils", "pamixer", "pasystray"]
+             "network-manager-applet", "i3-gaps", "i3lock",
+             "blueman", "dunst", "w3m", "zathura", "zathura-pdf-mupdf",
+             "conky", "links", "xautolock"]
       state: present
+
+- name: Install GUI/Xorg packages
+  become: yes
+  become_method: sudo
+  package:
+    name: ["lxappearance", "xorg-xinput", "xorg-xbacklight", "arandr"]
+    state: present
+
+- name: Install audio packages
+  become: yes
+  become_method: sudo
+  package:
+    name: ["alsa-utils", "pamixer", "pasystray", "pavucontrol"]
+    state: present
 
 - name: Install GTK engines
   become: yes
   become_method: sudo
   package:
     name: ["gtk-engine-murrine"]
+    state: present
+
+- name: Install compositor for Xorg
+  become: yes
+  become_method: sudo
+  package:
+    name: ["picom"]
+    state: present
+
+- name: Install file manager
+  become: yes
+  become_method: sudo
+  package:
+    name: ["ranger"]
     state: present
