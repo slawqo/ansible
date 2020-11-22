@@ -29,13 +29,6 @@
     name: ["gtk-engine-murrine"]
     state: present
 
-- name: Install compositor for Xorg
-  become: yes
-  become_method: sudo
-  package:
-    name: ["picom"]
-    state: present
-
 - name: Install file manager
   become: yes
   become_method: sudo
