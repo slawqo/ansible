@@ -26,7 +26,8 @@
   become: yes
   become_method: sudo
   package:
-    name: ["gtk-engine-murrine"]
+    name: ["gtk-engine-murrine", "arc-gtk-theme",
+           "gtk-engines"]
     state: present
 
 - name: Install file manager
