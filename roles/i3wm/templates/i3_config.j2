@@ -19,11 +19,7 @@ font pango:Inconsolata-g 9
 floating_modifier $mod
 
 # start a terminal
-{% if ansible_distribution == 'Fedora' %}
-bindsym $mod+Return exec urxvt256c
-{%- else %}
-bindsym $mod+Return exec urxvt
-{%- endif %}
+bindsym $mod+Return exec alacritty
 
 # kill focused window
 bindsym $mod+Shift+q kill

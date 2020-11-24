@@ -36,3 +36,10 @@
   package:
     name: ["ranger"]
     state: present
+
+- name: Install Alacritty
+  become: yes
+  become_method: sudo
+  package:
+    name: ["alacritty"]
+    state: present

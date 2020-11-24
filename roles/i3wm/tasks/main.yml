@@ -159,6 +159,17 @@
       dest: '{{ ansible_env.HOME }}/.config/rofi/web-search.sh'
       mode: a+x
 
+- name: Ensure Alacritty config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/alacritty"
+      state: directory
+      mode: 0755
+
+- name: Copy rofi config file
+  copy:
+      src: 'files/alacritty/alacritty.yml'
+      dest: '{{ ansible_env.HOME }}/.config/alacritty/alacritty.yml'
+
 - name: Ensure urxvt scripts directory exists
   become: yes
   become_method: sudo
