@@ -14,7 +14,7 @@ set sort=threads
 set hide_thread_subject=yes
 set ascii_chars=no
 set sort_aux=last-date-received
-set pager_index_lines = 7
+set pager_index_lines = 10
 auto_view text/html
 alternative_order text/plain text/html
 # Headers to display
@@ -22,11 +22,12 @@ ignore *
 unignore From To Reply-To Cc Bcc Subject Date Organization X-Label X-Mailer User-Agent X-Bugzilla-Product X-Bugzilla-Component X-Bugzilla-Status X-Bugzilla-Resolution
 
 # Increase loading of mails when entering directory
-folder-hook . 'set read_inc=1000'
+folder-hook . 'set read_inc=100'
 
 # IMAP settings
 set imap_check_subscribed=yes
-set imap_keepalive = 60
+set imap_keepalive = 300
+set imap_passive=no
 
 # Aliases file
 set alias_file=~/.mails/aliases
