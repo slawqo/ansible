@@ -15,3 +15,5 @@ fi
 new_level=$(pamixer --get-volume-human)
 
 /usr/bin/notify-send -a "Volume" -u low -h string:x-canonical-private-synchronous:anything "[ $new_level ]"
+
+pkill -RTMIN+1 i3blocks

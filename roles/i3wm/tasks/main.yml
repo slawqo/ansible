@@ -176,3 +176,27 @@
   copy:
       src: 'files/X11/10-backlight'
       dest: '/etc/X11/xorg.conf.d/10-backlight.conf'
+
+
+- name: Ensure i3blocks config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/i3blocks"
+      state: directory
+      mode: 0755
+
+- name: Ensure i3blocks scripts directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/i3blocks/scripts"
+      state: directory
+      mode: 0755
+
+- name: Copy i3blocks config file
+  template:
+      src=i3blocks_config.j2
+      dest="{{ ansible_env.HOME }}/.config/i3blocks/config"
+
+- name: Synchronize i3block scripts
+  synchronize:
+      src: "files/i3blocks/scripts/"
+      dest: "{{ ansible_env.HOME }}/.config/i3blocks/scripts/"
+      use_ssh_args: yes

@@ -1,0 +1,112 @@
+# i3blocks config file
+#
+# Global properties
+#
+# The top properties below are applied to every block, but can be overridden.
+# Each block command defaults to the script name to avoid boilerplate.
+# Change $SCRIPT_DIR to the location of your scripts!
+SCRIPT_DIR={{ ansible_env.HOME }}/.config/i3blocks/scripts/
+command=$SCRIPT_DIR/$BLOCK_NAME
+separator_block_width=15
+markup=none
+
+# CPU usage
+#
+# The script may be called with -w and -c switches to specify thresholds,
+# see the script for details.
+[cpu_usage]
+label=CPU 
+interval=1
+#min_width=CPU 100.00%
+separator=false
+
+[load_average]
+label=LOAD 
+interval=10
+#
+# Memory usage
+#
+# The type defaults to "mem" if the instance is not specified.
+[memory]
+label=MEM 
+separator=false
+interval=30
+
+# Disk usage
+#
+# The directory defaults to $HOME if the instance is not specified.
+# The script may be called with a optional argument to set the alert
+[disk]
+label=Disks / 
+DIR=/
+interval=30
+separator=false
+
+[disk]
+label=/home 
+DIR=/home
+interval=30
+
+# Network interface monitoring
+#
+# If the instance is not specified, use the interface used for default route.
+# The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
+[simple]
+full_text=Net
+short_text=Net
+color=#FFFFFF
+separator=false
+
+[wifi]
+INTERFACE=wlp82s0
+label=NET wifi: 
+interval=10
+separator=false
+
+[iface]
+#IFACE=wlan0
+color=#00FF00
+interval=10
+separator=false
+
+[bandwidth2]
+#INTERFACE=eth0
+interval=5
+interval=persist
+markup=pango
+LABEL=
+
+# Battery indicator
+#
+# The battery instance defaults to 0.
+[battery2]
+#label=⚡
+interval=30
+markup=pango
+
+# Backlight
+[backlight]
+label=☀
+interval=30
+STEP_SIZE=5
+##USE_SUDO=0
+
+# Volume indicator
+#
+# The first parameter sets the step (and units to display)
+# The second parameter overrides the mixer selection
+# See the script for details.
+[volume-pulseaudio]
+interval=once
+signal=1
+
+[arch-update]
+interval=3600
+markup=pango
+LABEL=
+
+# Date Time
+#
+[time]
+command=date '+%Y-%m-%d %H:%M:%S'
+interval=1

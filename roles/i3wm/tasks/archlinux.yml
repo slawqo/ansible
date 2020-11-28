@@ -7,6 +7,14 @@
              "conky", "links", "xautolock"]
       state: present
 
+
+- name: Install i3block and related packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ["i3blocks", "sysstat", "acpi", "iw"]
+      state: present
+
 - name: Install GUI/Xorg packages
   become: yes
   become_method: sudo
