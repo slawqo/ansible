@@ -34,6 +34,12 @@
   package:
       name: ["rofi"]
 
+- name: Install Picom (composite manager)
+  become: yes
+  become_method: sudo
+  package:
+      name: ["picom"]
+
 - name: "Check if offlineimap is installed"
   package_facts:
     manager: "auto"
@@ -200,3 +206,8 @@
       src: "files/i3blocks/scripts/"
       dest: "{{ ansible_env.HOME }}/.config/i3blocks/scripts/"
       use_ssh_args: yes
+
+- name: Copy picom config file
+  copy:
+      src: 'files/picom/picom.conf'
+      dest: '{{ ansible_env.HOME }}/.config/picom.conf'

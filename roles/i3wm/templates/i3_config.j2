@@ -259,8 +259,8 @@ exec pasystray
 # Autolock screen
 # exec_always --no-startup-id xautolock -time 5  -locker "i3lock -c 000000  && sleep 1"
 
-# Run compton
-exec --no-startup-id compton
+# Run picom (compton earlier)
+exec --no-startup-id picom -b
 
 # Set wallpaper
 exec --no-startup-id ~/.fehbg
