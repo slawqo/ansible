@@ -15,21 +15,20 @@ markup=none
 # The script may be called with -w and -c switches to specify thresholds,
 # see the script for details.
 [cpu_usage]
-label=CPU 
+label= 
 interval=1
 #min_width=CPU 100.00%
 separator=false
 
 [load_average]
-label=LOAD 
+label= 
 interval=10
 #
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
-label=MEM 
-separator=false
+label= 
 interval=30
 
 # Disk usage
@@ -37,7 +36,7 @@ interval=30
 # The directory defaults to $HOME if the instance is not specified.
 # The script may be called with a optional argument to set the alert
 [disk]
-label=Disks / 
+label= / 
 DIR=/
 interval=30
 separator=false
@@ -53,7 +52,7 @@ interval=30
 # The address can be forced to IPv4 or IPv6 with -4 or -6 switches.
 [wifi]
 INTERFACE=wlp82s0
-label=NET wifi: 
+label= 
 interval=10
 separator=false
 
@@ -68,7 +67,7 @@ separator=false
 interval=5
 interval=persist
 markup=pango
-LABEL=
+LABEL= 
 
 # Battery indicator
 #
@@ -80,7 +79,7 @@ markup=pango
 
 # Backlight
 [backlight]
-label=☀
+label=☀ 
 interval=30
 STEP_SIZE=5
 ##USE_SUDO=0
