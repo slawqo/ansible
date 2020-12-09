@@ -19,7 +19,7 @@
   become: yes
   become_method: sudo
   package:
-    name: ['thunar']
+    name: ['thunar', 'gvfs']
 
 - name: Install multimedia packages
   become: yes
