@@ -46,3 +46,26 @@
   package:
       name: ["cups"]
       state: present
+
+- name: Install packages needed for CPU fan control
+  become: yes
+  become_method: sudo
+  package:
+      name: ["thermald", "tlp"]
+      state: present
+
+- name: Ensure thermald is running
+  become: yes
+  become_method: sudo
+  systemd:
+    state: started
+    enabled: yes
+    name: thermald
+
+- name: Ensure tlp is running
+  become: yes
+  become_method: sudo
+  systemd:
+    state: started
+    enabled: yes
+    name: tlp
