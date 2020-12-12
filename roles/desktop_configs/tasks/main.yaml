@@ -43,12 +43,6 @@
   when: ansible_distribution == 'MacOSX'
 
 
-- name: Create offlineimaprc
-  template:
-      src=offlineimaprc.j2
-      dest="{{ ansible_env.HOME }}/.offlineimaprc"
-
-
 - name: Synchronize weechat files
   synchronize:
       src: "files/weechat/"

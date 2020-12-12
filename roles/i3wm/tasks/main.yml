@@ -8,9 +8,9 @@
   include_tasks: archlinux.yml
   when: ansible_distribution == "Archlinux"
 
-- name: Install Neomutt email client
+- name: Install mail tools
   package:
-    name: ['neomutt']
+    name: ['neomutt', 'notmuch', 'offlineimap']
     state: present
   become: yes
   become_method: sudo
@@ -44,18 +44,31 @@
   package_facts:
     manager: "auto"
 
-- name: Set offlineimap for RH mails in crontab
-  cron:
-    name: "check Red Hat mails"
-    minute: "*/5"
-    job: "timeout --kill-after=30s --signal=KILL 4m /usr/bin/offlineimap -o -a redhat"
-  when: "'offlineimap' in ansible_facts.packages"
+- name: Configure offlineimap
+  block:
+    - name: Create offlineimaprc
+      template:
+        src=offlineimaprc.j2
+        dest="{{ ansible_env.HOME }}/.offlineimaprc"
 
-- name: Set offlineimap for private mails in crontab
-  cron:
-    name: "check private mails"
-    minute: "*/10"
-    job: "timeout --kill-after=30s --signal=KILL 4m /usr/bin/offlineimap -o -a kaplonskipl"
+    - name: Copy offlineimap systemd unit file
+      copy:
+        src: 'files/offlineimap/offlineimap.service'
+        dest: '{{ ansible_env.HOME }}/.config/systemd/user/offlineimap@.service'
+
+    - name: Ensure offlineimap service for Red Hat account is running
+      systemd:
+        scope: user
+        state: started
+        enabled: yes
+        name: offlineimap.service
+
+    - name: Ensure offlineimap service for private account is running
+      systemd:
+        scope: user
+        state: started
+        enabled: yes
+        name: offlineimap@kaplonskipl.service
   when: "'offlineimap' in ansible_facts.packages"
 
 - name: Copy .Xresources file

@@ -25,10 +25,10 @@ localfolders = ~/.mails/redhat
 [Repository redhat-remote]
 # Remote repos can be IMAP or Gmail, the latter being a preconfigured IMAP.
 type = Gmail
-sslcacertfile = /usr/local/etc/openssl/cert.pem
+sslcacertfile = /etc/ssl/cert.pem
 remotehost = imap.gmail.com
 remoteuser = skaplons@redhat.com
-remotepassfile = ~/.confidental_data/offlineimap.gmail.pass
+remotepassfile = ~/.confidental_data/offlineimap.redhat.pass
 keepalive = 60
 holdconnectionopen = yes
 realdelete = no
@@ -64,15 +64,15 @@ quick = 5
 # OfflineIMAP supports Maildir, GmailMaildir, and IMAP for local repositories.
 type = Maildir
 # Where should the mail be placed?
-localfolders = ~/.mails/kaplonskipl
+localfolders = ~/.mails/kaplonskipl_gmail
 
 [Repository kaplonskipl-remote]
 # Remote repos can be IMAP or Gmail, the latter being a preconfigured IMAP.
 type = IMAP
-sslcacertfile = /usr/local/etc/openssl/cert.pem
-remotehost = ssl0.ovh.net
-remoteuser = slawek@kaplonski.pl
-remotepassfile = ~/.confidental_data/offlineimap.kaplonskipl.pass
+sslcacertfile = /etc/ssl/cert.pem
+remotehost = imap.gmail.com
+remoteuser = slawomir.kaplonski@gmail.com
+remotepassfile = ~/.confidental_data/offlineimap.gmail.pass
 keepalive = 60
 holdconnectionopen = yes
 realdelete = no
