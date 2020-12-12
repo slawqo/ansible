@@ -50,6 +50,7 @@
       template:
         src=offlineimaprc.j2
         dest="{{ ansible_env.HOME }}/.offlineimaprc"
+      register: offlineimap_config
 
     - name: Copy offlineimap systemd unit file
       copy:
@@ -69,6 +70,23 @@
         state: started
         enabled: yes
         name: offlineimap@kaplonskipl.service
+
+    - name: Ensure offlineimap service for Red Hat account is restarted
+      systemd:
+        scope: user
+        state: started
+        enabled: yes
+        name: offlineimap.service
+      when: offlineimap_config.changed
+
+    - name: Ensure offlineimap service for private account is restarted
+      systemd:
+        scope: user
+        state: started
+        enabled: yes
+        name: offlineimap@kaplonskipl.service
+      when: offlineimap_config.changed
+
   when: "'offlineimap' in ansible_facts.packages"
 
 - name: Copy .Xresources file

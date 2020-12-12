@@ -21,6 +21,9 @@ quick = 5
 # for details
 socktimeout = 10
 
+# Mailboxes file for Mutt
+mbnames_file = ~/.mails/redhat_mailboxes
+
 [Repository redhat-local]
 # OfflineIMAP supports Maildir, GmailMaildir, and IMAP for local repositories.
 type = GmailMaildir
@@ -38,6 +41,7 @@ remotehost = imap.gmail.com
 remoteuser = skaplons@redhat.com
 remotepassfile = ~/.confidential_data/offlineimap.redhat.pass
 keepalive = 60
+maxconnections = 2
 holdconnectionopen = yes
 realdelete = no
 createfolders = False
@@ -60,6 +64,14 @@ autorefresh = 1
 # refresh, regardless of type.
 quick = 5
 
+# Workaround to avoid hangs after resume of OS
+# see https://github.com/OfflineIMAP/offlineimap/issues/56
+# for details
+socktimeout = 10
+
+# Mailboxes file for Mutt
+mbnames_file = ~/.mails/gmail_mailboxes
+
 [Repository kaplonskipl-local]
 # OfflineIMAP supports Maildir, GmailMaildir, and IMAP for local repositories.
 type = Maildir
@@ -76,6 +88,7 @@ remotehost = imap.gmail.com
 remoteuser = slawomir.kaplonski@gmail.com
 remotepassfile = ~/.confidential_data/offlineimap.gmail.pass
 keepalive = 60
+maxconnections = 2
 holdconnectionopen = yes
 realdelete = no
 createfolders = False
@@ -83,3 +96,11 @@ nametrans = lambda foldername: re.sub ('^\[gmail\]', 'gmail',
                                re.sub ('sent_mail', 'sent',
                                re.sub ('starred', 'flagged',
                                re.sub (' ', '_', foldername.lower()))))
+
+[mbnames]
+enabled = yes
+filename = ~/.offlineimap/mailboxes
+header = "mailboxes "
+peritem = "+%(accountname)s/%(foldername)s"
+sep = " "
+footer = "\n"
