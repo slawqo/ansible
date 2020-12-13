@@ -7,15 +7,18 @@ source ~/.confidential_data/pass.kaplonski_gmail.muttrc
 source ~/.mutt/configs/common_muttrc
 
 # IMAP: offlineimap
-set folder = "imaps://imap.gmail.com:993"
+set folder = "~/.mails/kaplonskipl"
 
 # Location of inbox
-set spoolfile = "+INBOX"
+set spoolfile = "+inbox"
 
 # Location of drafts
-set postponed = "+[Gmail]/Wersje robocze"
-set record="+[Gmail]/Wysłane"
-set trash="+[Gmail]/Kosz"
+set postponed = "+gmail.drafts"
+set record="+gmail.sent"
+set trash="+gmail.trash"
+
+# List of folders for sidebar
+source "~/.mails/kaplonskipl_mailboxes"
 
 # Settings for sending mail (I'm sending emails from ssl0.ovb.net still)
 set realname = "Slawek Kaplonski"

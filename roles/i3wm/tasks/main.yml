@@ -57,12 +57,17 @@
         src: 'files/offlineimap/offlineimap.service'
         dest: '{{ ansible_env.HOME }}/.config/systemd/user/offlineimap@.service'
 
+    - name: Create offlineimap_mailboxes script
+      template:
+        src=offlineimap_mailboxes.py.j2
+        dest="{{ ansible_env.HOME }}/.mutt/create_mbnames_list.py"
+
     - name: Ensure offlineimap service for Red Hat account is running
       systemd:
         scope: user
         state: started
         enabled: yes
-        name: offlineimap.service
+        name: offlineimap@redhat.service
 
     - name: Ensure offlineimap service for private account is running
       systemd:
@@ -76,7 +81,7 @@
         scope: user
         state: started
         enabled: yes
-        name: offlineimap.service
+        name: offlineimap@redhat.service
       when: offlineimap_config.changed
 
     - name: Ensure offlineimap service for private account is restarted

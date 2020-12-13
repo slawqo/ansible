@@ -1,0 +1,9 @@
+import sys
+import json
+
+account = str(sys.argv[1])
+
+with open('{{ ansible_env.HOME }}/.offlineimap/mbnames/{}.json'.format(account), 'r') as f:
+    data = json.load(f)
+    for folder in data:
+        print('mailboxes +%s' % folder['foldername'])

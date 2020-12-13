@@ -4,16 +4,20 @@ source ~/.mutt/configs/common_muttrc
 # Accounts config
 source ~/.confidential_data/pass.muttrc
 
-set folder = "imaps://imap.gmail.com:993"
+set folder = "~/.mails/redhat"
 
 # Location of inbox
 set spoolfile = "+INBOX"
 
 # Location of drafts
-set postponed = "+[Gmail]/Drafts"
-set record="+[Gmail]/Sent Mail"
+# Location of drafts
+set postponed = "+gmail.drafts"
+set record="+gmail.sent"
+set trash="+gmail.trash"
 set copy=no
-set trash="+[Gmail]/Trash"
+
+# List of folders for sidebar
+source "~/.mails/redhat_mailboxes"
 
 # Activate caching, as it can greatly improve speed
 set header_cache = ~/.mails/redhat_headers
@@ -27,7 +31,6 @@ my_hdr From: Slawek Kaplonski <skaplons@redhat.com>
 set signature="~/.mutt/configs/redhat_signature"
 
 #macro index,pager d "<save-message>=gmail.trash<enter><enter>" "Trash"
-macro index,pager A "<save-message>=Archive_mac<enter><enter>" "Archive"
-macro index,pager L "<save-message>=Public/Launchpad<enter><enter>" "Move to Launchpad"
-macro index,pager S "<save-message>=Public/Openstack<enter><enter>" "Move to OpenStack"
-
+macro index,pager A "<save-message>=archive_mac<enter><enter>" "Archive"
+macro index,pager L "<save-message>=public.launchpad<enter><enter>" "Move to Launchpad"
+macro index,pager S "<save-message>=public.openstack<enter><enter>" "Move to OpenStack"
