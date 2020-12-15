@@ -10,7 +10,7 @@ env:
   # each instance of Alacritty. If it is not present, alacritty will
   # check the local terminfo database and use `alacritty` if it is
   # available, otherwise `xterm-256color` is used.
-  #TERM: alacritty
+  TERM: xterm-256color
   # (slaweq) I need to have that set to 1, otherwise on the laptop screen it
   # is set to 1.5 and font in terminal is much bigger
   WINIT_X11_SCALE_FACTOR: "1"
