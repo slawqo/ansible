@@ -1,17 +1,30 @@
+Q_AGENT=ovn
+
 # How to connect to ovsdb-server hosting the OVN NB database.
 OVN_NB_REMOTE=tcp:$SERVICE_HOST:6641
 
 # How to connect to ovsdb-server hosting the OVN SB database.
 OVN_SB_REMOTE=tcp:$SERVICE_HOST:6642
 
-ENABLED_SERVICES=n-cpu,neutron,n-novnc,placement-client
+enable_plugin neutron https://opendev.org/openstack/neutron
 
-enable_plugin networking-ovn https://opendev.org/openstack/networking-ovn
+disable_all_services
+disable_service c-bak
+disable_service c-vol
+disable_service dstat
+disable_service horizon
+enable_service n-cpu
 enable_service ovn-controller
-enable_service networking-ovn-metadata-agent
-
-# Disable Neutron agents not used with OVN.
+disable_service ovn-northd
+enable_service ovs-vswitchd
+enable_service ovsdb-server
+enable_service placement-client
 disable_service q-agt
-disable_service q-l3
 disable_service q-dhcp
+enable_service q-fake
+disable_service q-l3
 disable_service q-meta
+disable_service q-metering
+enable_service q-ovn-metadata-agent
+disable_service q-svc
+
