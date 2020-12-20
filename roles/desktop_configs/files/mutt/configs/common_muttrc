@@ -36,6 +36,10 @@ auto_view text/html #load html emails with links (config in ~/.mailcap)
 macro index r "<clear-flag>N"
 macro index,pager ,c "<tag-pattern>.<enter><tag-prefix><clear-flag>N<untag-pattern>.<enter>"
 
+# GPG settings
+source ~/.mutt/configs/gpg.rc
+set crypt_autosign=yes
+
 # Sidebar settings
 source ~/.mutt/configs/sidebar.muttrc
 
