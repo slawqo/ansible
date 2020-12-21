@@ -21,7 +21,7 @@ color normal		color253	default # mod
 # color normal		color253	color233 # mod
 #  color normal		color253	default # mod
 color indicator    	color230     	color238
-color status       	color101     	color16
+color status       	color101     	default
 #  color tree         	color113      	default
 #  color tree         	color173      	default
 color tree         	color208      	default
@@ -71,13 +71,13 @@ color index         	color240     	default  ~D         # Deleted
 
 # --- header ---
 
-color hdrdefault 	color30    	color233 
-color header		color132    	color233    '^date:'
-color header		color153    	color233    '^(to|cc|bcc):'
-color header		color120    	color233    '^from:'
-color header		color178    	color233    '^subject:'
-color header    	color31     	color233    '^user-agent:'
-color header		color29     	color233    '^reply-to:'
+color hdrdefault 	color30    	    default
+color header		color132    	default    '^date:'
+color header		color153    	default    '^(to|cc|bcc):'
+color header		color120    	default    '^from:'
+color header		color178    	default    '^subject:'
+color header    	color31     	default    '^user-agent:'
+color header		color29     	default    '^reply-to:'
 
 #color header	magenta default '^(status|lines|date|received|sender|references):'
 #color header	magenta default '^(pr|mime|x-|user|return|content-)[^:]*:'
