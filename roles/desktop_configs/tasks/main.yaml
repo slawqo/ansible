@@ -1,36 +1,4 @@
 ---
-- name: Synchronize mutt files
-  synchronize:
-      src: "files/mutt/"
-      dest: "{{ ansible_env.HOME }}/.mutt/"
-      use_ssh_args: yes
-
-
-- name: Copy work mutt config
-  copy:
-      src: "files/muttrc_work"
-      dest: "{{ ansible_env.HOME }}/.muttrc"
-
-
-- name: Copy private mutt config
-  copy:
-      src: "files/muttrc_private"
-      dest: "{{ ansible_env.HOME }}/.muttrc_kaplonskipl"
-
-
-- name: Ensure mails directory exists
-  file:
-      path: '{{ ansible_env.HOME }}/.mails'
-      state: directory
-
-
-- name: Ensure mutt aliases file exists
-  file:
-      path: '{{ ansible_env.HOME }}/.mails/aliases'
-      mode: '0644'
-      state: touch
-
-
 - name: Set SSL certs path on Fedora
   set_fact:
       ssl_certs_path="/etc/ssl/certs/ca-bundle.crt"
@@ -92,4 +60,3 @@
       src=gertty.yaml.j2
       dest="{{ ansible_env.HOME }}/.config/gertty/gertty.yaml"
       mode=0600
-

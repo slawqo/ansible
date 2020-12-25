@@ -8,13 +8,6 @@
   include_tasks: archlinux.yml
   when: ansible_distribution == "Archlinux"
 
-- name: Install mail tools
-  package:
-    name: ['neomutt', 'notmuch', 'offlineimap']
-    state: present
-  become: yes
-  become_method: sudo
-
 - name: Install Thunar
   become: yes
   become_method: sudo
@@ -39,60 +32,6 @@
   become_method: sudo
   package:
       name: ["picom"]
-
-- name: "Check if offlineimap is installed"
-  package_facts:
-    manager: "auto"
-
-- name: Configure offlineimap
-  block:
-    - name: Create offlineimaprc
-      template:
-        src=offlineimaprc.j2
-        dest="{{ ansible_env.HOME }}/.offlineimaprc"
-      register: offlineimap_config
-
-    - name: Copy offlineimap systemd unit file
-      copy:
-        src: 'files/offlineimap/offlineimap.service'
-        dest: '{{ ansible_env.HOME }}/.config/systemd/user/offlineimap@.service'
-
-    - name: Create offlineimap_mailboxes script
-      template:
-        src=offlineimap_mailboxes.py.j2
-        dest="{{ ansible_env.HOME }}/.mutt/create_mbnames_list.py"
-
-    - name: Ensure offlineimap service for Red Hat account is running
-      systemd:
-        scope: user
-        state: started
-        enabled: yes
-        name: offlineimap@redhat.service
-
-    - name: Ensure offlineimap service for private account is running
-      systemd:
-        scope: user
-        state: started
-        enabled: yes
-        name: offlineimap@kaplonskipl.service
-
-    - name: Ensure offlineimap service for Red Hat account is restarted
-      systemd:
-        scope: user
-        state: started
-        enabled: yes
-        name: offlineimap@redhat.service
-      when: offlineimap_config.changed
-
-    - name: Ensure offlineimap service for private account is restarted
-      systemd:
-        scope: user
-        state: started
-        enabled: yes
-        name: offlineimap@kaplonskipl.service
-      when: offlineimap_config.changed
-
-  when: "'offlineimap' in ansible_facts.packages"
 
 - name: Copy .Xresources file
   copy:

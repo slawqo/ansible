@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include mail_cli_tools"
+      include_role:
+        name: "mail_cli_tools"
