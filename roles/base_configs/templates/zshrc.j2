@@ -11,7 +11,15 @@ export ZSH="{{ ansible_env.HOME }}/.oh-my-zsh"
 
 # This should automatically start new tmux session or attach to the existing
 # one when terminal window is opened
+{% if use_tmux_always is defined and use_tmux_always == True -%}
+export ZSH_TMUX_AUTOSTART="true"
+# Start new tmux session on every new terminal window, don't try to connect to
+# the existing one
+export ZSH_TMUX_AUTOCONNECT="false"
+{%- else -%}
 export ZSH_TMUX_AUTOSTART="false"
+{%- endif %}
+
 
 # Set name of the theme to load --- if set to "random", it will
 # load a random theme each time oh-my-zsh is loaded, in which case,

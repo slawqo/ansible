@@ -1,2 +1,3 @@
 ---
 tmux_config: "simple"
+use_tmux_always: false
