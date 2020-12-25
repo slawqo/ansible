@@ -1,0 +1,29 @@
+---
+dependency:
+  name: galaxy
+driver:
+  name: podman
+log: true
+platforms:
+  - name: archlinux
+    image: docker.io/archlinux
+    dockerfile: Dockerfile
+
+provisioner:
+  name: ansible
+  inventory:
+    host_vars:
+      archlinux:
+        ansible_user: root
+
+verifier:
+  name: ansible
+
+scenario:
+  test_sequence:
+    - destroy
+    - create
+    - prepare
+    - converge
+    - verify
+    - destroy

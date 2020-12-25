@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include tmuxinator"
+      include_role:
+        name: "tmuxinator"

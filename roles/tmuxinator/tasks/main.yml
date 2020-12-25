@@ -1,0 +1,22 @@
+---
+- name: Install Ruby
+  package:
+    name: ['ruby']
+    state: present
+  become: yes
+  become_method: sudo
+
+- gem:
+    name: tmuxinator
+    state: latest
+
+- name: Ensure config dir exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config"
+      state: directory
+
+- name: Synchronize tmuxinator projects
+  synchronize:
+      src: "files/tmuxinator_projects/"
+      dest: "{{ ansible_env.HOME }}/.config/tmuxinator/"
+      use_ssh_args: yes
