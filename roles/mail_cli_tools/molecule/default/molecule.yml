@@ -2,10 +2,28 @@
 dependency:
   name: galaxy
 driver:
-  name: delegated
+  name: podman
+log: true
 platforms:
-  - name: instance
+  - name: archlinux
+    image: docker.io/archlinux
+    dockerfile: Dockerfile
+
 provisioner:
   name: ansible
+  inventory:
+    host_vars:
+      archlinux:
+        ansible_user: root
+
 verifier:
   name: ansible
+
+scenario:
+  test_sequence:
+    - destroy
+    - create
+    - prepare
+    - converge
+    - verify
+    - destroy
