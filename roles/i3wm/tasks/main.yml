@@ -151,6 +151,21 @@
       src: 'files/alacritty/alacritty.yml'
       dest: '{{ ansible_env.HOME }}/.config/alacritty/alacritty.yml'
 
+- name: Ensure urxvt scripts directory exists
+  become: yes
+  become_method: sudo
+  file:
+      path: '/usr/lib64/urxvt/perl'
+      state: directory
+      mode: 0755
+
+- name: Copy resize-font perl script for urxvt
+  become: yes
+  become_method: sudo
+  copy:
+      src: 'files/urxvt/resize-font'
+      dest: '/usr/lib64/urxvt/perl/resize-font'
+
 - name: Copy X11 brightness config file
   become: yes
   become_method: sudo

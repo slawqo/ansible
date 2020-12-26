@@ -2,7 +2,8 @@
   become: yes
   become_method: sudo
   package:
-      name: ["xsel", "feh", "network-manager-applet", "i3-gaps",
+      name: ["xsel", "feh", "rxvt-unicode", "urxvt-perls",
+             "network-manager-applet", "i3-gaps",
              "blueman", "dunst", "w3m", "zathura", "zathura-pdf-mupdf",
              "conky", "links", "xautolock"]
       state: present
