@@ -19,7 +19,15 @@ font pango:"xos4 Terminus" 11
 floating_modifier $mod
 
 # start a terminal
+{% if default_terminal is defined and default_terminal == 'urxvt' -%}
+    {%- if ansible_distribution == 'Fedora' -%}
+        bindsym $mod+Return exec urxvt256c
+    {%- else -%}
+        bindsym $mod+Return exec urxvt
+    {%- endif -%}
+{%- else -%}
 bindsym $mod+Return exec alacritty
+{%- endif %}
 
 # kill focused window
 bindsym $mod+Shift+q kill

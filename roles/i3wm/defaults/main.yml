@@ -2,3 +2,4 @@
 # defaults file for i3wm
 
 ssl_certs_path: "/etc/ssl/certs/ca-certificates.crt"
+default_terminal: "urxvt"
