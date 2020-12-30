@@ -229,7 +229,7 @@ bar {
     }
 }
 
-set $Locker i3lock -c 444444 && sleep 1
+set $Locker {{ ansible_env.HOME }}/.config/i3/lock.sh && sleep 1
 
 set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
 mode "$mode_system" {
@@ -271,9 +271,6 @@ exec nm-applet
 exec keepassx
 exec blueman-applet
 exec pasystray
-
-# Autolock screen
-# exec_always --no-startup-id xautolock -time 5  -locker "i3lock -c 000000  && sleep 1"
 
 # Run picom (compton earlier)
 exec --no-startup-id picom -b

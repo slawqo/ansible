@@ -49,6 +49,12 @@
       src=i3_config.j2
       dest="{{ ansible_env.HOME }}/.config/i3/config"
 
+- name: Copy i3lock script
+  copy:
+      src: 'files/i3wm/setbacklight.sh'
+      dest: '{{ ansible_env.HOME }}/.config/i3/setbacklight.sh'
+      mode: a+x
+
 - name: Copy script to set screen backlight in i3
   copy:
       src: 'files/i3wm/setbacklight.sh'
