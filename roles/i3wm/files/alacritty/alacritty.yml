@@ -93,19 +93,19 @@ env:
 font:
   # Normal (roman) font face
   normal:
-    family: Cascadia Mono PL
+    family: xos4 Terminus
     style: Regular
   bold:
-    family: Cascadia Mono PL
+    family: xos4 Terminus
     style: Regular
   italic:
-    family: Cascadia Mono PL
+    family: xos4 Terminus
     style: Regular
   bold_italic:
-    family: Cascadia Mono PL
+    family: xos4 Terminus
     style: Regular
   # Point size
-  size: 10
+  size: 9
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
