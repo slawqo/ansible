@@ -14,7 +14,6 @@ FG='#f08379'
 # Launch i3lock-color
 #
 i3lock \
-    --nofork \
     --color='282828' \
     --show-failed-attempts \
     --ignore-empty-password \
