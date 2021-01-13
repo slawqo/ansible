@@ -5,7 +5,7 @@
       name: ["xsel", "feh", "rxvt-unicode", "urxvt-perls",
              "network-manager-applet", "i3-gaps",
              "blueman", "dunst", "w3m", "zathura", "zathura-pdf-mupdf",
-             "conky", "links", "xautolock"]
+             "conky", "links", "xautolock", "xorg-xrdb"]
       state: present
 
 
