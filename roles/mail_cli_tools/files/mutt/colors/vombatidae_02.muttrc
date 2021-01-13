@@ -99,3 +99,4 @@ color header		color29     	default    '^reply-to:'
 # Colors for gerrit emails
 color body brightgreen default ": SUCCESS in"
 color body red  default ": FAILURE in"
+color body red  default ": TIMED_OUT in"
