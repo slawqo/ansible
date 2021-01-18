@@ -6,29 +6,35 @@
              "network-manager-applet", "i3-gaps",
              "blueman", "dunst", "w3m", "zathura", "zathura-pdf-mupdf",
              "conky", "links", "xautolock", "xorg-xrdb"]
-      state: present
+      state: latest
 
+- name: Install SDDM
+  become: yes
+  become_method: sudo
+  package:
+      name: ["sddm"]
+      state: latest
 
 - name: Install i3block and related packages
   become: yes
   become_method: sudo
   package:
       name: ["i3blocks", "sysstat", "acpi", "iw"]
-      state: present
+      state: latest
 
 - name: Install GUI/Xorg packages
   become: yes
   become_method: sudo
   package:
     name: ["lxappearance", "xorg-xinput", "xorg-xbacklight", "arandr"]
-    state: present
+    state: latest
 
 - name: Install audio packages
   become: yes
   become_method: sudo
   package:
     name: ["alsa-utils", "pamixer", "pasystray", "pavucontrol"]
-    state: present
+    state: latest
 
 - name: Install GTK engines
   become: yes
@@ -36,25 +42,25 @@
   package:
     name: ["gtk-engine-murrine", "arc-gtk-theme",
            "gtk-engines"]
-    state: present
+    state: latest
 
 - name: Install file manager
   become: yes
   become_method: sudo
   package:
     name: ["ranger"]
-    state: present
+    state: latest
 
 - name: Install Alacritty
   become: yes
   become_method: sudo
   package:
     name: ["alacritty"]
-    state: present
+    state: latest
 
 - name: Install Redshift
   become: yes
   become_method: sudo
   package:
     name: ["redshift"]
-    state: present
+    state: latest
