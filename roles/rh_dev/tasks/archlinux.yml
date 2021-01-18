@@ -1,0 +1,14 @@
+---
+- name: Install krb5 package
+  become: yes
+  become_method: sudo
+  package:
+    name: krb5
+    state: latest
+
+- name: Install sssd package
+  become: yes
+  become_method: sudo
+  package:
+    name: sssd
+    state: latest

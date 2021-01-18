@@ -1,35 +1,11 @@
 ---
-- name: Add rdopkg repository
-  become: yes
-  become_method: sudo
-  yum_repository:
-    name="rdopkg"
-    description="rdopkg repo"
-    baseurl="https://copr-be.cloud.fedoraproject.org/results/jruzicka/rdopkg/fedora-$releasever-$basearch/"
-    baseurl="{{ rdopkg_repo_url }}"
-    gpgcheck="no"
+- name: Instal kerberos on RHEL
+  include_tasks: redhat.yml
   when: ansible_os_family == 'RedHat'
 
-
-- name: Add RCM Tools repo
-  become: yes
-  become_method: sudo
-  yum_repository:
-    name="rcm_tools"
-    description="RCM Tools for Fedora $releasever (RPMs)"
-    baseurl="{{ rcm_repo_url }}"
-    gpgcheck="no"
-  when: ansible_os_family == 'RedHat'
-
-
-- name: Install kerberos kinit package
-  package:
-      name: krb5-workstation
-      state: latest
-  become: yes
-  become_method: sudo
-  when: ansible_os_family == 'RedHat'
-
+- name: Instal kerberos on Arch Linux
+  include_tasks: archlinux.yml
+  when: ansible_distribution == "Archlinux"
 
 - name: Copy krb5 config file
   template:
@@ -38,25 +14,9 @@
   become: yes
   become_method: sudo
 
-
-- name: Install rdopkg
-  package:
-      name: rdopkg
-      state: latest
+- name: Copy sssd config file
+  template:
+      src=templates/sssd.conf.j2
+      dest=/etc/sssd/conf.d/{{ default_ipa_realm_domain }}.conf
   become: yes
   become_method: sudo
-  when: ansible_os_family == 'RedHat'
-
-
-- name: Install Brew and rhpkg tools
-  package:
-      name: "{{ item }}"
-      state: latest
-  become: yes
-  become_method: sudo
-  with_items:
-      - koji
-      - brewkoji
-      - rhpkg
-      - dnf-utils
-  when: ansible_os_family == 'RedHat'

@@ -93,17 +93,17 @@ env:
 font:
   # Normal (roman) font face
   normal:
-    family: xos4 Terminus
-    style: Regular
+    family: DejaVu Sans Mono
+    style: Book
   bold:
-    family: xos4 Terminus
-    style: Regular
+    family: DejaVu Sans Mono
+    style: Book
   italic:
-    family: xos4 Terminus
-    style: Regular
+    family: DejaVu Sans Mono
+    style: Italic
   bold_italic:
-    family: xos4 Terminus
-    style: Regular
+    family: DejaVu Sans Mono
+    style: Italic
   # Point size
   size: 9
 

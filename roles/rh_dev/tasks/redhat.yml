@@ -1,0 +1,45 @@
+---
+- name: Add rdopkg repository
+  become: yes
+  become_method: sudo
+  yum_repository:
+    name="rdopkg"
+    description="rdopkg repo"
+    baseurl="https://copr-be.cloud.fedoraproject.org/results/jruzicka/rdopkg/fedora-$releasever-$basearch/"
+    baseurl="{{ rdopkg_repo_url }}"
+    gpgcheck="no"
+
+- name: Add RCM Tools repo
+  become: yes
+  become_method: sudo
+  yum_repository:
+    name="rcm_tools"
+    description="RCM Tools for Fedora $releasever (RPMs)"
+    baseurl="{{ rcm_repo_url }}"
+    gpgcheck="no"
+
+- name: Install kerberos kinit package
+  package:
+      name: krb5-workstation
+      state: latest
+  become: yes
+  become_method: sudo
+
+- name: Install rdopkg
+  package:
+      name: rdopkg
+      state: latest
+  become: yes
+  become_method: sudo
+
+- name: Install Brew and rhpkg tools
+  package:
+      name: "{{ item }}"
+      state: latest
+  become: yes
+  become_method: sudo
+  with_items:
+      - koji
+      - brewkoji
+      - rhpkg
+      - dnf-utils

@@ -1,0 +1,23 @@
+[domain/{{ default_ipa_realm_domain }}]
+
+cache_credentials = True
+krb5_store_password_if_offline = True
+ipa_domain = {{ default_ipa_realm_domain }}
+id_provider = ipa
+auth_provider = ipa
+access_provider = permit
+ldap_tls_cacert = /etc/ipa/ca.crt
+chpass_provider = ipa
+dyndns_update = True
+ipa_server = {{ ipa_servers }}
+dns_discovery_domain = {{ default_ipa_realm_domain }}
+dyndns_refresh_interval = 60
+
+[sssd]
+services = nss, sudo, pam, autofs, ssh
+debug_level = 5
+domains = {{ default_ipa_realm_domain }}
+
+[nss]
+homedir_substring = /home
+override_homedir = /home/%u
