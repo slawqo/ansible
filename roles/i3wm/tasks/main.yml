@@ -196,3 +196,29 @@
       src: "files/i3blocks/scripts/"
       dest: "{{ ansible_env.HOME }}/.config/i3blocks/scripts/"
       use_ssh_args: yes
+
+- name: Ensure Redshift config directory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/redshift"
+      state: directory
+      mode: 0755
+
+- name: Copy redshift config file
+  copy:
+      src: 'files/redshift/redshift.conf'
+      dest: '{{ ansible_env.HOME }}/.config/redshift/redshift.conf'
+
+- name: Ensure Geoclue config directory exists
+  become: true
+  become_method: sudo
+  file:
+      path: "/etc/geoclue"
+      state: directory
+      mode: 0755
+
+- name: Copy geoclue config file
+  become: true
+  become_method: sudo
+  copy:
+      src: 'files/redshift/geoclue.conf'
+      dest: '/etc/geoclue/geoclue.conf'

@@ -51,3 +51,10 @@
   package:
     name: ["alacritty"]
     state: present
+
+- name: Install Redshift
+  become: yes
+  become_method: sudo
+  package:
+    name: ["redshift"]
+    state: present
