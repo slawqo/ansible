@@ -6,6 +6,13 @@
   become: yes
   become_method: sudo
 
+- name: Install RSS reader
+  package:
+    name: ['newsboat']
+    state: present
+  become: yes
+  become_method: sudo
+
 - name: "Check if offlineimap is installed"
   package_facts:
     manager: "auto"
@@ -86,3 +93,13 @@
       path: '{{ ansible_env.HOME }}/.mails/aliases'
       mode: '0644'
       state: touch
+
+- name: Ensure newsboat directory exists
+  file:
+      path: '{{ ansible_env.HOME }}/.newsboat'
+      state: directory
+
+- name: Copy newsboat config
+  copy:
+      src: "files/newsboat/config"
+      dest: "{{ ansible_env.HOME }}/.newsboat/config"
