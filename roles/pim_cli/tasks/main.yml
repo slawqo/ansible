@@ -13,6 +13,13 @@
   become: yes
   become_method: sudo
 
+- name: Install goobook
+  become: yes
+  become_method: sudo
+  pip:
+    name: "goobook"
+    state: latest
+
 - name: "Check if offlineimap is installed"
   package_facts:
     manager: "auto"
@@ -103,3 +110,8 @@
   copy:
       src: "files/newsboat/config"
       dest: "{{ ansible_env.HOME }}/.newsboat/config"
+
+- name: Copy goobook config
+  copy:
+      src: "files/goobook/goobookrc"
+      dest: "{{ ansible_env.HOME }}/.config/goobookrc"

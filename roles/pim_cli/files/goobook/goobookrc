@@ -1,0 +1,22 @@
+# Use this template to create your ~/.goobookrc
+
+# "#" or ";" at the start of a line makes it a comment.
+
+[DEFAULT]
+# The following are optional, defaults are shown when not other specified.
+
+# This file is written by the oauth library, and should be kept secure,
+# it's like a password to your google contacts.
+# default is to place it in the XDG_DATA_HOME
+oauth_db_filename: ~/.goobook_auth.json
+
+cache_filename: ~/.goobook_cache   # default is in the XDG_CACHE_HOME
+cache_expiry_hours: 24
+;filter_groupless_contacts: yes
+
+# New contacts will be added to this group in addition to "My Contacts"
+# Note that the group has to already exist on google or an error will occur.
+# One use for this is to add new contacts to an "Unsorted" group, which can
+# be sorted easier than all of "My Contacts".
+;default_group:
+

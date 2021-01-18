@@ -34,3 +34,7 @@ set signature="~/.mutt/configs/redhat_signature"
 macro index,pager A "<save-message>=archive_mac<enter><enter>" "Archive"
 macro index,pager L "<save-message>=public.launchpad<enter><enter>" "Move to Launchpad"
 macro index,pager S "<save-message>=public.openstack<enter><enter>" "Move to OpenStack"
+
+# Integration with goobook
+set query_command="goobook query %s"
+bind editor <Tab> complete-query
