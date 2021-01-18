@@ -1,0 +1,7 @@
+---
+- name: Install virtualization packages (Fedora)
+  package:
+      name: "@virtualization"
+      state: latest
+  become: yes
+  become_method: sudo

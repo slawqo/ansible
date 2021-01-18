@@ -1,0 +1,14 @@
+---
+- name: Install libvirt and qemu packages
+  become: yes
+  become_method: sudo
+  package:
+    name: ["libvirt", "qemu"]
+    state: latest
+
+- name: Install virt-manager GUI
+  become: yes
+  become_method: sudo
+  package:
+    name: virt-manager
+    state: latest

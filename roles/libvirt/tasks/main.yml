@@ -1,21 +1,15 @@
 ---
-- name: Install virtualization packages (Centos)
-  package:
-      name: "@Virtualization Platform"
-      state: latest
-  become: yes
-  become_method: sudo
-  when: ansible_distribution == "CentOS"
-
-
-- name: Install virtualization packages (Fedora)
-  package:
-      name: "@virtualization"
-      state: latest
-  become: yes
-  become_method: sudo
+- name: Instal libvirt on Fedora
+  include_tasks: fedora.yml
   when: ansible_distribution == "Fedora"
 
+- name: Instal libvirt on Centos
+  include_tasks: centos.yml
+  when: ansible_distribution == "CentOS"
+
+- name: Instal libvirt on Arch Linux
+  include_tasks: archlinux.yml
+  when: ansible_distribution == "Archlinux"
 
 - name: Ensure group "libvirt" exists
   become: yes

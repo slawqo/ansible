@@ -1,0 +1,7 @@
+---
+- name: Install virtualization packages (Centos)
+  package:
+      name: "@Virtualization Platform"
+      state: latest
+  become: yes
+  become_method: sudo
