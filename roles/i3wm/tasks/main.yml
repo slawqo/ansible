@@ -146,7 +146,7 @@
       state: directory
       mode: 0755
 
-- name: Copy rofi config file
+- name: Copy alacritty config file
   copy:
       src: 'files/alacritty/alacritty.yml'
       dest: '{{ ansible_env.HOME }}/.config/alacritty/alacritty.yml'
