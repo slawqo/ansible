@@ -103,13 +103,13 @@ color indicator cyan black
 color sidebar_highlight black color8
 
 # Color of the divider separating the Sidebar from Mutt panels
-color sidebar_divider color8 black
+color sidebar_divider color8 default
 
 # Color to give mailboxes containing flagged mail
-color sidebar_flagged red black
+color sidebar_flagged red default
 
 # Color to give mailboxes containing new mail
-color sidebar_new green black
+color sidebar_new green default
 
 # --------------------------------------------------------------------------
 
