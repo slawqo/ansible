@@ -93,19 +93,19 @@ env:
 font:
   # Normal (roman) font face
   normal:
-    family: DejaVu Sans Mono
-    style: Book
+    family: Iosevka
+    style: Regular
   bold:
-    family: DejaVu Sans Mono
-    style: Book
+    family: Iosevka
+    style: Regular
   italic:
-    family: DejaVu Sans Mono
-    style: Italic
+    family: Iosevka
+    style: Regular
   bold_italic:
-    family: DejaVu Sans Mono
-    style: Italic
+    family: Iosevka
+    style: Regular
   # Point size
-  size: 9
+  size: 10
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
