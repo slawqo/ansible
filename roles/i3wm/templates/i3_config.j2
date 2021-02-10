@@ -26,7 +26,7 @@ floating_modifier $mod
         bindsym $mod+Return exec urxvt
     {%- endif -%}
 {%- else -%}
-bindsym $mod+Return exec alacritty
+bindsym $mod+Return exec --no-startup-id alacritty
 {%- endif %}
 
 # kill focused window
