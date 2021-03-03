@@ -1,2 +1,2 @@
 ---
-# vars file for mail_cli_tools
+ssl_certs_path: "/etc/ssl/certs/ca-certificates.crt"
