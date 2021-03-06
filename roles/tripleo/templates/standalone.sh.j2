@@ -1,5 +1,6 @@
 # Change the IP you have on your host
 export IP={{ hostvars[inventory_hostname]['ansible_' + iface]['ipv4']['address'] }}
+export VIP=192.168.101.2
 export NETMASK=24
 export INTERFACE={{ iface }}
 
@@ -15,16 +16,6 @@ parameter_defaults:
       namespace: docker.io/tripleomaster
       tag: current-tripleo
     tag_from_label: rdo_version
-  - push_destination: $IP:8787
-    includes:
-    - neutron-server
-    modify_role: tripleo-modify-image
-    modify_append_tag: "-devel"
-    modify_vars:
-      tasks_from: dev_install.yml
-      source_image: docker.io/tripleomaster/centos-binary-neutron-server:current-tripleo
-      python_dir:
-        - /opt/stack/neutron
 EOF
 
 cat <<EOF > $HOME/standalone_parameters.yaml
@@ -40,6 +31,7 @@ parameter_defaults:
     - $IP:8787
   NeutronPublicInterface: $INTERFACE
   # domain name used by the host
+  CloudDomain: localdomain
   NeutronDnsDomain: localdomain
   # re-use ctlplane bridge for public net, defined in the standalone
   # net config (do not change unless you know what you're doing)
@@ -52,7 +44,10 @@ parameter_defaults:
   StandaloneLocalMtu: 1500
   # Needed if running in a VM, not needed if on baremetal
   NovaComputeLibvirtType: qemu
+  SELinuxMode: permissive
 EOF
+
+openstack tripleo container image prepare default --output-env-file $HOME/containers-prepare-parameters.yaml
 
 sudo openstack tripleo deploy \
   --templates \

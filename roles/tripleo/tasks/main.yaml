@@ -38,6 +38,21 @@
     dest="{{ ansible_env.HOME }}/standalone.sh"
   when: iface is defined
 
+- name: Ensure ens3 config file not exists
+  become: yes
+  become_method: sudo
+  file:
+    path: /etc/sysconfig/network-scripts/ifcfg-ens3
+    state: absent
+
+- name: Ensure NetworkManager is stopped and disabled
+  become: yes
+  become_method: sudo
+  systemd:
+    name: NetworkManager
+    state: stopped
+    enabled: no
+
 #- name: Create OS bootstrap script
 #  template:
 #    src=os_bootstrap.sh.j2
