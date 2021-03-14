@@ -222,3 +222,17 @@
   copy:
       src: 'files/redshift/geoclue.conf'
       dest: '/etc/geoclue/geoclue.conf'
+
+- name: Install dock station udev rule
+  become: true
+  become_method: sudo
+  template:
+      src=udev/80-dock.rules.j2
+      dest="/etc/udev/rules.d/80-dock.rules"
+  register: udev_dock_rule
+
+- name: Reload udev rules
+  become: true
+  become_method: sudo
+  shell: "udevadm control --reload"
+  when: udev_dock_rule.changed

@@ -1,0 +1,2 @@
+SUBSYSTEM=="thunderbolt", ACTION=="add", ENV{DISPLAY}=":0",  ENV{XAUTHORITY}="{{ ansible_env.HOME }}/.Xauthority", RUN+="{{ ansible_env.HOME }}/.config/i3/screens.sh 10"
+SUBSYSTEM=="thunderbolt", ACTION=="remove", ENV{DISPLAY}=":0",  ENV{XAUTHORITY}="{{ ansible_env.HOME }}/.Xauthority", RUN+="{{ ansible_env.HOME }}/.config/i3/screens.sh 5"
