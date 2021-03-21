@@ -1,0 +1,10 @@
+[Unit]
+Description=Run screen configuration after waking up system
+After=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target
+
+[Service]
+ExecStart={{ ansible_env.HOME }}/.config/i3/screens.sh 10
+Environment=DISPLAY=:0
+
+[Install]
+WantedBy=suspend.target hibernate.target hybrid-sleep.target suspend-then-hibernate.target

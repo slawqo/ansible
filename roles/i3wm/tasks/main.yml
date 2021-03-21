@@ -236,3 +236,15 @@
   become_method: sudo
   shell: "udevadm control --reload"
   when: udev_dock_rule.changed
+
+- name: Create systemd wake up script
+  template:
+    src=systemd/wake_up.service.j2
+    dest="{{ ansible_env.HOME }}/.config/systemd/user/wake_up.service"
+
+- name: Ensure wakeup service is running
+  systemd:
+    scope: user
+    state: started
+    enabled: yes
+    name: wake_up.service
