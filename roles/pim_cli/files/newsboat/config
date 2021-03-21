@@ -1,4 +1,30 @@
-browser          firefox
-auto-reload      yes
+# general settings
+auto-reload yes
 reload-time      30
 reload-threads   100
+prepopulate-query-feeds yes
+goto-next-feed no
+
+# externel browser
+# browser          firefox
+browser "w3m %u"
+macro m set browser "mpv %u"; open-in-browser ; set browser "w3m %u"
+macro l set browser "firefox %u"; open-in-browser ; set browser "w3m %u"
+
+# unbind keys
+unbind-key ENTER
+unbind-key j
+unbind-key k
+unbind-key J
+unbind-key K
+
+# bind keys - vim style
+bind-key j down
+bind-key k up
+bind-key l open
+bind-key h quit
+bind-key J next-feed articlelist
+bind-key K prev-feed articlelist
+
+# display
+text-width 80
