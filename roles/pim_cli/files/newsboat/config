@@ -6,10 +6,8 @@ prepopulate-query-feeds yes
 goto-next-feed no
 
 # externel browser
-# browser          firefox
-browser "w3m %u"
+browser firefox
 macro m set browser "mpv %u"; open-in-browser ; set browser "w3m %u"
-macro l set browser "firefox %u"; open-in-browser ; set browser "w3m %u"
 
 # unbind keys
 unbind-key ENTER
