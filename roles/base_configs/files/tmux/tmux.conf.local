@@ -317,3 +317,7 @@ set -g update-environment -r
 
 setw -g automatic-rename off # rename window to NOT reflect current program
 setw -g allow-rename off
+
+# synchronize panes with C-a e
+bind e set-window-option synchronize-panes
+
