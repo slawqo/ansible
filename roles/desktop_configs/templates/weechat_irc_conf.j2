@@ -152,6 +152,51 @@ usermode = ""
 username = "slawek"
 
 [server]
+OFTC.addresses = "irc.oftc.net/6697"
+OFTC.proxy
+OFTC.ipv6
+OFTC.ssl = on
+OFTC.ssl_cert = "%h/certs/nick.pem"
+OFTC.ssl_password
+OFTC.ssl_priorities
+OFTC.ssl_dhkey_size
+OFTC.ssl_fingerprint
+OFTC.ssl_verify = on
+OFTC.password
+OFTC.capabilities
+OFTC.sasl_mechanism
+OFTC.sasl_username
+OFTC.sasl_password
+OFTC.sasl_key
+OFTC.sasl_timeout
+OFTC.sasl_fail
+OFTC.autoconnect = on
+OFTC.autoreconnect
+OFTC.autoreconnect_delay
+OFTC.nicks = {{ oftc_nicks }}
+OFTC.nicks_alternate
+OFTC.username = {{ oftc_username }}
+OFTC.realname = {{ oftc_realname }}
+OFTC.local_hostname
+OFTC.usermode
+OFTC.command
+OFTC.command_delay
+OFTC.autojoin = "#oooq,#openinfra,#openstack-neutron,#opendev,#openstack-tc,#openstack-sdks,#openstack-pl,#openstack-release,#openstack,#openstack-dev,#openstack-operators,#openstack-meeting,#openstack-meeting-3,#openstack-meeting-4,#openstack-meeting-5,#openstack-meeting-alt,#openstack-nova,#openstack-infra,#openstack-qa,#openvswitch,#tripleo,#rdo"
+OFTC.autorejoin
+OFTC.autorejoin_delay
+OFTC.connection_timeout
+OFTC.anti_flood_prio_high
+OFTC.anti_flood_prio_low
+OFTC.away_check
+OFTC.away_check_max_nicks
+OFTC.msg_kick
+OFTC.msg_part
+OFTC.msg_quit
+OFTC.notify
+OFTC.split_msg_max_length
+OFTC.charset_message
+OFTC.default_chantypes
+
 freenode.addresses = "chat.freenode.net/6697"
 freenode.proxy
 freenode.ipv6

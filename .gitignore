@@ -1,1 +1,4 @@
 roles/base_configs/files/ssh
+roles/desktop_configs/files/weechat/certs/nick.cer
+roles/desktop_configs/files/weechat/certs/nick.key
+roles/desktop_configs/files/weechat/certs/nick.pem
