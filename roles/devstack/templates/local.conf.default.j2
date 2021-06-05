@@ -1,7 +1,7 @@
-enable_service neutron-svc
-enable_service neutron-agt
-enable_service neutron-dhcp
-enable_service neutron-meta
+enable_service q-svc
+enable_service q-agt
+enable_service q-dhcp
+enable_service q-meta
 PUBLIC_PHYSICAL_NETWORK=default
 Q_USE_SECGROUP=True
 {% if public_interface is defined %}
@@ -11,7 +11,7 @@ Q_USE_SECGROUP=True
 Q_PLUGIN=ml2
 Q_AGENT={{ l2_agent }}
 
-enable_service neutron-l3
+enable_service q-l3
 PROVIDER_NETWORK_TYPE=local
 
 {% if neutron_lbaas is defined and neutron_lbaas == True %}
