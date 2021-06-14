@@ -30,8 +30,10 @@ PROVIDER_NETWORK_TYPE=local
         LB_PHYSICAL_INTERFACE=$PUBLIC_INTERFACE
         PUBLIC_INTERFACE=""
     {% endif %}
+    Q_ML2_PLUGIN_MECHANISM_DRIVERS=linuxbridge
 {% elif l2_agent == "openvswitch" %}
     FW_DRV=openvswitch
+    Q_ML2_PLUGIN_MECHANISM_DRIVERS=openvswitch
 {% endif %}
 
 Q_DVR_MODE={{ l3_mode }}
