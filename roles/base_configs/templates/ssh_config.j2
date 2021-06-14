@@ -32,6 +32,7 @@ Host {{ local_dev_hostname }}
 Host {{ rh_gerrit }}
     User {{ rh_gerrit_user }}
     IdentityFile {{ rh_gerrit_identity_file }}
+    PubkeyAcceptedKeyTypes +ssh-rsa
 
 Host support-shell
     Hostname {{ support_shell_hostname }}
