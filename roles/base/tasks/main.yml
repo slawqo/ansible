@@ -43,6 +43,11 @@
          ansible_distribution_version|int == 8)
 
 
+- name: Do Fedora base configs
+  include_tasks: fedora.yaml
+  when: ansible_distribution == "Fedora"
+
+
 - name: Do ubuntu base configs
   include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"

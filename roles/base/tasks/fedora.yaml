@@ -1,0 +1,25 @@
+---
+- name: Install python3
+  become: yes
+  become_method: sudo
+  package:
+      name: python3
+      state: present
+
+
+- name: Install libselinux-python bindings
+  become: yes
+  become_method: sudo
+  package:
+      name: python3-libselinux
+      state: present
+
+
+- name: Install base packages
+  package:
+      name: ['git', 'rsync', 'zsh',
+             'tmux', 'dstat', 'telnet', 'tar',
+             'vim-minimal', 'vim', 'go']
+      state: latest
+  become: yes
+  become_method: sudo
