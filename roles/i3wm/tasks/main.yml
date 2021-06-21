@@ -237,6 +237,12 @@
   shell: "udevadm control --reload"
   when: udev_dock_rule.changed
 
+- name: Ensure systemd user direcory exists
+  file:
+      path: "{{ ansible_env.HOME }}/.config/systemd/user/"
+      state: directory
+      mode: 0755
+
 - name: Create systemd wake up script
   template:
     src=systemd/wake_up.service.j2
