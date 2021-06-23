@@ -68,3 +68,17 @@
   copy:
       src: 'files/systemd/logind.conf'
       dest: '/etc/systemd/logind.conf'
+
+- name: Configure ssh-agent
+  block:
+    - name: Copy ssh-agent systemd unit file
+      copy:
+        src: 'files/systemd/ssh-agent.service'
+        dest: '{{ ansible_env.HOME }}/.config/systemd/user/ssh-agent.service'
+
+    - name: Ensure offlineimap service for ssh-agent is running
+      systemd:
+        scope: user
+        state: started
+        enabled: yes
+        name: ssh-agent.service

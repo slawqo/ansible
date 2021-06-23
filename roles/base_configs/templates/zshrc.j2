@@ -120,6 +120,9 @@ source $ZSH/oh-my-zsh.sh
 # ZSH autosuggestions support
 source {{ ansible_env.HOME }}/.zsh-autosuggestions/zsh-autosuggestions.zsh
 
+# SSH-AGENT's socket
+export SSH_AUTH_SOCK="$XDG_RUNTIME_DIR/ssh-agent.socket"
+
 # Slaweq: fix locale in tmux session on Mac
 if [[ $LC_CTYPE == "UTF-8" ]]; then
     export LC_CTYPE=""
