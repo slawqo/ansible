@@ -29,6 +29,13 @@
     name: ["lxappearance", "xorg-xinput", "xorg-xbacklight", "arandr"]
     state: latest
 
+- name: Install Awesome font
+  become: yes
+  become_method: sudo
+  package:
+    name: ["ttf-font-awesome", "awesome-terminal-fonts"]
+    state: latest
+
 - name: Install audio packages
   become: yes
   become_method: sudo
