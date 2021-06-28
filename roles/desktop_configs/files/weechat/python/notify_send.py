@@ -50,7 +50,7 @@ SCRIPT_NAME = 'notify_send'
 SCRIPT_AUTHOR = 's3rvac'
 
 # Version of the script.
-SCRIPT_VERSION = '0.9 (dev)'
+SCRIPT_VERSION = '0.10 (dev)'
 
 # License under which the script is distributed.
 SCRIPT_LICENSE = 'MIT'
@@ -85,6 +85,10 @@ OPTIONS = {
     'notify_for_current_buffer': (
         'on',
         'Send also notifications for the currently active buffer.'
+    ),
+    'notify_on_all_messages_in_current_buffer': (
+        'off',
+        'Send a notification on all messages in the currently active buffer.'
     ),
     'notify_on_all_messages_in_buffers': (
         '',
@@ -131,7 +135,7 @@ OPTIONS = {
         'notifications should be shown.'
     ),
     'ignore_nicks': (
-        '',
+        '-,--,-->',
         'A comma-separated list of nicks from which no notifications should '
         'be shown.'
     ),
@@ -282,10 +286,6 @@ def notification_should_be_sent_disregarding_time(buffer, tags, nick,
         if not notify_on_filtered_messages():
             return False
 
-    if buffer == weechat.current_buffer():
-        if not notify_for_current_buffer():
-            return False
-
     if is_away(buffer):
         if not notify_when_away():
             return False
@@ -298,6 +298,12 @@ def notification_should_be_sent_disregarding_time(buffer, tags, nick,
 
     if ignore_notifications_from_buffer(buffer):
         return False
+
+    if buffer == weechat.current_buffer():
+        if not notify_for_current_buffer():
+            return False
+        elif notify_on_all_messages_in_current_buffer():
+            return True
 
     if is_private_message(buffer):
         return notify_on_private_messages()
@@ -398,6 +404,11 @@ def names_for_buffer(buffer):
 def notify_for_current_buffer():
     """Should we also send notifications for the current buffer?"""
     return weechat.config_get_plugin('notify_for_current_buffer') == 'on'
+
+
+def notify_on_all_messages_in_current_buffer():
+    """Should we send a notication on all messages in the current buffer?"""
+    return weechat.config_get_plugin('notify_on_all_messages_in_current_buffer') == 'on'
 
 
 def notify_on_highlights():
@@ -699,6 +710,9 @@ def send_notification(notification):
         notify_cmd += ['--hint', 'int:transient:1']
     if notification.urgency:
         notify_cmd += ['--urgency', notification.urgency]
+    # The "im.received" category means "A received instant message
+    # notification".
+    notify_cmd += ['--category', 'im.received']
     # We need to add '--' before the source and message to ensure that
     # notify-send considers the remaining parameters as the source and the
     # message. This prevents errors when a source or message starts with '--'.
