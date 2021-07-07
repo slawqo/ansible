@@ -10,6 +10,8 @@ Q_USE_SECGROUP=True
 
 Q_PLUGIN=ml2
 Q_AGENT={{ l2_agent }}
+Q_ML2_TENANT_NETWORK_TYPE=vxlan
+Q_TUNNEL_TYPES="vxlan,gre"
 
 enable_service q-l3
 PROVIDER_NETWORK_TYPE=local
