@@ -93,16 +93,16 @@ env:
 font:
   # Normal (roman) font face
   normal:
-    family: Source Code Pro
+    family: Iosevka
     style: Regular
   bold:
-    family: Source Code Pro
+    family: Iosevka
     style: Regular
   italic:
-    family: Source Code Pro
+    family: Iosevka
     style: Regular
   bold_italic:
-    family: Source Code Pro
+    family: Iosevka
     style: Regular
   # Point size
   size: 10
