@@ -27,6 +27,12 @@
   package:
       name: ["rofi"]
 
+- name: Install Picom (composite manager)
+  become: yes
+  become_method: sudo
+  package:
+      name: ["picom"]
+
 - name: Copy .Xresources file
   copy:
       src: 'files/Xresources'
@@ -254,3 +260,8 @@
     state: started
     enabled: yes
     name: wake_up.service
+
+- name: Copy picom config file
+  copy:
+      src: 'files/picom/picom.conf'
+      dest: '{{ ansible_env.HOME }}/.config/picom.conf'
