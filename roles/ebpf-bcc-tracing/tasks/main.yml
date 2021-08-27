@@ -1,0 +1,15 @@
+---
+- name: Install eBPF traicing tools on Centos 8/RHEL 8
+  include_tasks: centos8.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 8)
+
+
+- name: Install eBPF traicing tools on Arch Linux
+  include_tasks: arch.yml
+  when: ansible_distribution == "Archlinux"
+
+
+- name: Install eBPF traicing tools on Ubuntu
+  include_tasks: arch.yml
+  when: ansible_distribution == "Ubuntu"

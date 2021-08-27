@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include ebpf-bcc-tracing"
+      include_role:
+        name: "ebpf-bcc-tracing"

@@ -1,0 +1,15 @@
+---
+- name: Install bcc-tools
+  package:
+    name: bcc-tools
+    state: latest
+  become: yes
+  become_method: sudo
+
+
+- name: Install additional python libs
+  pip:
+      name: ['dnslib', 'cacheutils']
+      state: latest
+  become: yes
+  become_method: sudo

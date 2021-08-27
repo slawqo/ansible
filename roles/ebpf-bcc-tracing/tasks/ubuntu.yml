@@ -1,0 +1,15 @@
+---
+- name: Install bcc-tools
+  package:
+    name: ['bpfcc-tools', 'linux-headers-generic']
+    state: latest
+  become: yes
+  become_method: sudo
+
+
+- name: Install additional python libs
+  package:
+      name: ['python3-dnslib', 'python3-cacheutils']
+      state: latest
+  become: yes
+  become_method: sudo
