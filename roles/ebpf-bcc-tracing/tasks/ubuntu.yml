@@ -6,6 +6,12 @@
   become: yes
   become_method: sudo
 
+- name: Install bpftrace tools
+  package:
+    name: bpftrace
+    state: latest
+  become: yes
+  become_method: sudo
 
 - name: Install additional python libs
   package:
