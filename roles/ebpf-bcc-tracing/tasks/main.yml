@@ -11,5 +11,5 @@
 
 
 - name: Install eBPF traicing tools on Ubuntu
-  include_tasks: arch.yml
+  include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu"

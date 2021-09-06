@@ -14,8 +14,8 @@
   become_method: sudo
 
 - name: Install additional python libs
-  package:
-      name: ['python3-dnslib', 'python3-cacheutils']
+  pip:
+      name: ['dnslib', 'cacheutils']
       state: latest
   become: yes
   become_method: sudo
