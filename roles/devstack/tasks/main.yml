@@ -37,3 +37,12 @@
     src=templates/network-local.conf.j2
     dest=/opt/stack/devstack/local.conf
   when: vm_type == 'devstack' and (topology == "multinode" and "network" in inventory_hostname)
+
+
+- name: Ensure simplejson and pyasn1 packages aren't installed from distro
+  become: yes
+  become_method: sudo
+  package:
+    name: ['python3-pyasn1', 'python3-simplejson']
+    state: absent
+  when: ansible_distribution == "Ubuntu"
