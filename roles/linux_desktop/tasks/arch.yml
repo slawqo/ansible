@@ -58,7 +58,7 @@
   become: yes
   become_method: sudo
   package:
-      name: ["thermald", "tlp"]
+      name: ["thermald", "tlp", "tlp-rdw", "intel-undervolt"]
       state: present
 
 - name: Ensure thermald is running
@@ -76,3 +76,26 @@
     state: started
     enabled: yes
     name: tlp
+
+- name: Ensure NetworkManager-dispatcher is running
+  become: yes
+  become_method: sudo
+  systemd:
+    state: started
+    enabled: yes
+    name: NetworkManager-dispatcher
+
+- name: Ensure systemd-rfkill.service is masked
+  become: yes
+  become_method: sudo
+  systemd:
+    masked: yes
+    name: "systemd-rfkill.service"
+
+- name: Ensure systemd-rfkill.socket is masked
+  become: yes
+  become_method: sudo
+  systemd:
+    masked: yes
+    name: "systemd-rfkill.socket"
+

@@ -1,2 +1,6 @@
 ---
-# handlers file for linux_desktop
+- name: Apply intel-undervolt config
+  shell: /usr/bin/intel-undervolt apply
+  become: yes
+  become_method: sudo
+  listen: "apply intel-undervolt"

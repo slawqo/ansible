@@ -60,3 +60,21 @@
       src=gertty.yaml.j2
       dest="{{ ansible_env.HOME }}/.config/gertty/gertty.yaml"
       mode=0600
+
+
+- name: Copy tlp config
+  become: true
+  become_method: sudo
+  copy:
+      src: "files/tlp/01-custom.conf"
+      dest: "/etc/tlp.d/01-custom.conf"
+
+
+- name: Copy intel-undervolt config
+  become: true
+  become_method: sudo
+  copy:
+      src: "files/intel-undervolt.conf"
+      dest: "/etc/intel-undervolt.conf"
+  notify:
+    - "apply intel-undervolt"
