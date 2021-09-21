@@ -1,4 +1,0 @@
-rofi.combi-modi:    window,drun,ssh
-rofi.theme:         glue_pro_blue
-rofi.font:          Monospace 11
-rofi.modi:          run

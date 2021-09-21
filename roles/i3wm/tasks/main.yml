@@ -137,8 +137,8 @@
 
 - name: Copy rofi config file
   copy:
-      src: 'files/rofi/config'
-      dest: '{{ ansible_env.HOME }}/.config/rofi/config'
+      src: 'files/rofi/config.rasi'
+      dest: '{{ ansible_env.HOME }}/.config/rofi/config.rasi'
 
 - name: Copy rofi web-search script
   copy:
