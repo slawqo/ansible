@@ -93,19 +93,19 @@ env:
 font:
   # Normal (roman) font face
   normal:
-    family: InconsolataGo Nerd Font Mono
+    family: mononoki Nerd Font Mono
     style: Regular
   bold:
-    family: InconsolataGo Nerd Font Mono
+    family: mononoki Nerd Font Mono
     style: Bold
   italic:
-    family: InconsolataGo Nerd Font Mono
+    family: mononoki Nerd Font Mono
     style: Italic
   bold_italic:
-    family: InconsolataGo Nerd Font Mono
+    family: mononoki Nerd Font Mono
     style: Bold Italic
   # Point size
-  size: 10
+  size: 12
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -124,33 +124,61 @@ font:
 draw_bold_text_with_bright_colors: true
 
 # Colors
-colors:
-  # Default colors
-  primary:
-    background: '0x000000'
-    foreground: '0xffffff'
+schemes:
+  # Doom One
+  doom-one: &doom-one
+    primary:
+      background: '#282c34'
+      foreground: '#bbc2cf'
+    cursor:
+      text: CellBackground
+      cursor: '#528bff'
+    selection:
+      text: CellForeground
+      background: '#3e4451'
+    normal:
+      black:   '#1c1f24'
+      red:     '#ff6c6b'
+      green:   '#98be65'
+      yellow:  '#da8548'
+      blue:    '#51afef'
+      magenta: '#c678dd'
+      cyan:    '#5699af'
+      white:   '#202328'
+    bright:
+      black:   '#5b6268'
+      red:     '#da8548'
+      green:   '#4db5bd'
+      yellow:  '#ecbe7b'
+      blue:    '#3071db'   # This is 2257a0 in Doom Emacs but I lightened it.
+      magenta: '#a9a1e1'
+      cyan:    '#46d9ff'
+      white:   '#dfdfdf'
 
-  # Normal colors
-  normal:
-    black:   '0x000000'
-    red:     '0xcc0403'
-    green:   '0x19cb00'
-    yellow:  '0xcecb00'
-    blue:    '0x0057d1'
-    magenta: '0xcb1ed1'
-    cyan:    '0x0dcdcd'
-    white:   '0xe5e5e5'
+  mydark: &mydark
+	primary:
+	  background: '0x000000'
+	  foreground: '0xffffff'
+	normal:
+	  black:   '0x000000'
+	  red:     '0xcc0403'
+	  green:   '0x19cb00'
+	  yellow:  '0xcecb00'
+	  blue:    '0x0057d1'
+	  magenta: '0xcb1ed1'
+	  cyan:    '0x0dcdcd'
+	  white:   '0xe5e5e5'
+	bright:
+	  black:   '0x4d4d4d'
+	  red:     '0x830909'
+	  green:   '0x8ffd7d'
+	  yellow:  '0xfffd00'
+	  blue:    '0x2161ff'
+	  magenta: '0xde28ff'
+	  cyan:    '0x7cfffc'
+	  white:   '0xffffff'
 
-  # Bright colors
-  bright:
-    black:   '0x4d4d4d'
-    red:     '0x830909'
-    green:   '0x8ffd7d'
-    yellow:  '0xfffd00'
-    blue:    '0x2161ff'
-    magenta: '0xde28ff'
-    cyan:    '0x7cfffc'
-    white:   '0xffffff'
+colors: *doom-one
 
 # Bell
 #
