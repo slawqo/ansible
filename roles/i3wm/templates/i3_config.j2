@@ -161,6 +161,10 @@ workspace $ws10 output DP3-2
 # Windows look
 default_border pixel 2
 
+# Gaps only when there is more than one window on the screen
+smart_gaps on
+gaps inner 5
+
 # Colors
 client.focused          #1d90cd #1d90cd #FFFFFF #1d90cd   #1d90cd
 client.focused_inactive #1878a8 #1878a8 #DDDDDD #1878a8   #444444
@@ -265,7 +269,7 @@ exec blueman-applet
 exec pasystray
 
 # Run picom (compton earlier)
-exec --no-startup-id picom -b
+exec --no-startup-id picom -b --experimental-backend
 
 # Set wallpaper
 exec --no-startup-id ~/.fehbg
