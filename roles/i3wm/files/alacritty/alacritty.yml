@@ -97,15 +97,15 @@ font:
     style: Regular
   bold:
     family: Source Code Pro
-    style: Bold
+    style: Regular
   italic:
     family: Source Code Pro
     style: Italic
   bold_italic:
     family: Source Code Pro
-    style: Bold Italic
+    style: Italic
   # Point size
-  size: 11
+  size: 10
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -156,29 +156,35 @@ schemes:
       white:   '#dfdfdf'
 
   mydark: &mydark
-	primary:
-	  background: '0x000000'
-	  foreground: '0xffffff'
-	normal:
-	  black:   '0x000000'
-	  red:     '0xcc0403'
-	  green:   '0x19cb00'
-	  yellow:  '0xcecb00'
-	  blue:    '0x0057d1'
-	  magenta: '0xcb1ed1'
-	  cyan:    '0x0dcdcd'
-	  white:   '0xe5e5e5'
-	bright:
-	  black:   '0x4d4d4d'
-	  red:     '0x830909'
-	  green:   '0x8ffd7d'
-	  yellow:  '0xfffd00'
-	  blue:    '0x2161ff'
-	  magenta: '0xde28ff'
-	  cyan:    '0x7cfffc'
-	  white:   '0xffffff'
+    # Default colors
+    primary:
+      background: '0x000000'
+      foreground: '0xffffff'
 
-colors: *doom-one
+    # Normal colors
+    normal:
+      black:   '0x000000'
+      red:     '0xcc0403'
+      green:   '0x19cb00'
+      yellow:  '0xcecb00'
+      blue:    '0x0057d1'
+      magenta: '0xcb1ed1'
+      cyan:    '0x0dcdcd'
+      white:   '0xe5e5e5'
+
+    # Bright colors
+    bright:
+      black:   '0x4d4d4d'
+      red:     '0x830909'
+      green:   '0x8ffd7d'
+      yellow:  '0xfffd00'
+      blue:    '0x2161ff'
+      magenta: '0xde28ff'
+      cyan:    '0x7cfffc'
+      white:   '0xffffff'
+
+
+colors: *mydark
 
 # Bell
 #
