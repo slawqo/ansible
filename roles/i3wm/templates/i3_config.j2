@@ -105,16 +105,16 @@ bindsym XF86Display  exec ~/.config/i3/screens.sh
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1"
-set $ws2 "2"
-set $ws3 "3"
-set $ws4 "4"
-set $ws5 "5"
-set $ws6 "6"
-set $ws7 "7"
-set $ws8 "8"
-set $ws9 "9"
-set $ws10 "10"
+set $ws1 "1:pim"
+set $ws2 "2:www"
+set $ws3 "3:dev 1"
+set $ws4 "4:dev 2"
+set $ws5 "5:doc"
+set $ws6 "6:logs"
+set $ws7 "7:tasks"
+set $ws8 "8:meet"
+set $ws9 "9:dev 3"
+set $ws10 "10:dev 4"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -211,6 +211,7 @@ bar {
 	position top
     status_command i3blocks
     tray_output primary
+    strip_workspace_numbers yes
     colors {
         background #444444
         statusline #FFFFFF
