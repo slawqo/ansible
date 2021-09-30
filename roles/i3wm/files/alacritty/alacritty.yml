@@ -93,19 +93,19 @@ window:
 font:
   # Normal (roman) font face
   normal:
-    family: Source Code Pro
+    family: Monaco for Powerline
     style: Regular
   bold:
-    family: Source Code Pro
+    family: Monaco for Powerline
     style: Regular
   italic:
-    family: Source Code Pro
+    family: Monaco for Powerline
     style: Italic
   bold_italic:
-    family: Source Code Pro
-    style: Italic
+    family: Monaco for Powerline
+    style: Bold Italic
   # Point size
-  size: 10
+  size: 9
 
   # Offset is the extra space around each character. `offset.y` can be thought of
   # as modifying the line spacing, and `offset.x` as modifying the letter spacing.
@@ -158,7 +158,7 @@ schemes:
   mydark: &mydark
     # Default colors
     primary:
-      background: '0x000000'
+      background: '0x1b1b1b'
       foreground: '0xffffff'
 
     # Normal colors
