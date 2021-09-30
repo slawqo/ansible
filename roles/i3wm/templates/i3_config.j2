@@ -232,9 +232,29 @@ bar {
     }
 }
 
+# Second bar, only with workspaces indicator for side monitors (when connected)
+bar {
+    position top
+    tray_output no
+    strip_workspace_numbers yes
+    output DP3-1
+    output DP3-2
+    colors {
+        background #444444
+        statusline #FFFFFF
+        separator  #666666
+
+        focused_workspace  #1d90cd #1d90cd #FFFFFF
+        active_workspace   #1878a8 #1878a8 #DDDDDD
+        inactive_workspace #444444 #444444 #dddddd
+        urgent_workspace   #2F343A #ffb700 #FFFFFF
+        binding_mode       #2F343A #ffb700 #FFFFFF
+    }
+}
+
 set $Locker {{ ansible_env.HOME }}/.config/i3/lock.sh && sleep 1
 
-set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown
+set $mode_system System (l) lock, (e) logout, (s) suspend, (h) hibernate, (r) reboot, (Shift+s) shutdown (d) do not disturb
 mode "$mode_system" {
     bindsym l exec --no-startup-id $Locker, mode "default"
     bindsym e exec --no-startup-id i3-msg exit, mode "default"
@@ -242,6 +262,7 @@ mode "$mode_system" {
     bindsym h exec --no-startup-id $Locker && systemctl hibernate, mode "default"
     bindsym r exec --no-startup-id systemctl reboot, mode "default"
     bindsym Shift+s exec --no-startup-id systemctl poweroff -i, mode "default"
+    bindsym d exec --no-startup-id dunstctl set-paused toggle, mode "default"
 
     # back to normal: Enter or Escape
     bindsym Return mode "default"
