@@ -26,13 +26,6 @@
            "mythes-pl"]
     state: present
 
-- name: Install weechat-matrix plugin
-  become: yes
-  become_method: sudo
-  package:
-    name: "weechat-matrix"
-    state: present
-
 - name: Install hplip for HP printers
   become: yes
   become_method: sudo
