@@ -17,7 +17,6 @@
         (private_iface is undefined) or
         (private_iface is none) or
         (private_iface | trim == ''))
-  when: private_iface is defined
 
 
 - name: Enable IPv6
