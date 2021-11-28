@@ -71,6 +71,12 @@
 
 - name: Configure ssh-agent
   block:
+    - name: Ensure systemd config directory exists
+      file:
+        path: "{{ ansible_env.HOME }}/.config/systemd/user"
+        state: directory
+        mode: 0755
+
     - name: Copy ssh-agent systemd unit file
       copy:
         src: 'files/systemd/ssh-agent.service'
