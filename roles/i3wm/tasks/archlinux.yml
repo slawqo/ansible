@@ -71,3 +71,18 @@
   package:
     name: ["redshift"]
     state: latest
+
+- name: Install packages needed for power control
+  become: yes
+  become_method: sudo
+  package:
+      name: ["tlp", "tlp-rdw"]
+      state: present
+
+- name: Ensure tlp is running
+  become: yes
+  become_method: sudo
+  systemd:
+    state: started
+    enabled: yes
+    name: tlp

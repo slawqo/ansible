@@ -51,7 +51,7 @@
   become: yes
   become_method: sudo
   package:
-      name: ["thermald", "tlp", "tlp-rdw", "intel-undervolt"]
+      name: ["thermald", "intel-undervolt"]
       state: present
 
 - name: Ensure thermald is running
@@ -61,14 +61,6 @@
     state: started
     enabled: yes
     name: thermald
-
-- name: Ensure tlp is running
-  become: yes
-  become_method: sudo
-  systemd:
-    state: started
-    enabled: yes
-    name: tlp
 
 - name: Ensure NetworkManager-dispatcher is running
   become: yes
