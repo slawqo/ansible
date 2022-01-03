@@ -14,7 +14,7 @@ sleep $sleep_time
 xrandr | grep -v disconnected | grep -v eDP | grep connected -q
 if [ $? -eq 0 ]; then
     logger "Configuring 3 external monitors"
-    /home/slaweq/.screenlayout/3_external_monitors.sh
+    /home/slaweq/.screenlayout/external_monitor.sh
 else
     logger "Configuring only laptop display"
     /home/slaweq/.screenlayout/only_laptop.sh

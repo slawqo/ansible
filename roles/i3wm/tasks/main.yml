@@ -91,6 +91,12 @@
       dest: '{{ ansible_env.HOME }}/.screenlayout/3_external_monitors.sh'
       mode: a+x
 
+- name: Copy external ultrawide monitor screen layout
+  copy:
+      src: 'files/screenlayouts/external_monitor.sh'
+      dest: '{{ ansible_env.HOME }}/.screenlayout/external_monitor.sh'
+      mode: a+x
+
 - name: Copy script to set screens layout
   copy:
       src: 'files/i3wm/screens.sh'
