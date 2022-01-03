@@ -105,16 +105,16 @@ bindsym XF86Display  exec ~/.config/i3/screens.sh
 
 # Define names for default workspaces for which we configure key bindings later on.
 # We use variables to avoid repeating the names in multiple places.
-set $ws1 "1:pim"
-set $ws2 "2:www"
-set $ws3 "3:dev 1"
-set $ws4 "4:dev 2"
-set $ws5 "5:doc"
-set $ws6 "6:logs"
-set $ws7 "7:tasks"
-set $ws8 "8:meet"
-set $ws9 "9:dev 3"
-set $ws10 "10:dev 4"
+set $ws1 "1"
+set $ws2 "2"
+set $ws3 "3"
+set $ws4 "4"
+set $ws5 "5"
+set $ws6 "6"
+set $ws7 "7"
+set $ws8 "8"
+set $ws9 "9"
+set $ws10 "10"
 
 # switch to workspace
 bindsym $mod+1 workspace $ws1
@@ -151,10 +151,10 @@ workspace $ws1  output DP3-3
 workspace $ws2  output DP3-3
 workspace $ws3  output DP3-3
 workspace $ws4  output DP3-3
-workspace $ws5  output DP3-1
-workspace $ws6  output DP3-1
-workspace $ws7  output DP3-3
-workspace $ws8  output DP3-3
+workspace $ws5  output DP3-3
+workspace $ws6  output DP3-3
+workspace $ws7  output DP3-1
+workspace $ws8  output DP3-1
 workspace $ws9  output DP3-2
 workspace $ws10 output DP3-2
 
@@ -166,8 +166,8 @@ gaps inner 6
 gaps outer 6
 
 # Windows rules
-assign [class="^Todoist$"] $ws7
-assign [class="^Clockify$"] $ws7
+assign [class="^Todoist$"] $ws6
+assign [class="^Clockify$"] $ws6
 
 # Colors
 client.focused          #1d90cd #1d90cd #FFFFFF #1d90cd   #1d90cd
@@ -285,7 +285,7 @@ bindsym XF86MonBrightnessDown exec --no-startup-id "~/.config/i3/setbacklight.sh
 bindsym $mod+b exec firefox
 bindsym $mod+t exec thunar
 bindsym $mod+p exec pavucontrol
-bindsym $mod+n exec /opt/appimages/Joplin.AppImage
+bindsym $mod+n exec joplin-image
 
 # Set screens layout and dpi
 exec --no-startup-id ~/.config/i3/screens.sh

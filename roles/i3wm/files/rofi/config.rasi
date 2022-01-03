@@ -1,6 +1,4 @@
 configuration {
     combi-modi: "window,drun,ssh";
-    theme:      "glue_pro_blue";
-    font:       "Monospace 11";
-    modi:       "run";
 }
+@theme "/usr/share/rofi/themes/fancy.rasi"

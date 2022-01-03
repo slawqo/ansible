@@ -20,30 +20,12 @@ interval=1
 #min_width=CPU 100.00%
 separator=false
 
-[load_average]
-label= 
-interval=10
 #
 # Memory usage
 #
 # The type defaults to "mem" if the instance is not specified.
 [memory]
 label= 
-interval=30
-
-# Disk usage
-#
-# The directory defaults to $HOME if the instance is not specified.
-# The script may be called with a optional argument to set the alert
-[disk]
-label= / 
-DIR=/
-interval=30
-separator=false
-
-[disk]
-label=/home 
-DIR=/home
 interval=30
 
 # Network interface monitoring
@@ -55,20 +37,6 @@ INTERFACE=wlp82s0
 label= 
 interval=10
 separator=false
-
-[iface]
-#IFACE=wlan0
-color=#00FF00
-interval=10
-separator=false
-
-[bandwidth2]
-#INTERFACE=eth0
-interval=5
-interval=persist
-markup=pango
-LABEL= 
-min_width= 999.9KB/s  999.9KB/s
 
 # Battery indicator
 #
