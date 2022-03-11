@@ -1,0 +1,7 @@
+---
+- name: Converge
+  hosts: all
+  tasks:
+    - name: "Include fullstack"
+      include_role:
+        name: "fullstack"

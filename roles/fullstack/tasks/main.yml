@@ -1,0 +1,11 @@
+---
+- name: Do Centos 8/RHEL 8 base configs
+  include_tasks: centos8.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 8)
+
+
+- name: Copy fullstack/functional bootstrap script
+  copy:
+      src: "files/prepare_host_for_func_testing.sh"
+      dest: "{{ ansible_env.HOME }}/prepare_host_for_func_testing.sh"

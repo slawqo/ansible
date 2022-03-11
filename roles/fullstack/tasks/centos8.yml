@@ -1,0 +1,41 @@
+---
+- name: Install OpenStack repository
+  become: yes
+  become_method: sudo
+  package:
+      name: centos-release-openstack-victoria
+      state: latest
+
+
+- name: Enable powertools repository
+  become: yes
+  become_method: sudo
+  shell: "/usr/bin/dnf config-manager --enable powertools"
+
+
+- name: Install pip
+  become: yes
+  become_method: sudo
+  package:
+      name: python3-pip
+      state: latest
+
+
+- name: Install tox
+  become: yes
+  become_method: sudo
+  pip:
+      name: tox
+      state: latest
+
+
+- name: Install Neutron bindep packages
+  become: yes
+  become_method: sudo
+  package:
+      name: ['python36-devel', 'gettext', 'libffi-devel',
+             'haproxy', 'iproute-tc', 'keepalived',
+             'mariadb', 'mariadb-devel', 'mariadb-server',
+             'postgresql', 'postgresql-devel', 'postgresql-devel',
+             'postgresql-server']
+      state: latest
