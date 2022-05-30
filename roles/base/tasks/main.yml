@@ -42,6 +42,12 @@
          ansible_distribution_version|int == 8)
 
 
+- name: Do Centos 9/RHEL 9 base configs
+  include_tasks: centos9.yml
+  when: ((ansible_distribution == "CentOS" or ansible_distribution == 'Red Hat Enterprise Linux') and
+         ansible_distribution_version|int == 9)
+
+
 - name: Do Fedora base configs
   include_tasks: fedora.yaml
   when: ansible_distribution == "Fedora"

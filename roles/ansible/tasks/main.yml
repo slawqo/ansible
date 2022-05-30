@@ -13,6 +13,14 @@
   become_method: sudo
 
 
+- name: Ensure pip is installed
+  package:
+      name: "python3-pip"
+      state: present
+  become: yes
+  become_method: sudo
+
+
 - name: Install molecule package
   pip:
       name: "molecule"
