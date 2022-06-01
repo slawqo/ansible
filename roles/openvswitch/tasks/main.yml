@@ -25,7 +25,7 @@
   become: yes
   become_method: sudo
   yum:
-      name: centos-release-openstack-train
+      name: centos-release-openstack-yoga
       state: present
   when: ansible_distribution == "CentOS"
 
