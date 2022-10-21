@@ -2,6 +2,7 @@ ENABLED_SERVICES=n-cpu,neutron,n-novnc,q-agt,q-l3,q-meta,placement-client
 Q_AGENT={{ l2_agent }}
 Q_DVR_MODE={{ l3_mode }}
 Q_TUNNEL_TYPES="vxlan,gre"
+Q_ML2_TENANT_NETWORK_TYPE="vxlan"
 
 [[post-config|/$Q_PLUGIN_CONF_FILE]]
 [ovs]
