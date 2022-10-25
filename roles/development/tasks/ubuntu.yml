@@ -1,7 +1,16 @@
 ---
+- name: Install python-dev
+  package:
+    name: python-dev
+    state: present
+  become: yes
+  become_method: sudo
+  when: (ansible_distribution == "Ubuntu" and
+         ansible_distribution_version == "20.04")
+
 - name: Install dev packages
   package:
-      name: ['python-dev', 'python3-dev', 'tox', 'python3-pip']
+      name: ['python3-dev', 'tox', 'python3-pip']
       state: present
   become: yes
   become_method: sudo
