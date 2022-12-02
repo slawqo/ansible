@@ -39,3 +39,9 @@ Thumbs.db
 # KDevelop files
 .kdev4/
 *.kdev4
+
+# VScode
+.vscode/
+
+# Cache files
+cache/
