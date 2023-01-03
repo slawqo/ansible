@@ -13,7 +13,7 @@
   become: yes
   become_method: sudo
   package:
-      name: ["breeze-icon-theme", "breeze-gtk.x86_64",
+      name: ["breeze-icon-theme", "breeze-gtk",
              "numix-gtk-theme", "numix-icon-theme-circle",
              "numix-icon-theme-square",
              "glib2-devel", "gdk-pixbuf2-devel"]
