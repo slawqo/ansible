@@ -4,7 +4,7 @@
   become_method: sudo
   package:
       name: ["xsel", "feh", "rxvt-unicode", "network-manager-applet",
-             "i3lock", "ranger", "xbacklight", "blueman", "dunst",
+             "i3", "i3lock", "ranger", "xbacklight", "blueman", "dunst",
              "volumeicon", "zathura", "zathura-pdf-mupdf", "conky",
              "links", "xautolock", "lxappearance"]
       state: present
