@@ -40,6 +40,16 @@ Host support-shell
     Hostname {{ support_shell_hostname }}
     User {{ support_shell_user }}
 
+Host devstack.centos.ovn
+    Hostname 10.100.0.70
+    User vagrant
+    IdentityFile ~/.ssh/tobiko_ed25519
+
+Host devstack.ubuntu.ovs
+    Hostname 10.120.0.30
+    User vagrant
+    IdentityFile ~/.ssh/tobiko_ed25519
+
 Host shark15.devnest
     Hostname {{ shark15_hostname }}
     User {{ shark15_user }}
