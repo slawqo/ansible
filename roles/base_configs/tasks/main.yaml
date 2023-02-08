@@ -56,6 +56,12 @@
       template:
           src=zshrc.j2
           dest="{{ ansible_env.HOME }}/.zshrc"
+
+    - name: Copy additional oh-my-zsh themes
+      synchronize:
+        src: "files/oh-my-zsh/themes"
+        dest: "{{ ansible_env.HOME }}/.oh-my-zsh/themes/"
+        use_ssh_args: yes
   when: "ansible_distribution == 'MacOSX' or 'zsh' in ansible_facts.packages"
 
 
