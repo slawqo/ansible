@@ -8,7 +8,7 @@ admin_server = FILE:/var/log/kadmind.log
  dns_lookup_realm = true
  dns_lookup_kdc = true
  rdns = false
- dns_canonicalize_hostname = true
+ dns_canonicalize_hostname = false
  ticket_lifetime = 24h
  forwardable = true
  udp_preference_limit = 0
@@ -16,9 +16,7 @@ admin_server = FILE:/var/log/kadmind.log
 
 [realms]
 {{ rh_realm }} = {
- kdc = {{ kdc_server_1 }}
- kdc = {{ kdc_server_2 }}
- kdc = {{ kdc_server_3 }}
+ kdc = {{ kdc_server }}
  admin_server = {{ admin_server }}
  default_domain = {{ default_rh_realm_domain }}
 }
