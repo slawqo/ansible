@@ -5,6 +5,11 @@ Host github.com
     User {{ github_user }}
     IdentityFile ~/.ssh/id_rsa_github
 
+Host {{ rh_gitlab_server }}
+    Hostname {{ rh_gitlab_server }}
+    User {{ rh_gitlab_user }}
+    IdentityFile ~/.ssh/id_ed22519_redhat_gitlab
+
 Host review.gerrithub.io
     Hostname review.gerrithub.io
     Port 29418
