@@ -1,5 +1,5 @@
 # terminal with colors
-set -g default-terminal "screen-256color" # colors!
+set -g default-terminal "xterm-256color" # colors!
 
 setw -g xterm-keys on
 set -s escape-time 10                     # faster command sequences
