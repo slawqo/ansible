@@ -34,3 +34,11 @@
   package:
       name: ["libreoffice"]
       state: present
+
+
+- name: Install intel-undervolt
+  become: yes
+  become_method: sudo
+  package:
+      name: ["intel-undervolt"]
+      state: present
