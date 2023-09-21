@@ -62,6 +62,14 @@
       mode=0600
 
 
+- name: Ensure tlp config dir exists
+  become: true
+  become_method: sudo
+  file:
+      path: "/etc/tlp.d"
+      state: directory
+
+
 - name: Copy tlp config
   become: true
   become_method: sudo
