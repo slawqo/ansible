@@ -21,6 +21,13 @@
   become_method: sudo
 
 
+- name: Install vim-ansible plugin
+  pip:
+    name: ['vim-ansible']
+  become: yes
+  become_method: sudo
+
+
 - name: Install molecule package
   pip:
       name: "molecule"
