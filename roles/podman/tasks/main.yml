@@ -5,3 +5,10 @@
   package:
       name: podman
       state: present
+
+- name: Install podman-compose package
+  become: yes
+  become_method: sudo
+  package:
+      name: podman-compose
+      state: present
