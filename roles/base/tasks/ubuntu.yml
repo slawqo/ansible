@@ -3,7 +3,7 @@
   package:
       name: ['htop', 'bmon', 'ccze', 'git', 'python3-pip',
              'rsync', 'zsh', 'tmux', 'dstat', 'stress', 'tig', 'telnet', 'tar',
-             'exuberant-ctags', 'gettext', 'golang-go', 'tzdata']
+             'exuberant-ctags', 'gettext', 'golang-go', 'tzdata', 'vim']
       state: latest
   become: yes
   become_method: sudo

@@ -53,14 +53,15 @@
   when: ansible_distribution == "Fedora"
 
 
-- name: Do ubuntu base configs
+- name: Do ubuntu/debian base configs
   include_tasks: ubuntu.yml
-  when: ansible_distribution == "Ubuntu"
+  when: ansible_distribution == "Ubuntu" or ansible_distribution == 'Debian'
 
 
 - name: Install new versions of setuptools
   become: yes
   become_method: sudo
+  ignore_errors: true
   pip:
       name: "setuptools"
       extra_args: --upgrade
@@ -69,6 +70,7 @@
 - name: Install new versions of wheel
   become: yes
   become_method: sudo
+  ignore_errors: true
   pip:
       name: "wheel"
       extra_args: --upgrade
