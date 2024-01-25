@@ -1,0 +1,35 @@
+---
+- name: Clone pi-hole repository
+  git:
+    repo: "https://github.com/pi-hole/pi-hole"
+    version: "master"
+    dest: "{{ lookup('env', 'HOME') }}/pi-hole"
+    accept_hostkey: True
+    force: yes
+
+- name: Make sure that /etc/pihole directory exists
+  become: true
+  become_method: sudo
+  ansible.builtin.file:
+    path: /etc/pihole
+    state: directory
+    mode: '0755'
+
+- name: Copy pihole installation variables file
+  become: true
+  become_method: sudo
+  ansible.builtin.copy:
+    src: "files/setupVars.conf"
+    dest: "/etc/pihole/setupVars.conf"
+
+- name: Run pihole installation
+  become: true
+  become_method: sudo
+  ansible.builtin.command:
+    chdir: "{{ lookup('env', 'HOME') }}/pi-hole/automated\ install"
+    cmd: "/bin/bash basic-install.sh --unattended | /usr/bin/tee /var/log/pihole_install.log"
+  register: install_result
+
+- name: Print pihole installation log
+  ansible.builtin.debug:
+    var: install_result
