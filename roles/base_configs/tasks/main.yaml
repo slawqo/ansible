@@ -21,12 +21,12 @@
     - name: Set tmux config file name
       set_fact:
         tmux_conf_file_name: "files/tmux/tmux.conf"
-      when: tmux_version.stdout is version('2.4', '>') and tmux_config == "simple"
+      when: ('next-' in tmux_version.stdout or tmux_version.stdout is version('2.4', '>')) and tmux_config == "simple"
 
     - name: Set tmux config file name for fancy tmux
       set_fact:
         tmux_conf_file_name: "files/tmux/tmux.conf.fancy"
-      when: tmux_version.stdout is version('2.4', '>') and tmux_config == "fancy"
+      when: ('next-' in tmux_version.stdout or tmux_version.stdout is version('2.4', '>')) and tmux_config == "fancy"
 
     - name: Copy tmux config
       copy:
