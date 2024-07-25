@@ -57,6 +57,13 @@
   include_tasks: ubuntu.yml
   when: ansible_distribution == "Ubuntu" or ansible_distribution == 'Debian'
 
+- name: Install new versions of packaging package
+  become: yes
+  become_method: sudo
+  ignore_errors: true
+  pip:
+      name: "packaging"
+      extra_args: --upgrade
 
 - name: Install new versions of setuptools
   become: yes
