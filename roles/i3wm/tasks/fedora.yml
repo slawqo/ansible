@@ -19,13 +19,6 @@
              "glib2-devel", "gdk-pixbuf2-devel"]
       state: present
 
-- name: enable neomutt copr repo
-  command:
-    cmd: dnf copr enable -y flatcap/neomutt
-    creates: /etc/yum.repos.d/_copr:copr.fedorainfracloud.org:flatcap:neomutt.repo
-  become: yes
-  become_method: sudo
-
 - name: Install Rofi themes
   become: yes
   become_method: sudo
