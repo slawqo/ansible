@@ -30,7 +30,7 @@ PROVIDER_NETWORK_TYPE=flat
     PUBLIC_INTERFACE={{ hostvars[inventory_hostname]['ansible_' + public_interface]['device'] }}
 {% endif %}
 Q_AGENT=ovn
-Q_ML2_PLUGIN_MECHANISM_DRIVERS=ovn,logger
+Q_ML2_PLUGIN_MECHANISM_DRIVERS=ovn
 Q_ML2_PLUGIN_TYPE_DRIVERS=local,flat,vlan,geneve
 Q_ML2_TENANT_NETWORK_TYPE="geneve"
 
