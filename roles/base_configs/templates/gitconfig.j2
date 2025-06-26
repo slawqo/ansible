@@ -1,6 +1,9 @@
 [user]
     email = {{ git_email }}
 	name = {{ git_user }}
+{% if git_signkey is defined %}
+    signingkey = {{ git_signkey }}
+{% endif %}
 [core]
 	editor = vim
 	excludesfile = ~/.gitignore_globals
@@ -23,3 +26,9 @@
 	conflictstyle = diff3
 [mergetool]
 	prompt = false
+{% if git_signkey is defined %}
+[commit]
+    gpgsign = true
+[tag]
+    gpgSign = true
+{% endif %}

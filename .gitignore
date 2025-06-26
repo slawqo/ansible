@@ -1,4 +1,5 @@
 roles/base_configs/files/ssh
+roles/base_configs/files/gpg/gnupg_data
 roles/desktop_configs/files/weechat/certs/nick.cer
 roles/desktop_configs/files/weechat/certs/nick.key
 roles/desktop_configs/files/weechat/certs/nick.pem

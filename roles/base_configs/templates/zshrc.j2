@@ -45,6 +45,11 @@ ZSH_THEME="passion"
 
 # Uncomment the following line to automatically update without prompting.
 # DISABLE_UPDATE_PROMPT="true"
+- name: Copy gpg data
+  synchronize:
+      src: "files/gpg/gnupg_data/"
+      dest: "{{ ansible_env.HOME }}/.gnupg/"
+      use_ssh_args: yes
 
 # Uncomment the following line to change how often to auto-update (in days).
 # export UPDATE_ZSH_DAYS=13
