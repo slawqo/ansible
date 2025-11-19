@@ -17,8 +17,6 @@
 
 
 - name: Install packages from pypi
-  become: yes
-  become_method: sudo
   pip:
       name: ['pdbpp', 'remote_pdb', 'pbr', 'git-review']
-      extra_args: --upgrade
+      extra_args: --upgrade --break-system-packages
