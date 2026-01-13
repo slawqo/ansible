@@ -46,11 +46,6 @@ disable_service n-cpu
 INSTALL_TEMPEST=True
 enable_plugin neutron-tempest-plugin https://git.openstack.org/openstack/neutron-tempest-plugin
 
-# Enable osprofiler
-# -------
-enable_plugin osprofiler https://git.openstack.org/openstack/osprofiler
-OSPROFILER_COLLECTOR=redis
-
 # Image
 # -----
 DOWNLOAD_DEFAULT_IMAGES=False
@@ -106,6 +101,10 @@ IMAGE_URLS={{ image_url }}
 # -------
 # Network
 # -------
+
+# FWaas
+# -----
+enable_plugin neutron-fwaas https://git.openstack.org/openstack/neutron-fwaas {{ neutron_branch }}
 
 # Enable services, these services depend on neutron plugin.
 enable_plugin neutron https://git.openstack.org/openstack/neutron
