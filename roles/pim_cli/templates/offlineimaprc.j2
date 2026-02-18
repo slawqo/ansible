@@ -45,7 +45,7 @@ maxconnections = 2
 holdconnectionopen = yes
 realdelete = no
 createfolders = False
-nametrans = lambda foldername: re.sub ('^\[gmail\]', 'gmail',
+nametrans = lambda foldername: re.sub ('^\\[gmail\\]', 'gmail',
                                re.sub ('sent_mail', 'sent',
                                re.sub ('starred', 'flagged',
                                re.sub (' ', '_', foldername.lower()))))
@@ -92,7 +92,7 @@ maxconnections = 2
 holdconnectionopen = yes
 realdelete = no
 createfolders = False
-nametrans = lambda foldername: re.sub ('^\[gmail\]', 'gmail',
+nametrans = lambda foldername: re.sub ('^\\[gmail\\]', 'gmail',
                                re.sub ('sent_mail', 'sent',
                                re.sub ('starred', 'flagged',
                                re.sub (' ', '_', foldername.lower()))))
