@@ -1,0 +1,10 @@
+---
+- name: Ensure AI tools install directory exists
+  file:
+    path: "{{ ai_tools_install_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Install and configure Gerrit MCP server
+  include_tasks: gerrit_mcp_server.yml
+  when: ai_tools_gerrit_mcp_enabled

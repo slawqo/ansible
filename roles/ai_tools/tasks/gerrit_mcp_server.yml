@@ -1,0 +1,49 @@
+---
+- name: Install Gerrit MCP server dependencies
+  become: yes
+  become_method: sudo
+  package:
+    name: ['python3', 'python3-pip', 'python3-virtualenv', 'curl']
+    state: present
+
+- name: Clone Gerrit MCP server
+  git:
+    repo: "{{ ai_tools_gerrit_mcp_repo }}"
+    version: "{{ ai_tools_gerrit_mcp_version }}"
+    dest: "{{ ai_tools_install_dir }}/gerrit-mcp-server"
+    accept_hostkey: true
+    force: yes
+  register: gerrit_mcp_repo
+
+- name: Check if Gerrit MCP server venv exists
+  stat:
+    path: "{{ ai_tools_install_dir }}/gerrit-mcp-server/.venv"
+  register: gerrit_mcp_venv
+
+- name: Build Gerrit MCP server
+  shell: ./build-gerrit.sh
+  args:
+    chdir: "{{ ai_tools_install_dir }}/gerrit-mcp-server"
+  when: gerrit_mcp_repo.changed or not gerrit_mcp_venv.stat.exists
+
+- name: Create Gerrit MCP server configuration
+  template:
+    src: gerrit_config.json.j2
+    dest: "{{ ai_tools_install_dir }}/gerrit-mcp-server/gerrit_mcp_server/gerrit_config.json"
+    mode: '0600'
+
+- name: Configure Gerrit MCP server in Claude Code
+  when: ai_tools_gerrit_mcp_configure_claude_code
+  block:
+    - name: Ensure Claude Code config directory exists
+      file:
+        path: "{{ ansible_env.HOME }}/.claude"
+        state: directory
+        mode: '0755'
+
+    - name: Update Claude Code MCP settings
+      script: >-
+        update_claude_mcp_settings.py
+        "{{ ai_tools_install_dir }}/gerrit-mcp-server"
+      args:
+        executable: python3
