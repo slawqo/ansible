@@ -19,4 +19,4 @@
 - name: Install packages from pypi
   pip:
       name: ['pdbpp', 'remote_pdb', 'pbr', 'git-review']
-      extra_args: --upgrade --break-system-packages
+      extra_args: "{{ '--upgrade --break-system-packages' if ansible_python.version.minor >= 11 else '--upgrade' }}"
