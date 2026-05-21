@@ -1,0 +1,14 @@
+---
+- name: Ensure Claude Code config directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.claude"
+    state: directory
+    mode: '0755'
+
+- name: Configure Todoist MCP server in Claude Code
+  script: >-
+    update_claude_mcp_settings.py
+    todoist
+    '{{ {"type": "http", "url": ai_tools_todoist_mcp_url} | to_json }}'
+  args:
+    executable: python3

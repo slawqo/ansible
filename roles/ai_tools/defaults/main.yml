@@ -8,3 +8,7 @@ ai_tools_gerrit_mcp_version: 'master'
 ai_tools_gerrit_mcp_default_gerrit_url: ''
 ai_tools_gerrit_mcp_hosts: []
 ai_tools_gerrit_mcp_configure_claude_code: true
+
+# Todoist MCP Server
+ai_tools_todoist_mcp_enabled: true
+ai_tools_todoist_mcp_url: 'https://ai.todoist.net/mcp'

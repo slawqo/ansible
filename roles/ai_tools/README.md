@@ -24,7 +24,7 @@ Installs and configures AI development tools such as MCP servers.
 | `ai_tools_gerrit_mcp_version` | `master` | Branch, tag, or commit to check out |
 | `ai_tools_gerrit_mcp_default_gerrit_url` | `''` | Default Gerrit base URL written to `gerrit_config.json` |
 | `ai_tools_gerrit_mcp_hosts` | `[]` | List of Gerrit host definitions (see below) |
-| `ai_tools_gerrit_mcp_configure_claude_code` | `true` | Whether to register the server in `~/.claude/settings.json` |
+| `ai_tools_gerrit_mcp_configure_claude_code` | `true` | Whether to register the server in `~/.claude.json` |
 
 #### `ai_tools_gerrit_mcp_hosts`
 
@@ -46,10 +46,23 @@ ai_tools_gerrit_mcp_hosts:
 ansible-vault encrypt roles/ai_tools/vars/main.yml
 ```
 
-## Transport mode
+### Todoist MCP Server
 
-The server runs in **stdio** mode — Claude Code spawns it as a child process and
+| Variable | Default | Description |
+|---|---|---|
+| `ai_tools_todoist_mcp_enabled` | `true` | Whether to configure the Todoist MCP server |
+| `ai_tools_todoist_mcp_url` | `https://ai.todoist.net/mcp` | URL of the hosted Todoist MCP server |
+
+Todoist MCP is a hosted service — no local installation is required. Authentication
+is handled via OAuth on first use. The role registers the server in `~/.claude.json`
+so Claude Code connects to it over streamable HTTP.
+
+## Transport modes
+
+The Gerrit MCP server runs in **stdio** mode — Claude Code spawns it as a child process and
 communicates over stdin/stdout. No network port is opened.
+
+The Todoist MCP server is **hosted remotely** — Claude Code connects to it via streamable HTTP.
 
 ## Example playbook
 

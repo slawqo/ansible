@@ -1,10 +1,24 @@
 #!/usr/bin/env python3
 
+"""Add or update an MCP server entry in ~/.claude.json.
+
+Usage:
+    update_claude_mcp_settings.py <name> <config_json>
+
+    name         - key under mcpServers (e.g. "gerrit", "todoist")
+    config_json  - JSON object with the server configuration
+
+Examples:
+    update_claude_mcp_settings.py gerrit '{"command":"/path/to/python","args":["main.py","stdio"]}'
+    update_claude_mcp_settings.py todoist '{"type":"http","url":"https://ai.todoist.net/mcp"}'
+"""
+
 import json
 import os
 import sys
 
-project_dir = sys.argv[1]
+name = sys.argv[1]
+config = json.loads(sys.argv[2])
 settings_file = os.path.expanduser("~/.claude.json")
 
 try:
@@ -14,17 +28,7 @@ except (FileNotFoundError, json.JSONDecodeError):
     settings = {}
 
 settings.setdefault("mcpServers", {})
-
-settings["mcpServers"]["gerrit"] = {
-    "command": os.path.join(project_dir, ".venv", "bin", "python"),
-    "args": [
-        os.path.join(project_dir, "gerrit_mcp_server", "main.py"),
-        "stdio",
-    ],
-    "env": {
-        "PYTHONPATH": project_dir + "/",
-    },
-}
+settings["mcpServers"][name] = config
 
 with open(settings_file, "w") as f:
     json.dump(settings, f, indent=2)

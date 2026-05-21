@@ -44,6 +44,9 @@
     - name: Update Claude Code MCP settings
       script: >-
         update_claude_mcp_settings.py
-        "{{ ai_tools_install_dir }}/gerrit-mcp-server"
+        gerrit
+        '{{ {"command": ai_tools_install_dir + "/gerrit-mcp-server/.venv/bin/python",
+             "args": [ai_tools_install_dir + "/gerrit-mcp-server/gerrit_mcp_server/main.py", "stdio"],
+             "env": {"PYTHONPATH": ai_tools_install_dir + "/gerrit-mcp-server/"}} | to_json }}'
       args:
         executable: python3
