@@ -57,12 +57,26 @@ Todoist MCP is a hosted service — no local installation is required. Authentic
 is handled via OAuth on first use. The role registers the server in `~/.claude.json`
 so Claude Code connects to it over streamable HTTP.
 
+### Jira (Atlassian Rovo) MCP Server
+
+| Variable | Default | Description |
+|---|---|---|
+| `ai_tools_jira_mcp_enabled` | `true` | Whether to configure the Jira MCP server |
+| `ai_tools_jira_mcp_url` | `https://mcp.atlassian.com/v1/mcp/authv2` | URL of the hosted Atlassian Rovo MCP server |
+
+Jira MCP is a hosted service provided by Atlassian. It uses `npx mcp-remote` as a
+bridge and authenticates via OAuth on first use. Requires Node.js v18+ and `npx`
+on the target host.
+
 ## Transport modes
 
 The Gerrit MCP server runs in **stdio** mode — Claude Code spawns it as a child process and
 communicates over stdin/stdout. No network port is opened.
 
 The Todoist MCP server is **hosted remotely** — Claude Code connects to it via streamable HTTP.
+
+The Jira MCP server is **hosted remotely** — Claude Code connects via `mcp-remote` which
+proxies the remote streamable HTTP endpoint through a local stdio process.
 
 ## Example playbook
 
