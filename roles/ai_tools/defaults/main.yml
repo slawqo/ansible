@@ -22,3 +22,14 @@ ai_tools_github_mcp_host: ''
 # Jira (Atlassian Rovo) MCP Server
 ai_tools_jira_mcp_enabled: true
 ai_tools_jira_mcp_url: 'https://mcp.atlassian.com/v1/mcp/authv2'
+
+# Claude Code Skills
+ai_tools_claude_skills_enabled: true
+
+# summarize-reviews skill: projects/repos to watch (changes by others)
+ai_tools_claude_skills_summary_gerrit_projects: []
+  # - openstack/neutron
+ai_tools_claude_skills_summary_github_projects: []
+  # - openstack/neutron
+ai_tools_claude_skills_summary_gitlab_projects: []
+  # - mygroup/myrepo

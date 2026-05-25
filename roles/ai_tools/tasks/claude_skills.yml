@@ -1,0 +1,26 @@
+---
+- name: Ensure Claude Code skills directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.claude/skills"
+    state: directory
+    mode: '0755'
+
+# Static (non-template) skills: add a `copy` task pointing at files/skills/ when needed.
+# Template-based skills below are rendered from templates/skills/<name>/SKILL.md.j2.
+
+- name: Remove legacy review-patch skill directory
+  file:
+    path: "{{ ansible_env.HOME }}/.claude/skills/review-patch"
+    state: absent
+
+- name: Ensure summarize-reviews skill directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.claude/skills/summarize-reviews"
+    state: directory
+    mode: '0755'
+
+- name: Deploy summarize-reviews skill
+  template:
+    src: skills/summarize-reviews/SKILL.md.j2
+    dest: "{{ ansible_env.HOME }}/.claude/skills/summarize-reviews/SKILL.md"
+    mode: '0644'
