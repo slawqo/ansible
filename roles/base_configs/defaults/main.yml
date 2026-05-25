@@ -1,3 +1,4 @@
 ---
 tmux_config: "simple"
 use_tmux_always: false
+zsh_theme: "half-life"
