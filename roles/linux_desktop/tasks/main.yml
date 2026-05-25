@@ -3,9 +3,9 @@
   become: yes
   become_method: sudo
   package:
-      name: ["vim", "tmux", "git", "weechat",
-             "keepassxc", "rsync", "zsh",
-             "htop", "bmon", "task", "timew", "jq",]
+      name: ["vim", "tmux", "git",
+             "rsync", "zsh",
+             "htop", "bmon", "jq",]
       state: present
 
 
