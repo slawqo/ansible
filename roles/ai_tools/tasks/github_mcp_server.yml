@@ -1,0 +1,47 @@
+---
+- name: Ensure Claude Code config directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.claude"
+    state: directory
+    mode: '0755'
+
+- name: Configure GitHub MCP server in Claude Code
+  script: >-
+    update_claude_mcp_settings.py
+    github
+    '{{ _github_mcp_config | to_json }}'
+  args:
+    executable: python3
+  vars:
+    _github_mcp_base_args:
+      - run
+      - -i
+      - --rm
+      - -e
+      - GITHUB_PERSONAL_ACCESS_TOKEN
+    _github_mcp_toolsets_args: >-
+      {{ (ai_tools_github_mcp_toolsets != '')
+         | ternary(["-e", "GITHUB_TOOLSETS"], []) }}
+    _github_mcp_host_args: >-
+      {{ (ai_tools_github_mcp_host != '')
+         | ternary(["-e", "GITHUB_HOST"], []) }}
+    _github_mcp_args: >-
+      {{ _github_mcp_base_args
+         + _github_mcp_toolsets_args
+         + _github_mcp_host_args
+         + ["ghcr.io/github/github-mcp-server"] }}
+    _github_mcp_env: >-
+      {{ {"GITHUB_PERSONAL_ACCESS_TOKEN": ai_tools_github_mcp_token}
+         | combine(
+             (ai_tools_github_mcp_toolsets != '')
+             | ternary({"GITHUB_TOOLSETS": ai_tools_github_mcp_toolsets}, {})
+           )
+         | combine(
+             (ai_tools_github_mcp_host != '')
+             | ternary({"GITHUB_HOST": ai_tools_github_mcp_host}, {})
+           )
+      }}
+    _github_mcp_config:
+      command: docker
+      args: "{{ _github_mcp_args }}"
+      env: "{{ _github_mcp_env }}"

@@ -13,6 +13,12 @@ ai_tools_gerrit_mcp_configure_claude_code: true
 ai_tools_todoist_mcp_enabled: true
 ai_tools_todoist_mcp_url: 'https://ai.todoist.net/mcp'
 
+# GitHub MCP Server
+ai_tools_github_mcp_enabled: true
+ai_tools_github_mcp_token: ''
+ai_tools_github_mcp_toolsets: ''
+ai_tools_github_mcp_host: ''
+
 # Jira (Atlassian Rovo) MCP Server
 ai_tools_jira_mcp_enabled: true
 ai_tools_jira_mcp_url: 'https://mcp.atlassian.com/v1/mcp/authv2'
