@@ -33,3 +33,9 @@ ai_tools_claude_skills_summary_github_projects: []
   # - openstack/neutron
 ai_tools_claude_skills_summary_gitlab_projects: []
   # - mygroup/myrepo
+
+# make-reviews-plan skill: Todoist destination for code-review tasks
+ai_tools_claude_skills_make_reviews_plan_todoist_project: ''
+  # - Work
+ai_tools_claude_skills_make_reviews_plan_todoist_label: ''
+  # - code-review

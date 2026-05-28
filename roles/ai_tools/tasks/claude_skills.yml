@@ -24,3 +24,15 @@
     src: skills/summarize-reviews/SKILL.md.j2
     dest: "{{ ansible_env.HOME }}/.claude/skills/summarize-reviews/SKILL.md"
     mode: '0644'
+
+- name: Ensure make-reviews-plan skill directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.claude/skills/make-reviews-plan"
+    state: directory
+    mode: '0755'
+
+- name: Deploy make-reviews-plan skill
+  template:
+    src: skills/make-reviews-plan/SKILL.md.j2
+    dest: "{{ ansible_env.HOME }}/.claude/skills/make-reviews-plan/SKILL.md"
+    mode: '0644'

@@ -1,0 +1,332 @@
+---
+name: make-reviews-plan
+description: >
+  Discover recent changes in the watched projects on the watched
+  platforms such as Gerrit, GitHub, and GitLab, compare it with existing tasks in
+  the Todoist, and generate a plan of tasks to review.
+disable-model-invocation: true
+allowed-tools: Bash(gh *) Bash(glab *) Bash(date *)
+---
+
+# Sync code-review backlog to Todoist
+
+Current time: !`date -u '+%Y-%m-%d %H:%M UTC'`
+Current day of week: !`date -u '+%A'`
+
+## Goal
+
+Keep Todoist in sync with code you should review:
+
+1. **Create** Todoist tasks for open changes that need your review (newly proposed or updated after your last review).
+2. **Update** existing review tasks when the change moved forward (new patchset, new commits, CI recovered, etc.).
+3. **Delete** review tasks when the change is **merged**, **abandoned**, or otherwise no longer needs your review.
+
+This skill **mutates Todoist** (create / update / delete). Do not only summarize — apply the reconciliation in Step 5.
+
+## Configuration
+
+### Todoist (review tasks live here)
+
+{% if ai_tools_claude_skills_make_reviews_plan_todoist_project %}
+- **Project**: `{{ ai_tools_claude_skills_make_reviews_plan_todoist_project }}`
+{% else %}
+- **Project**: _(not configured — set `ai_tools_claude_skills_make_reviews_plan_todoist_project` in Ansible)_
+{% endif %}
+{% if ai_tools_claude_skills_make_reviews_plan_todoist_label %}
+- **Label**: `{{ ai_tools_claude_skills_make_reviews_plan_todoist_label }}`
+{% else %}
+- **Label**: _(not configured — set `ai_tools_claude_skills_make_reviews_plan_todoist_label` in Ansible)_
+{% endif %}
+
+If either project or label is missing, stop and tell the user to configure those parameters above.
+
+When calling Todoist MCP tools, pass this project and label on every created or
+updated task. To list existing review tasks, use Todoist MCP (for example
+`mcp__todoist__search` or `mcp__todoist__find_tasks_by_date`) with a filter
+equivalent to:
+
+{% if ai_tools_claude_skills_make_reviews_plan_todoist_project and ai_tools_claude_skills_make_reviews_plan_todoist_label %}
+`#{{ ai_tools_claude_skills_make_reviews_plan_todoist_project }} & @{{ ai_tools_claude_skills_make_reviews_plan_todoist_label }}`
+{% endif %}
+
+If a tool name fails, list available `mcp__todoist__*` tools and use the closest match (`add_tasks`, `update_tasks`, `delete_tasks`, `search`, `fetch`).
+
+### Lookback window (for “recent” activity)
+
+- If today is **Monday**, use **last 72 hours** (covers the weekend).
+- Otherwise, use **last 24 hours**.
+
+Use the lookback window to detect **new** or **recently updated** changes. Still load **all open** changes in watched projects when reconciling deletions and stale tasks.
+
+### Watched platforms
+
+Skip any platform marked “not configured”.
+
+#### Gerrit
+
+{% if ai_tools_claude_skills_summary_gerrit_projects %}
+{% for project in ai_tools_claude_skills_summary_gerrit_projects %}
+- `{{ project }}`
+{% endfor %}
+{% else %}
+_(none — set `ai_tools_claude_skills_summary_gerrit_projects` in Ansible)_
+{% endif %}
+
+#### GitHub
+
+{% if ai_tools_claude_skills_summary_github_projects %}
+{% for repo in ai_tools_claude_skills_summary_github_projects %}
+- `{{ repo }}`
+{% endfor %}
+{% else %}
+_(none — set `ai_tools_claude_skills_summary_github_projects` in Ansible)_
+{% endif %}
+
+#### GitLab
+
+{% if ai_tools_claude_skills_summary_gitlab_projects %}
+{% for project in ai_tools_claude_skills_summary_gitlab_projects %}
+- `{{ project }}`
+{% endfor %}
+{% else %}
+_(none — set `ai_tools_claude_skills_summary_gitlab_projects` in Ansible)_
+{% endif %}
+
+### Priority focus (interactive)
+
+**Before doing anything else**, ask the user:
+
+> What are your top priority topics right now?
+> _(e.g. bug numbers, RFE names, feature areas, or a short description — leave empty to skip)_
+
+Wait for the user's response.
+
+- If the user provides one or more topics, store them as `focus_topics` (a list
+  of keywords / phrases / bug IDs). These will be used in Step 3 to boost
+  matching changes.
+- If the user responds with nothing, an empty message, or explicitly says
+  "none" / "skip", set `focus_topics` to empty and proceed normally — all
+  priority rules stay as they were.
+
+## Task format (required for matching)
+
+Every review task you create or keep must follow this shape so later runs can match changes to tasks:
+
+- **Content**: `[Review] <title from the change/PR/MR>`.
+- **Description** (first lines, exact keys):
+  ```
+  change_url: <full https:// URL to the change/PR/MR>
+  last_seen_update: <ISO-8601 UTC timestamp of latest relevant update you used>
+  size: <total insertions + deletions across all files, e.g. "42">
+  reason: <short phrase why review is needed> - this can be info like e.g. "new changes sent by author" or "new patch", etc.
+  ```
+- **Project** and **label**: as configured above. Additionally:
+  - If the change targets a branch **other than** `master` or `main`
+    (e.g. `stable/<release>`), add the label **`backport`**.
+  - Based on the total changed lines (insertions + deletions), add **one** of
+    these size labels:
+
+    | Changed lines | Label |
+    |---------------|-------|
+    | ≤ 50          | `Small` |
+    | 51 – 300      | `Medium` |
+    | > 300         | `Large` |
+
+    On subsequent runs, **update** the size label if the patch size changed
+    (e.g. new patchset with more code).
+- **Priority** (evaluated top-to-bottom, first match wins):
+  1. If `focus_topics` is non-empty and the change **matches** any focus topic
+     → priority **1** and set due date to **today**.
+  2. If the change has `Review-Priority` label set to `+2` → priority **1**.
+  3. If the change has `Review-Priority` label set to `+1` → priority **2**.
+  4. All other changes → priority **3**.
+
+**Matching rule**: two items match if `change_url` is identical after normalizing (strip trailing `/`, ignore fragment). Never create duplicate tasks for the same `change_url`.
+
+## Step 1: Load existing Todoist review tasks
+
+1. Fetch all **active** tasks in the configured project with the configured label.
+2. Build a map `change_url → { task_id, content, description, last_seen_update, size }` by parsing `change_url:` and `size:` from each task description.
+3. Tasks without `change_url:` in the description are legacy — do not delete them automatically; mention them in the final report.
+
+## Step 2: Collect open changes from platforms
+
+### Gerrit
+
+For each watched project, use `mcp__gerrit__query_changes` with:
+
+- Open changes: `project:<name> status:open`
+- Recently touched (lookback): add `-age:24h` or `-age:72h` on Monday
+- Limit changes to only those proposed to branches: `master` or
+  `stable/<release>`. Don't check branches that are proposed to other branches
+  like for example `unmaintaned/<release>`
+
+For each candidate change, call `mcp__gerrit__get_change_details` with
+`["DETAILED_ACCOUNTS", "MESSAGES", "LABELS", "CURRENT_REVISION"]`.
+
+Record per change: full **change URL**, project, subject/title, owner, status,
+current patchset, labels/votes (including CI), `updated` time, WIP/draft flags,
+and **target branch**.
+
+To get the patch size, call `mcp__gerrit__get_change_details` with
+`["CURRENT_REVISION", "CURRENT_FILES"]`. Sum `lines_inserted` and
+`lines_deleted` across all files to get total changed lines.
+
+### GitHub
+
+For each watched repo:
+
+```bash
+gh pr list --repo OWNER/REPO --state open --json number,title,url,author,updatedAt,isDraft,reviewDecision,additions,deletions,baseRefName
+```
+
+For PRs that may need your review, inspect review state and recent pushes:
+
+```bash
+gh pr view <number> --repo OWNER/REPO --json reviews,commits,statusCheckRollup,updatedAt
+gh api repos/OWNER/REPO/pulls/<number>/reviews --jq '.[] | select(.user.login == "@me")'
+```
+
+### GitLab
+
+For each watched project:
+
+```bash
+glab mr list --repo GROUP/PROJECT --state opened
+```
+
+For candidates, fetch details, pipelines, and your last approval/note:
+
+```bash
+glab mr view <iid> --repo GROUP/PROJECT
+```
+
+## Step 3: Decide which changes need a review task
+
+Apply the same intent as the **summarize-reviews** skill — only **changes by others** in watched projects (not your own open changes).
+
+**Include** a change when **any** of these is true:
+
+- **New in lookback**: created or first became reviewable within the lookback window.
+- **Updated after your last review**: a new patchset / new commits / meaningful update timestamp is **after** your last review on that change (see below).
+- **Ready for (re-)review now** (any one signal):
+  - Comments addressed + new patchset/commits after review feedback.
+  - New change with passing CI in the lookback window.
+  - You were added as reviewer, or there are no reviewers yet.
+  - Long-open change with passing CI and no reviews (optional; only if not already approved by you).
+
+**Exclude** when:
+
+- You already **approved** / voted **+Workflow** (Gerrit) — no further review needed from you.
+- **Draft** / **WIP** — **unless** the change matches a focus topic
+  (`focus_match: true`). Focus-matched drafts/WIPs are still included so you
+  can track high-priority work even before it is formally ready for review.
+- Only recent activity is **your** comments or votes (no new author/CI/reviewer signal).
+
+**Note on CI-only failures**: A change that has negative votes **only** from CI
+systems (e.g. Zuul `-1`, Jenkins `-1`) but **no** negative feedback from human
+reviewers should still be treated as ready to review.
+
+### “Your last review” timestamps
+
+| Platform | Treat as “my last review” |
+|----------|---------------------------|
+| Gerrit | Latest patchset where you cast a non-CI label vote, or your last review message; if none, you have not reviewed |
+| GitHub | Latest `APPROVED`, `CHANGES_REQUESTED`, or `COMMENTED` review from `@me` |
+| GitLab | Latest approval or note from you on the MR |
+
+A change **needs a new or updated Todoist task** when `latest_relevant_update` (new PS, push, CI flip, author reply) is **after** `my_last_review` **or** you never reviewed and the change is in the include list above.
+
+### Focus-topic matching
+
+If `focus_topics` is non-empty, check every change that passed the
+include/exclude filter above for a match. A change **matches** a focus topic
+when **any** of the following contain a keyword or phrase from `focus_topics`
+(case-insensitive, partial match is fine):
+
+- Change title / subject
+- Commit message(s)
+- Gerrit topic field
+- Related bug / tracker IDs (e.g. Launchpad bug number, GitHub issue number)
+- File paths touched by the change (e.g. a topic of "BGP" matches files under
+  `neutron/services/bgp/`)
+
+Mark every matching change with `focus_match: true`. These will receive
+priority **1** and due date **today** during reconciliation (Step 5).
+
+## Step 4: Detect merged / closed changes
+
+For each `change_url` in the Todoist map from Step 1:
+
+| Platform | Delete Todoist task when |
+|----------|---------------------------|
+| Gerrit | Change not `status:open` (merged, abandoned, etc.) — confirm via `mcp__gerrit__get_change_details` or query |
+| GitHub | PR `state` is `MERGED` or `CLOSED` (and closed without needing your review — merged always delete) |
+| GitLab | MR `state` is `merged` or `closed` |
+
+Also **delete** if the change URL no longer exists or is inaccessible.
+
+Use `mcp__todoist__delete_tasks` (or equivalent) for each task to remove.
+
+## Step 5: Reconcile Todoist
+
+Let `needed` = changes from Step 3. Let `existing` = map from Step 1.
+
+| Situation | Action |
+|-----------|--------|
+| `change_url` in `needed`, not in `existing` | **Create** task (`mcp__todoist__add_tasks`) with format above |
+| `change_url` in both, and `latest_relevant_update` > parsed `last_seen_update` from task | **Update** task (`mcp__todoist__update_tasks`): refresh `last_seen_update`, `reason`, `size`, size label, and title if changed |
+| `change_url` in `existing`, not in open `needed` set, and merged/closed (Step 4) | **Delete** task |
+| `change_url` in `existing`, change still open but no longer needs your review (you approved, WIP, etc.) | **Delete** task |
+| `change_url` in both, nothing new since `last_seen_update` | **No op** |
+
+For every **Create** or **Update** action, apply the priority rules from the
+Task format section. In particular, if the change has `focus_match: true`, set
+the task priority to **1** and its due date to **today** (overriding any
+previous due date or priority on that task).
+
+Conversely, for tasks that were previously priority-boosted (priority **1** and
+due date set to today or a past date) but do **not** match the current
+`focus_topics`, demote them:
+
+- Re-evaluate priority using the standard rules (Review-Priority label or
+  default **3**).
+- If the task's due date is **today or in the past**, remove the due date.
+- If the task's due date is **in the future**, leave it unchanged — a future
+  date was most likely set manually by the user.
+
+After mutations, briefly verify: list tasks again with the same filter and confirm counts make sense.
+
+## Step 6: Report
+
+Output a short Markdown summary:
+
+### Actions taken
+
+| Action | Count |
+|--------|------:|
+| Created | |
+| Updated | |
+| Deleted | |
+| Unchanged | |
+| Priority-boosted (focus) | |
+
+### Created / updated tasks
+
+| Change URL | Title | Size | Focus | Reason |
+|------------|-------|------|-------|--------|
+
+_(Mark focus-matched tasks with **yes** in the Focus column.)_
+
+### Deleted tasks
+
+| Change URL | Why removed |
+|------------|-------------|
+
+### Skipped / needs attention
+
+- Legacy Todoist tasks without `change_url:` (if any).
+- Platform errors or auth issues.
+- Changes you could not classify.
+
+If nothing changed, say so explicitly.

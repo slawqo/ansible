@@ -126,6 +126,19 @@ Run with:
 ansible-playbook playbook.yml --ask-vault-pass
 ```
 
+### Claude Code skills
+
+| Variable | Default | Description |
+|---|---|---|
+| `ai_tools_claude_skills_enabled` | `true` | Deploy skills under `~/.claude/skills/` |
+| `ai_tools_claude_skills_summary_gerrit_projects` | `[]` | Gerrit projects to watch (`summarize-reviews`, `make-reviews-plan`) |
+| `ai_tools_claude_skills_summary_github_projects` | `[]` | GitHub repos to watch |
+| `ai_tools_claude_skills_summary_gitlab_projects` | `[]` | GitLab projects to watch |
+| `ai_tools_claude_skills_make_reviews_plan_todoist_project` | `''` | Todoist project name for review tasks |
+| `ai_tools_claude_skills_make_reviews_plan_todoist_label` | `''` | Todoist label for review tasks |
+
+The **make-reviews-plan** skill syncs open changes from the watched platforms into Todoist: it creates tasks for new or updated reviews, updates tasks when a change moves forward, and deletes tasks when a change is merged or no longer needs your review. Requires Todoist MCP (`ai_tools_todoist_mcp_enabled`) and Gerrit MCP for Gerrit-hosted projects.
+
 ### Skip Claude Code configuration
 
 ```yaml
