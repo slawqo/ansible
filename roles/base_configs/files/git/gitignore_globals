@@ -45,3 +45,6 @@ Thumbs.db
 
 # Cache files
 cache/
+
+# AI tools files
+.claude/
