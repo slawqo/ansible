@@ -75,7 +75,7 @@ Supported distributions vary per role: Fedora, Ubuntu, CentOS7/8, Arch Linux, De
 
 ## Notable Roles
 
-- **ai_tools** — installs a Gerrit MCP server for Claude Code integration; uses a systemd user service and a Python script (`update_claude_mcp_settings.py`) to configure Claude's MCP settings. Has a restart handler.
+- **ai_tools** — installs MCP servers (Gerrit, GitHub, Jira, Todoist) and skills for both Claude Code and Cursor; uses a Python script (`update_mcp_settings.py`) to configure MCP settings in `~/.claude.json` and `~/.cursor/mcp.json`.
 - **base_configs** — manages dotfiles (gitconfig, ssh_config, zshrc) via Jinja2 templates; uses Ansible synchronize module.
 - **devstack** — generates OpenStack `local.conf` from templates supporting allinone/multinode/compute/network topologies.
 - **i3wm** — installs a full i3 desktop environment with ~13 sub-configurations (alacritty, rofi, picom, dunst, conky, redshift, etc.).

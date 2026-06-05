@@ -21,6 +21,6 @@
   include_tasks: jira_mcp_server.yml
   when: ai_tools_jira_mcp_enabled
 
-- name: Create Claude Code skills
-  include_tasks: claude_skills.yml
-  when: ai_tools_claude_skills_enabled
+- name: Deploy skills
+  include_tasks: skills.yml
+  when: ai_tools_skills_enabled

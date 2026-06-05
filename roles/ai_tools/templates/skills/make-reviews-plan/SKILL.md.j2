@@ -27,15 +27,15 @@ This skill **mutates Todoist** (create / update / delete). Do not only summarize
 
 ### Todoist (review tasks live here)
 
-{% if ai_tools_claude_skills_make_reviews_plan_todoist_project %}
-- **Project**: `{{ ai_tools_claude_skills_make_reviews_plan_todoist_project }}`
+{% if ai_tools_skills_make_reviews_plan_todoist_project %}
+- **Project**: `{{ ai_tools_skills_make_reviews_plan_todoist_project }}`
 {% else %}
-- **Project**: _(not configured — set `ai_tools_claude_skills_make_reviews_plan_todoist_project` in Ansible)_
+- **Project**: _(not configured — set `ai_tools_skills_make_reviews_plan_todoist_project` in Ansible)_
 {% endif %}
-{% if ai_tools_claude_skills_make_reviews_plan_todoist_label %}
-- **Label**: `{{ ai_tools_claude_skills_make_reviews_plan_todoist_label }}`
+{% if ai_tools_skills_make_reviews_plan_todoist_label %}
+- **Label**: `{{ ai_tools_skills_make_reviews_plan_todoist_label }}`
 {% else %}
-- **Label**: _(not configured — set `ai_tools_claude_skills_make_reviews_plan_todoist_label` in Ansible)_
+- **Label**: _(not configured — set `ai_tools_skills_make_reviews_plan_todoist_label` in Ansible)_
 {% endif %}
 
 If either project or label is missing, stop and tell the user to configure those parameters above.
@@ -45,8 +45,8 @@ updated task. To list existing review tasks, use Todoist MCP (for example
 `mcp__todoist__search` or `mcp__todoist__find_tasks_by_date`) with a filter
 equivalent to:
 
-{% if ai_tools_claude_skills_make_reviews_plan_todoist_project and ai_tools_claude_skills_make_reviews_plan_todoist_label %}
-`#{{ ai_tools_claude_skills_make_reviews_plan_todoist_project }} & @{{ ai_tools_claude_skills_make_reviews_plan_todoist_label }}`
+{% if ai_tools_skills_make_reviews_plan_todoist_project and ai_tools_skills_make_reviews_plan_todoist_label %}
+`#{{ ai_tools_skills_make_reviews_plan_todoist_project }} & @{{ ai_tools_skills_make_reviews_plan_todoist_label }}`
 {% endif %}
 
 If a tool name fails, list available `mcp__todoist__*` tools and use the closest match (`add_tasks`, `update_tasks`, `delete_tasks`, `search`, `fetch`).
@@ -64,32 +64,32 @@ Skip any platform marked “not configured”.
 
 #### Gerrit
 
-{% if ai_tools_claude_skills_summary_gerrit_projects %}
-{% for project in ai_tools_claude_skills_summary_gerrit_projects %}
+{% if ai_tools_skills_summary_gerrit_projects %}
+{% for project in ai_tools_skills_summary_gerrit_projects %}
 - `{{ project }}`
 {% endfor %}
 {% else %}
-_(none — set `ai_tools_claude_skills_summary_gerrit_projects` in Ansible)_
+_(none — set `ai_tools_skills_summary_gerrit_projects` in Ansible)_
 {% endif %}
 
 #### GitHub
 
-{% if ai_tools_claude_skills_summary_github_projects %}
-{% for repo in ai_tools_claude_skills_summary_github_projects %}
+{% if ai_tools_skills_summary_github_projects %}
+{% for repo in ai_tools_skills_summary_github_projects %}
 - `{{ repo }}`
 {% endfor %}
 {% else %}
-_(none — set `ai_tools_claude_skills_summary_github_projects` in Ansible)_
+_(none — set `ai_tools_skills_summary_github_projects` in Ansible)_
 {% endif %}
 
 #### GitLab
 
-{% if ai_tools_claude_skills_summary_gitlab_projects %}
-{% for project in ai_tools_claude_skills_summary_gitlab_projects %}
+{% if ai_tools_skills_summary_gitlab_projects %}
+{% for project in ai_tools_skills_summary_gitlab_projects %}
 - `{{ project }}`
 {% endfor %}
 {% else %}
-_(none — set `ai_tools_claude_skills_summary_gitlab_projects` in Ansible)_
+_(none — set `ai_tools_skills_summary_gitlab_projects` in Ansible)_
 {% endif %}
 
 ### Priority focus (interactive)

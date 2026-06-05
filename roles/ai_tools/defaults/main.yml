@@ -7,7 +7,6 @@ ai_tools_gerrit_mcp_repo: 'https://github.com/GerritCodeReview/gerrit-mcp-server
 ai_tools_gerrit_mcp_version: 'master'
 ai_tools_gerrit_mcp_default_gerrit_url: ''
 ai_tools_gerrit_mcp_hosts: []
-ai_tools_gerrit_mcp_configure_claude_code: true
 
 # Todoist MCP Server
 ai_tools_todoist_mcp_enabled: true
@@ -23,19 +22,19 @@ ai_tools_github_mcp_host: ''
 ai_tools_jira_mcp_enabled: true
 ai_tools_jira_mcp_url: 'https://mcp.atlassian.com/v1/mcp/authv2'
 
-# Claude Code Skills
-ai_tools_claude_skills_enabled: true
+# Skills (deployed for both Claude Code and Cursor)
+ai_tools_skills_enabled: true
 
 # summarize-reviews skill: projects/repos to watch (changes by others)
-ai_tools_claude_skills_summary_gerrit_projects: []
+ai_tools_skills_summary_gerrit_projects: []
   # - openstack/neutron
-ai_tools_claude_skills_summary_github_projects: []
+ai_tools_skills_summary_github_projects: []
   # - openstack/neutron
-ai_tools_claude_skills_summary_gitlab_projects: []
+ai_tools_skills_summary_gitlab_projects: []
   # - mygroup/myrepo
 
 # make-reviews-plan skill: Todoist destination for code-review tasks
-ai_tools_claude_skills_make_reviews_plan_todoist_project: ''
+ai_tools_skills_make_reviews_plan_todoist_project: ''
   # - Work
-ai_tools_claude_skills_make_reviews_plan_todoist_label: ''
+ai_tools_skills_make_reviews_plan_todoist_label: ''
   # - code-review

@@ -29,24 +29,20 @@
 - name: Create Gerrit MCP server configuration
   template:
     src: gerrit_config.json.j2
-    dest: "{{ ai_tools_install_dir }}/gerrit-mcp-server/gerrit_mcp_server/gerrit_config.json"
+    dest: >-
+      {{ ai_tools_install_dir }}/gerrit-mcp-server/gerrit_mcp_server/gerrit_config.json
     mode: '0600'
 
-- name: Configure Gerrit MCP server in Claude Code
-  when: ai_tools_gerrit_mcp_configure_claude_code
-  block:
-    - name: Ensure Claude Code config directory exists
-      file:
-        path: "{{ ansible_env.HOME }}/.claude"
-        state: directory
-        mode: '0755'
-
-    - name: Update Claude Code MCP settings
-      script: >-
-        update_claude_mcp_settings.py
-        gerrit
-        '{{ {"command": ai_tools_install_dir + "/gerrit-mcp-server/.venv/bin/python",
-             "args": [ai_tools_install_dir + "/gerrit-mcp-server/gerrit_mcp_server/main.py", "stdio"],
-             "env": {"PYTHONPATH": ai_tools_install_dir + "/gerrit-mcp-server/"}} | to_json }}'
+- name: Configure Gerrit MCP server
+  include_tasks: configure_mcp_server.yml
+  vars:
+    _mcp_server_name: gerrit
+    _mcp_server_config:
+      command: >-
+        {{ ai_tools_install_dir }}/gerrit-mcp-server/.venv/bin/python
       args:
-        executable: python3
+        - >-
+          {{ ai_tools_install_dir }}/gerrit-mcp-server/gerrit_mcp_server/main.py
+        - stdio
+      env:
+        PYTHONPATH: "{{ ai_tools_install_dir }}/gerrit-mcp-server/"

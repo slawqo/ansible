@@ -1,0 +1,10 @@
+---
+- name: Deploy skills for Claude Code
+  include_tasks: deploy_skills.yml
+  vars:
+    _skills_base_dir: "{{ ansible_env.HOME }}/.claude/skills"
+
+- name: Deploy skills for Cursor
+  include_tasks: deploy_skills.yml
+  vars:
+    _skills_base_dir: "{{ ansible_env.HOME }}/.cursor/skills"

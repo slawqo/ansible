@@ -1,6 +1,8 @@
 # ai_tools
 
 Installs and configures AI development tools such as MCP servers.
+All MCP servers and skills are configured for both **Claude Code** and
+**Cursor** automatically.
 
 ## Requirements
 
@@ -24,7 +26,6 @@ Installs and configures AI development tools such as MCP servers.
 | `ai_tools_gerrit_mcp_version` | `master` | Branch, tag, or commit to check out |
 | `ai_tools_gerrit_mcp_default_gerrit_url` | `''` | Default Gerrit base URL written to `gerrit_config.json` |
 | `ai_tools_gerrit_mcp_hosts` | `[]` | List of Gerrit host definitions (see below) |
-| `ai_tools_gerrit_mcp_configure_claude_code` | `true` | Whether to register the server in `~/.claude.json` |
 
 #### `ai_tools_gerrit_mcp_hosts`
 
@@ -54,8 +55,9 @@ ansible-vault encrypt roles/ai_tools/vars/main.yml
 | `ai_tools_todoist_mcp_url` | `https://ai.todoist.net/mcp` | URL of the hosted Todoist MCP server |
 
 Todoist MCP is a hosted service — no local installation is required. Authentication
-is handled via OAuth on first use. The role registers the server in `~/.claude.json`
-so Claude Code connects to it over streamable HTTP.
+is handled via OAuth on first use. The role registers the server in both
+`~/.claude.json` and `~/.cursor/mcp.json` so both tools can connect to it over
+streamable HTTP.
 
 ### Jira (Atlassian Rovo) MCP Server
 
@@ -70,13 +72,22 @@ on the target host.
 
 ## Transport modes
 
-The Gerrit MCP server runs in **stdio** mode — Claude Code spawns it as a child process and
-communicates over stdin/stdout. No network port is opened.
+The Gerrit MCP server runs in **stdio** mode — the AI tool spawns it as a child
+process and communicates over stdin/stdout. No network port is opened.
 
-The Todoist MCP server is **hosted remotely** — Claude Code connects to it via streamable HTTP.
+The Todoist MCP server is **hosted remotely** — the AI tool connects to it via
+streamable HTTP.
 
-The Jira MCP server is **hosted remotely** — Claude Code connects via `mcp-remote` which
-proxies the remote streamable HTTP endpoint through a local stdio process.
+The Jira MCP server is **hosted remotely** — the AI tool connects via
+`mcp-remote` which proxies the remote streamable HTTP endpoint through a local
+stdio process.
+
+## Where configuration is written
+
+| Component | Claude Code | Cursor |
+|-----------|-------------|--------|
+| MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` |
+| Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` |
 
 ## Example playbook
 
@@ -126,27 +137,15 @@ Run with:
 ansible-playbook playbook.yml --ask-vault-pass
 ```
 
-### Claude Code skills
+### Skills
 
 | Variable | Default | Description |
 |---|---|---|
-| `ai_tools_claude_skills_enabled` | `true` | Deploy skills under `~/.claude/skills/` |
-| `ai_tools_claude_skills_summary_gerrit_projects` | `[]` | Gerrit projects to watch (`summarize-reviews`, `make-reviews-plan`) |
-| `ai_tools_claude_skills_summary_github_projects` | `[]` | GitHub repos to watch |
-| `ai_tools_claude_skills_summary_gitlab_projects` | `[]` | GitLab projects to watch |
-| `ai_tools_claude_skills_make_reviews_plan_todoist_project` | `''` | Todoist project name for review tasks |
-| `ai_tools_claude_skills_make_reviews_plan_todoist_label` | `''` | Todoist label for review tasks |
+| `ai_tools_skills_enabled` | `true` | Deploy skills under `~/.claude/skills/` and `~/.cursor/skills/` |
+| `ai_tools_skills_summary_gerrit_projects` | `[]` | Gerrit projects to watch (`summarize-reviews`, `make-reviews-plan`) |
+| `ai_tools_skills_summary_github_projects` | `[]` | GitHub repos to watch |
+| `ai_tools_skills_summary_gitlab_projects` | `[]` | GitLab projects to watch |
+| `ai_tools_skills_make_reviews_plan_todoist_project` | `''` | Todoist project name for review tasks |
+| `ai_tools_skills_make_reviews_plan_todoist_label` | `''` | Todoist label for review tasks |
 
 The **make-reviews-plan** skill syncs open changes from the watched platforms into Todoist: it creates tasks for new or updated reviews, updates tasks when a change moves forward, and deletes tasks when a change is merged or no longer needs your review. Requires Todoist MCP (`ai_tools_todoist_mcp_enabled`) and Gerrit MCP for Gerrit-hosted projects.
-
-### Skip Claude Code configuration
-
-```yaml
-- name: Configure workstation
-  hosts: localhost
-  connection: local
-  roles:
-    - role: ai_tools
-      vars:
-        ai_tools_gerrit_mcp_configure_claude_code: false
-```

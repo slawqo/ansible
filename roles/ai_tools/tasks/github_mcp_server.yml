@@ -1,18 +1,9 @@
 ---
-- name: Ensure Claude Code config directory exists
-  file:
-    path: "{{ ansible_env.HOME }}/.claude"
-    state: directory
-    mode: '0755'
-
-- name: Configure GitHub MCP server in Claude Code
-  script: >-
-    update_claude_mcp_settings.py
-    github
-    '{{ _github_mcp_config | to_json }}'
-  args:
-    executable: python3
+- name: Configure GitHub MCP server
+  include_tasks: configure_mcp_server.yml
   vars:
+    _mcp_server_name: github
+    _mcp_server_config: "{{ _github_mcp_config }}"
     _github_mcp_base_args:
       - run
       - -i

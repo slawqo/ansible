@@ -29,45 +29,45 @@ options `["DETAILED_ACCOUNTS", "MESSAGES", "LABELS"]` to inspect recent activity
 **Watched projects** — for each project below use `mcp__gerrit__query_changes` to fetch
 changes updated within the lookback window:
 
-{% if ai_tools_claude_skills_summary_gerrit_projects %}
-{% for project in ai_tools_claude_skills_summary_gerrit_projects %}
+{% if ai_tools_skills_summary_gerrit_projects %}
+{% for project in ai_tools_skills_summary_gerrit_projects %}
 - `{{ project }}` — query: `project:{{ project }} status:open -age:24h` (or `-age:72h` on Monday)
 {% endfor %}
 {% else %}
-_(none configured — set `ai_tools_claude_skills_summary_gerrit_projects` in Ansible)_
+_(none configured — set `ai_tools_skills_summary_gerrit_projects` in Ansible)_
 {% endif %}
 
 ### GitHub
 
-{% if ai_tools_claude_skills_summary_github_projects %}
+{% if ai_tools_skills_summary_github_projects %}
 **My open PRs**:
 ```
 gh pr list --author @me --state open --json number,title,url,updatedAt,headRepository
 ```
 
 **Watched repositories**:
-{% for repo in ai_tools_claude_skills_summary_github_projects %}
+{% for repo in ai_tools_skills_summary_github_projects %}
 - `{{ repo }}`:
   `gh pr list --repo {{ repo }} --state open --json number,title,url,author,updatedAt --limit 100`
 {% endfor %}
 {% else %}
-_(not configured — set `ai_tools_claude_skills_summary_github_projects` in Ansible)_
+_(not configured — set `ai_tools_skills_summary_github_projects` in Ansible)_
 {% endif %}
 
 ### GitLab
 
-{% if ai_tools_claude_skills_summary_gitlab_projects %}
+{% if ai_tools_skills_summary_gitlab_projects %}
 **My open MRs**:
 ```
 glab mr list --author @me --state opened
 ```
 
 **Watched projects**:
-{% for project in ai_tools_claude_skills_summary_gitlab_projects %}
+{% for project in ai_tools_skills_summary_gitlab_projects %}
 - `{{ project }}`: `glab mr list --repo {{ project }} --state opened`
 {% endfor %}
 {% else %}
-_(not configured — set `ai_tools_claude_skills_summary_gitlab_projects` in Ansible)_
+_(not configured — set `ai_tools_skills_summary_gitlab_projects` in Ansible)_
 {% endif %}
 
 ## Step 2: Filter and classify
