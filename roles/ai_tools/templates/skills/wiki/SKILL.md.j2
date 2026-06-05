@@ -1,0 +1,255 @@
+---
+name: wiki
+description: >
+  Personal second-brain wiki. Ingests documents from sources/, writes
+  Obsidian-ready notes with summaries and keywords. Use when the user
+  invokes /wiki, adds documents to their wiki, or asks to summarize
+  or organize personal notes.
+disable-model-invocation: true
+---
+
+# Wiki — personal second brain
+
+Maintain an Obsidian vault that turns raw documents into organized, linked notes.
+
+## Goal
+
+Act as a second brain:
+
+1. **Ingest** documents the user drops into `sources/` (PDFs, text files, meeting notes, etc.).
+2. **Organize** knowledge into structured Markdown notes under `notes/`.
+3. **Connect** related notes with Obsidian wikilinks when it makes sense.
+
+## Configuration
+
+- **Vault root**: `{{ ai_tools_wiki_path }}`
+- **Sources**: `{{ ai_tools_wiki_path }}/sources`
+- **Notes**: `{{ ai_tools_wiki_path }}/notes`
+- **Web notes**: `{{ ai_tools_wiki_path }}/notes/web`
+- **Index (master catalog)**: `{{ ai_tools_wiki_path }}/notes/index.md`
+- **Log (changelog)**: `{{ ai_tools_wiki_path }}/log.md`
+
+All paths below are relative to the vault root unless stated otherwise.
+
+## Directory layout
+
+```
+{{ ai_tools_wiki_path }}/
+├── log.md              # Chronological changelog (append-only)
+├── sources/            # Raw documents (user-managed)
+│   └── personal/
+│       └── computers/
+│           └── document.pdf
+└── notes/              # AI-organized notes (Obsidian)
+    ├── index.md        # Master catalog of every wiki page
+    ├── personal/
+    │   └── computers/
+    │       └── document.md
+    └── web/            # Notes from web pages (always here)
+        └── example-article.md
+```
+
+## Path mapping
+
+| Input | Note path |
+|-------|-----------|
+| `sources/personal/computers/document.pdf` | `notes/personal/computers/document.md` |
+| `https://example.com/article` | `notes/web/<short-meaningful-slug>.md` |
+
+Rules:
+
+- Strip the `sources/` prefix, preserve subfolder structure under `notes/`, change extension to `.md`.
+- Web page notes **always** go under `notes/web/`.
+- Web note filenames: kebab-case slug from page title or topic, ≤ 60 characters, alphanumeric and hyphens only.
+
+## Required note format
+
+Every note must use this Obsidian-compatible structure:
+
+```markdown
+---
+keywords: [keyword1, keyword2]
+source: sources/personal/computers/document.pdf
+created: 2026-06-05
+---
+
+# Document title
+
+## Summary
+
+Concise summary of the source content.
+
+## Keywords
+
+keyword1, keyword2, keyword3
+
+## Source
+
+[document.pdf](sources/personal/computers/document.pdf)
+```
+
+For web pages:
+
+- `source` in frontmatter is the full URL.
+- The Source section links to that URL.
+- Set `created` to today's date (UTC) when creating a new note; preserve it when updating.
+
+Use `[[wikilinks]]` to cross-reference related notes when connections are meaningful.
+
+## Master catalog (`notes/index.md`)
+
+Every wiki page **must** be listed in `notes/index.md` under a category heading.
+
+- **Category** = the top-level folder under `notes/` (e.g. `web`, `personal`). Use the note's `#` title as the link label.
+- **Entry format**: `- [[path/to/note|Note title]]` (Obsidian wikilink, path relative to vault without `.md` extension).
+- **Exclude** `notes/index.md` itself from the catalog.
+- After creating, updating, or deleting any note, update `index.md`:
+  - Add or update the entry under the correct category heading.
+  - Remove entries for deleted notes.
+  - Create a category heading if it does not exist yet.
+  - Keep entries sorted alphabetically within each category.
+- If `index.md` does not exist, create it with a `# Wiki index` heading and category sections.
+
+Example:
+
+```markdown
+# Wiki index
+
+## Web
+
+- [[web/example-article|Example Article Title]]
+
+## Personal
+
+- [[personal/computers/document|Document Title]]
+```
+
+## Changelog (`log.md`)
+
+Every wiki operation **must** append one entry to `log.md` at the vault root.
+
+- **Format**: `- YYYY-MM-DD HH:MM UTC — <action description>`
+- Use the current UTC timestamp at the time of the operation.
+- Append to the end of the file (do not rewrite earlier entries).
+- If `log.md` does not exist, create it with a `# Wiki log` heading first.
+
+Example entries:
+
+```markdown
+- 2026-06-05 14:30 UTC — created note notes/personal/computers/document.md from sources/personal/computers/document.pdf
+- 2026-06-05 14:32 UTC — updated note notes/web/example-article.md from https://example.com/article
+- 2026-06-05 14:35 UTC — deleted orphan note notes/personal/old-draft.md (source removed)
+- 2026-06-05 14:36 UTC — sync complete: 3 notes created, 1 orphan deleted
+```
+
+## Determine invocation mode
+
+Parse `$ARGUMENTS` (everything after `/wiki`):
+
+| Argument | Mode |
+|----------|------|
+| Starts with `http://` or `https://` | **Mode 2 — URL** |
+| Path under `sources/` | **Mode 1 — single file** |
+| Empty / no argument | **Mode 3 — sync** |
+
+Normalize file arguments: if the path does not start with `sources/`, prepend it. Resolve relative to the vault root.
+
+---
+
+## Mode 1 — single source file
+
+Example: `/wiki sources/personal/document.pdf`
+
+1. Resolve the full path under `{{ ai_tools_wiki_path }}`.
+2. Verify the file exists and is under `sources/`. Reject with a clear error if not.
+3. Read the source:
+   - Text files: Read tool.
+   - PDFs and images: Read tool; if PDF text is insufficient, fall back to `pdftotext` via Bash.
+   - Other formats: use the best available tool; note limitations in the summary if content cannot be fully extracted.
+4. Compute the note path (mapping rules above).
+5. Create parent directories under `notes/` if needed.
+6. Write or overwrite the note using the required format.
+7. Update `notes/index.md` — add or refresh the entry under the correct category.
+8. Append an entry to `log.md` describing the create or update.
+9. Report the note path created or updated.
+
+Mode 1 **always regenerates** the note, even if one already exists.
+
+---
+
+## Mode 2 — URL
+
+Example: `/wiki https://example.com/page`
+
+1. Fetch page content (WebFetch, or exa `web_fetch_exa` if available).
+2. Derive a short meaningful filename slug from the page title or main topic.
+3. Check `notes/web/` for an existing note whose frontmatter `source:` matches this URL. If found, update that note; otherwise create `notes/web/<slug>.md`.
+4. Write the note using the required format (URL as `source`).
+5. Update `notes/index.md` — add or refresh the entry under the **Web** category.
+6. Append an entry to `log.md` describing the create or update.
+7. Report the note path created or updated.
+
+---
+
+## Mode 3 — sync (no arguments)
+
+Example: `/wiki`
+
+### Step 1: Find new sources
+
+Recursively list all files under `sources/`:
+
+- Skip directories, hidden files (names starting with `.`), and `.gitkeep`.
+- For each source file, compute the expected note path.
+- Collect sources whose note file **does not exist**.
+
+### Step 2: Create notes for new sources
+
+For each missing note, launch a **Task subagent** (`subagent_type: generalPurpose`) with a self-contained prompt:
+
+> Run the wiki skill (Mode 1) for this single source file: `<relative-source-path>`.
+> Vault root: `{{ ai_tools_wiki_path }}`.
+> Write the note at `<relative-note-path>`.
+> Follow the required note format exactly. Do not scan other files.
+> Do **not** update `index.md` or `log.md` — the parent agent handles those after sync.
+
+Dispatch subagents **in parallel** when multiple new files exist.
+
+Wait for all subagents to finish before proceeding.
+
+### Step 3: Orphan cleanup
+
+Walk `notes/` recursively (excluding `notes/web/` and `notes/index.md`):
+
+- For each `.md` file, compute the mirrored source path (`notes/` → `sources/`, `.md` → original extension is unknown — check whether **any** file with the same basename exists in the corresponding `sources/` subdirectory).
+- More precisely: given `notes/personal/computers/document.md`, the mirrored source is `sources/personal/computers/document.*`. If **no** file with basename `document` exists in `sources/personal/computers/`, delete the note.
+- Do **not** delete anything under `notes/web/`.
+- For each deleted orphan: remove its entry from `notes/index.md` and append a deletion entry to `log.md`.
+
+### Step 4: Rebuild index and log sync summary
+
+1. Reconcile `notes/index.md` — ensure every note under `notes/` (except `index.md`) appears under the correct category heading; remove stale entries.
+2. Append one summary entry to `log.md`, e.g. `sync complete: N notes created, M orphans deleted`.
+
+### Step 5: Report
+
+Output a short Markdown summary:
+
+| Metric | Count |
+|--------|------:|
+| New sources found | |
+| Notes created (via subagents) | |
+| Orphan notes deleted | |
+| Errors | |
+
+List each created note and each deleted orphan with its path.
+
+---
+
+## Edge cases
+
+- Reject paths outside `sources/` in Mode 1.
+- Do not modify files in `sources/` — it is user-managed.
+- Do not delete `notes/index.md` during orphan cleanup.
+- Do not delete notes under `notes/web/` during orphan cleanup.
+- If a subagent fails, report the error and continue with remaining files.

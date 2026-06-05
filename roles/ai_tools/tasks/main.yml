@@ -21,6 +21,10 @@
   include_tasks: jira_mcp_server.yml
   when: ai_tools_jira_mcp_enabled
 
+- name: Deploy wiki
+  include_tasks: wiki.yml
+  when: ai_tools_wiki_path | length > 0
+
 - name: Deploy skills
   include_tasks: skills.yml
   when: ai_tools_skills_enabled

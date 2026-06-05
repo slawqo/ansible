@@ -88,6 +88,7 @@ stdio process.
 |-----------|-------------|--------|
 | MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` |
 | Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` |
+| Wiki skill (when `ai_tools_wiki_path` set) | `<wiki>/.claude/skills/wiki/` → symlink to `.agents/skills/wiki/` | `<wiki>/.agents/skills/wiki/SKILL.md` (native) |
 
 ## Example playbook
 
@@ -147,5 +148,12 @@ ansible-playbook playbook.yml --ask-vault-pass
 | `ai_tools_skills_summary_gitlab_projects` | `[]` | GitLab projects to watch |
 | `ai_tools_skills_make_reviews_plan_todoist_project` | `''` | Todoist project name for review tasks |
 | `ai_tools_skills_make_reviews_plan_todoist_label` | `''` | Todoist label for review tasks |
+| `ai_tools_wiki_path` | `''` | Obsidian vault root. When set, creates `sources/` + `notes/` structure, seeds `notes/index.md` and `log.md`, and deploys the `wiki` skill to `<wiki>/.agents/skills/wiki/`. Cursor reads it from there natively; Claude Code gets a symlink at `<wiki>/.claude/skills/wiki/`. When empty, wiki is not deployed. |
 
 The **make-reviews-plan** skill syncs open changes from the watched platforms into Todoist: it creates tasks for new or updated reviews, updates tasks when a change moves forward, and deletes tasks when a change is merged or no longer needs your review. Requires Todoist MCP (`ai_tools_todoist_mcp_enabled`) and Gerrit MCP for Gerrit-hosted projects.
+
+The **wiki** skill maintains a personal second-brain Obsidian vault. Drop documents into `sources/`; the skill writes structured notes under `notes/` with summaries, keywords, and links back to the source. It keeps `notes/index.md` as a master catalog and appends every operation to `log.md`. Invoke it three ways:
+
+- `/wiki sources/personal/document.pdf` — read one source file and create/update its note
+- `/wiki https://example.com/page` — fetch a web page and write a note under `notes/web/`
+- `/wiki` — scan for new sources (spawning a subagent per file), create missing notes, and delete orphan notes whose source was removed

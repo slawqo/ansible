@@ -38,3 +38,7 @@ ai_tools_skills_make_reviews_plan_todoist_project: ''
   # - Work
 ai_tools_skills_make_reviews_plan_todoist_label: ''
   # - code-review
+
+# wiki skill: Obsidian vault root (when set, deploys wiki skill and creates dirs)
+ai_tools_wiki_path: ''
+  # - ~/wiki
