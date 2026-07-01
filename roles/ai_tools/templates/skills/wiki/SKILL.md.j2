@@ -46,7 +46,10 @@ All paths below are relative to the vault root unless stated otherwise.
     │   └── computers/
     │       └── document.md
     └── web/            # Notes from web pages (always here)
-        └── example-article.md
+        ├── networking/          # Subcategory folder
+        │   └── retis-ovs.md
+        └── development-tools/   # Subcategory folder
+            └── some-tool.md
 ```
 
 ## Path mapping
@@ -54,13 +57,18 @@ All paths below are relative to the vault root unless stated otherwise.
 | Input | Note path |
 |-------|-----------|
 | `sources/personal/computers/document.pdf` | `notes/personal/computers/document.md` |
-| `https://example.com/article` | `notes/web/<short-meaningful-slug>.md` |
+| `https://example.com/article` | `notes/web/<subcategory>/<short-meaningful-slug>.md` |
 
 Rules:
 
 - Strip the `sources/` prefix, preserve subfolder structure under `notes/`, change extension to `.md`.
-- Web page notes **always** go under `notes/web/`.
+- Web page notes **always** go under `notes/web/<subcategory>/`.
+- **Subcategory** is a kebab-case folder name that groups the page by topic (e.g. `networking`, `development-tools`, `ai-skills-workshop`, `cloud-computing`, `security`).
+  - Choose the subcategory based on the page's primary topic.
+  - Before creating a new subcategory, list existing folders under `notes/web/` and reuse one if it fits. Create a new folder only when no existing subcategory is a reasonable match.
+  - Subcategory names: kebab-case, 2-4 words max, broad enough to hold multiple related notes.
 - Web note filenames: kebab-case slug from page title or topic, ≤ 60 characters, alphanumeric and hyphens only.
+- When multiple pages from the same series or site share a topic (e.g. a multi-part workshop), they should share the same subcategory.
 
 ## Required note format
 
@@ -100,14 +108,16 @@ Use `[[wikilinks]]` to cross-reference related notes when connections are meanin
 
 Every wiki page **must** be listed in `notes/index.md` under a category heading.
 
-- **Category** = the top-level folder under `notes/` (e.g. `web`, `personal`). Use the note's `#` title as the link label.
+- **Category** = the top-level folder under `notes/` (e.g. `Web`, `Personal`). Use the note's `#` title as the link label.
+- **Web subcategories**: notes under `notes/web/<subcategory>/` are grouped under a `###` subheading within the `## Web` section. The subheading is the subcategory folder name converted to Title Case (e.g. `development-tools` → `### Development Tools`).
 - **Entry format**: `- [[path/to/note|Note title]]` (Obsidian wikilink, path relative to vault without `.md` extension).
 - **Exclude** `notes/index.md` itself from the catalog.
 - After creating, updating, or deleting any note, update `index.md`:
-  - Add or update the entry under the correct category heading.
+  - Add or update the entry under the correct category/subcategory heading.
   - Remove entries for deleted notes.
-  - Create a category heading if it does not exist yet.
-  - Keep entries sorted alphabetically within each category.
+  - Create a category or subcategory heading if it does not exist yet.
+  - Keep entries sorted alphabetically within each subcategory.
+  - Keep subcategory headings (`###`) sorted alphabetically within `## Web`.
 - If `index.md` does not exist, create it with a `# Wiki index` heading and category sections.
 
 Example:
@@ -117,7 +127,13 @@ Example:
 
 ## Web
 
-- [[web/example-article|Example Article Title]]
+### Development Tools
+
+- [[web/development-tools/some-tool|Some Tool Title]]
+
+### Networking
+
+- [[web/networking/retis-ovs|Retis OVS Collector]]
 
 ## Personal
 
@@ -183,11 +199,16 @@ Example: `/wiki https://example.com/page`
 
 1. Fetch page content (WebFetch, or exa `web_fetch_exa` if available).
 2. Derive a short meaningful filename slug from the page title or main topic.
-3. Check `notes/web/` for an existing note whose frontmatter `source:` matches this URL. If found, update that note; otherwise create `notes/web/<slug>.md`.
-4. Write the note using the required format (URL as `source`).
-5. Update `notes/index.md` — add or refresh the entry under the **Web** category.
-6. Append an entry to `log.md` describing the create or update.
-7. Report the note path created or updated.
+3. Determine the **subcategory**:
+   a. List existing folders under `notes/web/` to see available subcategories.
+   b. Based on the page content and topic, pick the best-fitting existing subcategory.
+   c. If no existing subcategory is a reasonable match, create a new one (kebab-case, 2-4 words, broad topic).
+4. Check `notes/web/` **recursively** for an existing note whose frontmatter `source:` matches this URL. If found, update that note in place (do not move it to a different subcategory); otherwise create `notes/web/<subcategory>/<slug>.md`.
+5. Create the subcategory directory if it does not exist yet.
+6. Write the note using the required format (URL as `source`).
+7. Update `notes/index.md` — add or refresh the entry under the **Web** section and the correct `###` subcategory subheading. Create the subcategory subheading if it does not exist.
+8. Append an entry to `log.md` describing the create or update.
+9. Report the note path created or updated.
 
 ---
 
@@ -228,7 +249,7 @@ Walk `notes/` recursively (excluding `notes/web/` and `notes/index.md`):
 
 ### Step 4: Rebuild index and log sync summary
 
-1. Reconcile `notes/index.md` — ensure every note under `notes/` (except `index.md`) appears under the correct category heading; remove stale entries.
+1. Reconcile `notes/index.md` — ensure every note under `notes/` (except `index.md`) appears under the correct category/subcategory heading; remove stale entries. For web notes, use `###` subcategory subheadings based on the folder structure under `notes/web/`. Remove empty subcategory headings if all their notes were deleted.
 2. Append one summary entry to `log.md`, e.g. `sync complete: N notes created, M orphans deleted`.
 
 ### Step 5: Report
