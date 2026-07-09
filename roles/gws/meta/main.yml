@@ -1,0 +1,11 @@
+galaxy_info:
+  author: Slawek Kaplonski
+  description: Install and configure Google Workspace CLI (gws)
+
+  license: GPL-2.0-or-later
+
+  min_ansible_version: 2.9
+
+  galaxy_tags: []
+
+dependencies: []

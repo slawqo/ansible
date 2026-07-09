@@ -1,0 +1,30 @@
+---
+- name: Ensure AI tools install directory exists
+  file:
+    path: "{{ ai_tools_install_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Install and configure Gerrit MCP server
+  include_tasks: gerrit_mcp_server.yml
+  when: ai_tools_gerrit_mcp_enabled
+
+- name: Configure Todoist MCP server
+  include_tasks: todoist_mcp_server.yml
+  when: ai_tools_todoist_mcp_enabled
+
+- name: Configure GitHub MCP server
+  include_tasks: github_mcp_server.yml
+  when: ai_tools_github_mcp_enabled
+
+- name: Configure Jira MCP server
+  include_tasks: jira_mcp_server.yml
+  when: ai_tools_jira_mcp_enabled
+
+- name: Deploy wiki
+  include_tasks: wiki.yml
+  when: ai_tools_wiki_path | length > 0
+
+- name: Deploy skills
+  include_tasks: skills.yml
+  when: ai_tools_skills_enabled

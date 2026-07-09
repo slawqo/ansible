@@ -1,0 +1,22 @@
+---
+- name: Install distribution packages
+  include_tasks: "{{ item }}"
+  with_first_found:
+    - files:
+        - "{{ ansible_distribution | lower }}.yml"
+        - default.yml
+
+- name: Install gws CLI
+  include_tasks: install.yml
+
+- name: Configure OAuth client
+  include_tasks: oauth.yml
+  when: gws_oauth_enabled
+
+- name: Install upstream gws agent skills
+  include_tasks: skills.yml
+  when: gws_skills_enabled
+
+- name: Deploy custom gws agent skills
+  include_tasks: custom_skills.yml
+  when: gws_custom_skills_enabled

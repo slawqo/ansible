@@ -1,0 +1,73 @@
+---
+name: gws-overview
+description: >-
+  Google Workspace CLI (gws) is installed on this machine. Use for Gmail, Drive,
+  Calendar, Sheets, and Docs from the terminal. Use when the user asks about
+  email, calendar, drive files, or Google Workspace automation via gws.
+---
+
+# Google Workspace CLI (gws)
+
+`gws` is installed at `{{ gws_bin }}` (also symlinked to `{{ gws_binary_install_dir }}/gws`).
+
+## Before any gws command
+
+```bash
+{{ gws_bin }} auth status
+```
+
+If auth fails, tell the user to run:
+
+```bash
+{{ gws_bin }} auth login -s {{ gws_auth_scopes }}
+```
+
+## How to use gws in Cursor
+
+| Method | When to use |
+|--------|-------------|
+| **Custom skills** | Gmail search/list workflows — start with `gws-gmail-search` |
+| **Upstream skills** | Send, reply, triage, calendar agenda — `gws-gmail-*`, `gws-calendar-*`, etc. |
+| **Shell** | Run `{{ gws_bin }}` commands directly via Bash |
+
+> `gws` does **not** ship an MCP server (it was removed upstream). Use skills + shell.
+
+## Gmail quick reference
+
+```bash
+# Unread inbox summary
+{{ gws_bin }} gmail +triage
+
+# Search with any Gmail query (sent, labels, dates, keywords)
+{{ gws_bin }} gmail +triage --query 'in:sent label:work newer_than:7d' --max 50
+
+# Read a message
+{{ gws_bin }} gmail +read --id MESSAGE_ID --headers
+
+# Send email (confirm with user first)
+{{ gws_bin }} gmail +send --to user@example.com --subject "Hi" --body "Hello"
+```
+
+For detailed search workflows (sent mail + label + date range, keyword search, pagination),
+use the **gws-gmail-search** skill.
+
+## Upstream skills already installed
+
+The role installs 100+ skills from [googleworkspace/cli](https://github.com/googleworkspace/cli).
+Key Gmail skills:
+
+| Skill | Purpose |
+|-------|---------|
+| `gws-gmail` | Full Gmail API surface |
+| `gws-gmail-triage` | Inbox summary with `--query` |
+| `gws-gmail-read` | Read message body/headers |
+| `gws-gmail-send` | Send email |
+| `gws-gmail-reply` | Reply to thread |
+| `gws-gmail-forward` | Forward message |
+| `gws-shared` | Auth, flags, output formats |
+
+## Safety
+
+- Search and read operations are safe to run without confirmation.
+- **Always confirm** before send, reply, forward, delete, or label changes.
+- Use `--dry-run` on write operations when unsure.

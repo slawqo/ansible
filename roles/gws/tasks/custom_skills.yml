@@ -1,0 +1,10 @@
+---
+- name: Deploy custom gws skills for Claude Code
+  include_tasks: deploy_custom_skills.yml
+  vars:
+    _skills_base_dir: "{{ ansible_env.HOME }}/.claude/skills"
+
+- name: Deploy custom gws skills for Cursor
+  include_tasks: deploy_custom_skills.yml
+  vars:
+    _skills_base_dir: "{{ ansible_env.HOME }}/.cursor/skills"

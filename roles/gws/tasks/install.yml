@@ -1,0 +1,69 @@
+---
+- name: Ensure local bin directory exists
+  file:
+    path: "{{ gws_binary_install_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Detect system architecture for gws binary
+  set_fact:
+    _gws_arch: "{{ 'aarch64' if ansible_architecture in ['aarch64', 'arm64'] else 'x86_64' }}"
+  when: gws_install_method == 'binary'
+
+- name: Download gws release archive
+  get_url:
+    url: >-
+      https://github.com/googleworkspace/cli/releases/download/v{{ gws_version }}/google-workspace-cli-{{ _gws_arch }}-unknown-linux-gnu.tar.gz
+    dest: "/tmp/google-workspace-cli-{{ _gws_arch }}-{{ gws_version }}.tar.gz"
+    mode: '0644'
+  when: gws_install_method == 'binary'
+
+- name: Extract gws binary
+  unarchive:
+    src: "/tmp/google-workspace-cli-{{ _gws_arch }}-{{ gws_version }}.tar.gz"
+    dest: "{{ gws_binary_install_dir }}"
+    remote_src: yes
+    extra_opts: [--strip-components=0]
+    include:
+      - gws
+  when: gws_install_method == 'binary'
+
+- name: Get npm global prefix
+  command: npm config get prefix
+  register: gws_npm_prefix_result
+  changed_when: false
+  when: gws_install_method == 'npm'
+
+- name: Install gws via npm
+  command: npm install -g {{ gws_package }}@{{ gws_version }}
+  when: gws_install_method == 'npm'
+
+- name: Detect gws binary path (npm)
+  set_fact:
+    gws_bin: "{{ (gws_npm_prefix_result.stdout | trim) }}/bin/gws"
+  when:
+    - gws_install_method == 'npm'
+    - gws_bin | length == 0
+
+- name: Detect gws binary path (binary)
+  set_fact:
+    gws_bin: "{{ gws_binary_install_dir }}/gws"
+  when:
+    - gws_install_method == 'binary'
+    - gws_bin | length == 0
+
+- name: Symlink gws into user bin directory
+  file:
+    src: "{{ gws_bin }}"
+    dest: "{{ gws_binary_install_dir }}/gws"
+    state: link
+    force: yes
+  when:
+    - gws_install_method == 'npm'
+    - gws_bin != (gws_binary_install_dir ~ '/gws')
+
+- name: Check gws installation
+  command: "{{ gws_bin }} --version"
+  register: gws_version_check
+  changed_when: false
+  failed_when: gws_version_check.rc != 0

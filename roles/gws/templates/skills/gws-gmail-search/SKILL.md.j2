@@ -1,0 +1,164 @@
+---
+name: gws-gmail-search
+description: >-
+  Search and list Gmail messages with gws CLI and Gmail query syntax. Use when the
+  user wants to find emails by sender, subject, keywords, label, date range, read
+  status, attachments, or sent mail — e.g. "emails sent in the last 7 days with
+  label work", "unread from boss", or "messages about invoice".
+---
+
+# Gmail search with gws
+
+Read-only skill. Do not send, delete, or modify mail unless the user explicitly asks.
+
+## Prerequisites
+
+```bash
+{{ gws_bin }} auth status
+```
+
+## Choose the right command
+
+| Need | Command |
+|------|---------|
+| Human-readable table (sender, subject, date) | `{{ gws_bin }} gmail +triage --query '...'` |
+| JSON for scripting / jq | add `--format json` |
+| Message IDs only, large result sets | `users messages list` API (see below) |
+| Full message body | `{{ gws_bin }} gmail +read --id ID --headers` |
+| List label names/IDs | `{{ gws_bin }} gmail users labels list --params '{"userId":"me"}'` |
+
+## Gmail query cheat sheet
+
+Combine fragments with spaces (implicit AND).
+
+| Goal | Query fragment | Example |
+|------|----------------|---------|
+| Sent mail | `in:sent` | `in:sent newer_than:7d` |
+| Inbox only | `in:inbox` | `in:inbox is:unread` |
+| Label | `label:NAME` | `label:work` |
+| Last N days | `newer_than:Nd` | `newer_than:14d` (also `1d`, `30d`, `90d`) |
+| After date | `after:YYYY/MM/DD` | `after:2026/06/01` |
+| Before date | `before:YYYY/MM/DD` | `before:2026/07/01` |
+| From sender | `from:email` | `from:alice@example.com` |
+| To recipient | `to:email` | `to:team@company.com` |
+| Cc | `cc:email` | `cc:manager@company.com` |
+| Subject | `subject:word` | `subject:invoice` |
+| Body / anywhere | bare words | `quarterly report` |
+| Exact phrase | `"..."` | `"project alpha"` |
+| Unread | `is:unread` | `is:unread from:boss` |
+| Read | `is:read` | `is:read label:archive` |
+| Starred | `is:starred` | `is:starred newer_than:30d` |
+| Has attachment | `has:attachment` | `has:attachment from:vendor` |
+| Exclude label | `-label:X` | `in:inbox -label:spam` |
+| OR | `{a b}` | `from:alice OR from:bob` → `{from:alice from:bob}` |
+
+## Workflow: sent in last X days with label Y
+
+Replace `Y` with the label name and `X` with the day count.
+
+```bash
+{{ gws_bin }} gmail +triage \
+  --query 'in:sent label:Y newer_than:Xd' \
+  --max 100 --labels
+```
+
+Example — all mail sent in the last 14 days labeled `work`:
+
+```bash
+{{ gws_bin }} gmail +triage \
+  --query 'in:sent label:work newer_than:14d' \
+  --max 100 --labels --format table
+```
+
+JSON output for further processing:
+
+```bash
+{{ gws_bin }} gmail +triage \
+  --query 'in:sent label:work newer_than:14d' \
+  --max 100 --format json
+```
+
+## Workflow: search by keyword, sender, or subject
+
+```bash
+# Keyword anywhere
+{{ gws_bin }} gmail +triage --query 'quarterly budget' --max 50
+
+# From specific sender, last week
+{{ gws_bin }} gmail +triage --query 'from:client@corp.com newer_than:7d' --max 50
+
+# Subject line
+{{ gws_bin }} gmail +triage --query 'subject:invoice newer_than:30d' --max 50
+
+# Unread in inbox from boss
+{{ gws_bin }} gmail +triage --query 'is:unread from:boss@company.com' --max 20
+```
+
+## Workflow: read full messages after search
+
+1. Run `+triage` or `messages list` to get message IDs.
+2. Read each message:
+
+```bash
+{{ gws_bin }} gmail +read --id MESSAGE_ID --headers
+{{ gws_bin }} gmail +read --id MESSAGE_ID --format json | jq '.body'
+```
+
+## API: list message IDs (pagination)
+
+Use when you need more than 100 results or raw API output:
+
+```bash
+{{ gws_bin }} gmail users messages list \
+  --params '{"userId": "me", "q": "in:sent label:work newer_than:7d", "maxResults": 500}' \
+  --format json
+```
+
+Auto-paginate (NDJSON, one page per line):
+
+```bash
+{{ gws_bin }} gmail users messages list \
+  --params '{"userId": "me", "q": "label:work newer_than:30d", "maxResults": 100}' \
+  --page-all --page-limit 10
+```
+
+Inspect schema for any method:
+
+```bash
+{{ gws_bin }} schema gmail.users.messages.list
+```
+
+## Label tips
+
+- Label names with spaces: `label:"my label"` or `label:my-label`
+- List all labels to verify exact names:
+
+```bash
+{{ gws_bin }} gmail users labels list \
+  --params '{"userId": "me"}' --format table
+```
+
+## Presenting results to the user
+
+Default `+triage` output is a table — show it directly.
+For JSON, summarize: count, top senders/subjects, date range.
+Offer to `+read` specific messages if the user wants bodies.
+
+## Related skills (already installed)
+
+| Skill | Use for |
+|-------|---------|
+| `gws-gmail-triage` | Upstream triage reference |
+| `gws-gmail-read` | Read message details |
+| `gws-gmail-send` | Send (confirm first) |
+| `gws-gmail-reply` | Reply (confirm first) |
+| `recipe-forward-labeled-emails` | Forward labeled messages |
+
+## Errors
+
+| Symptom | Fix |
+|---------|-----|
+| Exit code 2, auth error | `{{ gws_bin }} auth login -s gmail` |
+| `accessNotConfigured` | Enable Gmail API in GCP; wait ~10s and retry |
+| Empty results | Verify label name; try broader query; check `in:sent` vs `in:inbox` |
+| Too many scopes | Use `-s gmail` not full preset for unverified OAuth apps |

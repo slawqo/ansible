@@ -1,0 +1,11 @@
+---
+- name: Configure Jira MCP server
+  include_tasks: configure_mcp_server.yml
+  vars:
+    _mcp_server_name: jira
+    _mcp_server_config:
+      command: npx
+      args:
+        - -y
+        - mcp-remote@latest
+        - "{{ ai_tools_jira_mcp_url }}"

@@ -1,0 +1,8 @@
+---
+# Encrypt this file with ansible-vault and set your OAuth client credentials:
+#
+#   ansible-vault encrypt roles/gws/vars/main.yml
+#
+# gws_oauth_client_id: "123456789.apps.googleusercontent.com"
+# gws_oauth_client_secret: "GOCSPX-..."
+# gws_oauth_project_id: "my-gcp-project"

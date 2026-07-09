@@ -1,0 +1,8 @@
+---
+- name: Configure Todoist MCP server
+  include_tasks: configure_mcp_server.yml
+  vars:
+    _mcp_server_name: todoist
+    _mcp_server_config:
+      type: http
+      url: "{{ ai_tools_todoist_mcp_url }}"

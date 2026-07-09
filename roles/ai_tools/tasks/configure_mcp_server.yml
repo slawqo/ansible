@@ -1,0 +1,30 @@
+---
+- name: Ensure Claude Code config directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.claude"
+    state: directory
+    mode: '0755'
+
+- name: "Configure {{ _mcp_server_name }} MCP server in Claude Code"
+  script: >-
+    update_mcp_settings.py
+    ~/.claude.json
+    {{ _mcp_server_name }}
+    '{{ _mcp_server_config | to_json }}'
+  args:
+    executable: python3
+
+- name: Ensure Cursor config directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.cursor"
+    state: directory
+    mode: '0755'
+
+- name: "Configure {{ _mcp_server_name }} MCP server in Cursor"
+  script: >-
+    update_mcp_settings.py
+    ~/.cursor/mcp.json
+    {{ _mcp_server_name }}
+    '{{ _mcp_server_config | to_json }}'
+  args:
+    executable: python3

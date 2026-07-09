@@ -1,0 +1,49 @@
+---
+- name: Ensure wiki directory structure exists
+  file:
+    path: "{{ item }}"
+    state: directory
+    mode: '0755'
+  loop:
+    - "{{ ai_tools_wiki_path }}"
+    - "{{ ai_tools_wiki_path }}/sources"
+    - "{{ ai_tools_wiki_path }}/notes"
+    - "{{ ai_tools_wiki_path }}/notes/web"
+    - "{{ ai_tools_wiki_path }}/.agents/skills/wiki"
+    - "{{ ai_tools_wiki_path }}/.claude/skills"
+
+- name: Remove legacy Cursor wiki skill directory
+  file:
+    path: "{{ ai_tools_wiki_path }}/.cursor/skills/wiki"
+    state: absent
+
+- name: Ensure wiki index catalog exists
+  template:
+    src: wiki/index.md.j2
+    dest: "{{ ai_tools_wiki_path }}/notes/index.md"
+    mode: '0644'
+    force: false
+
+- name: Ensure wiki changelog exists
+  template:
+    src: wiki/log.md.j2
+    dest: "{{ ai_tools_wiki_path }}/log.md"
+    mode: '0644'
+    force: false
+
+- name: Deploy wiki skill to .agents
+  template:
+    src: skills/wiki/SKILL.md.j2
+    dest: "{{ ai_tools_wiki_path }}/.agents/skills/wiki/SKILL.md"
+    mode: '0644'
+
+- name: Remove legacy Claude Code wiki skill path before symlink
+  file:
+    path: "{{ ai_tools_wiki_path }}/.claude/skills/wiki"
+    state: absent
+
+- name: Link Claude Code wiki skill to .agents
+  file:
+    src: "../../.agents/skills/wiki"
+    dest: "{{ ai_tools_wiki_path }}/.claude/skills/wiki"
+    state: link

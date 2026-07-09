@@ -1,0 +1,35 @@
+---
+- name: "Ensure skills directory exists ({{ _skills_base_dir }})"
+  file:
+    path: "{{ _skills_base_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: "Remove legacy review-patch skill ({{ _skills_base_dir }})"
+  file:
+    path: "{{ _skills_base_dir }}/review-patch"
+    state: absent
+
+- name: "Ensure summarize-reviews skill directory ({{ _skills_base_dir }})"
+  file:
+    path: "{{ _skills_base_dir }}/summarize-reviews"
+    state: directory
+    mode: '0755'
+
+- name: "Deploy summarize-reviews skill ({{ _skills_base_dir }})"
+  template:
+    src: skills/summarize-reviews/SKILL.md.j2
+    dest: "{{ _skills_base_dir }}/summarize-reviews/SKILL.md"
+    mode: '0644'
+
+- name: "Ensure make-reviews-plan skill directory ({{ _skills_base_dir }})"
+  file:
+    path: "{{ _skills_base_dir }}/make-reviews-plan"
+    state: directory
+    mode: '0755'
+
+- name: "Deploy make-reviews-plan skill ({{ _skills_base_dir }})"
+  template:
+    src: skills/make-reviews-plan/SKILL.md.j2
+    dest: "{{ _skills_base_dir }}/make-reviews-plan/SKILL.md"
+    mode: '0644'

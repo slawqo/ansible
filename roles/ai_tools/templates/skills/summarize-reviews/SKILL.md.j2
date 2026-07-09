@@ -1,0 +1,151 @@
+---
+name: summarize-reviews
+description: Daily review prioritization helper. Finds changes that need your review across Gerrit, GitHub, and GitLab — focusing on patches that are ready for review (comments addressed, CI fixed, new patchsets posted). Uses a 72-hour window on Mondays (to cover the weekend) and 24 hours on other days.
+disable-model-invocation: true
+allowed-tools: Bash(gh *) Bash(glab *) Bash(date *)
+---
+
+# Daily review prioritization summary
+
+Current time: !`date -u '+%Y-%m-%d %H:%M UTC'`
+Current day of week: !`date -u '+%A'`
+
+Determine the lookback window based on the day of week above:
+- If today is **Monday**, use **last 72 hours** (covers Saturday + Sunday + Monday so far).
+- Otherwise, use **last 24 hours**.
+
+The goal of this summary is to help prioritize what to review first today.
+
+## Step 1: Collect data
+
+Work through each platform below. Skip any platform that shows "not configured".
+
+### Gerrit
+
+**My open changes** — use `mcp__gerrit__query_changes` with query `owner:self status:open`
+to list all my open CLs. For each result, call `mcp__gerrit__get_change_details` with
+options `["DETAILED_ACCOUNTS", "MESSAGES", "LABELS"]` to inspect recent activity.
+
+**Watched projects** — for each project below use `mcp__gerrit__query_changes` to fetch
+changes updated within the lookback window:
+
+{% if ai_tools_skills_summary_gerrit_projects %}
+{% for project in ai_tools_skills_summary_gerrit_projects %}
+- `{{ project }}` — query: `project:{{ project }} status:open -age:24h` (or `-age:72h` on Monday)
+{% endfor %}
+{% else %}
+_(none configured — set `ai_tools_skills_summary_gerrit_projects` in Ansible)_
+{% endif %}
+
+### GitHub
+
+{% if ai_tools_skills_summary_github_projects %}
+**My open PRs**:
+```
+gh pr list --author @me --state open --json number,title,url,updatedAt,headRepository
+```
+
+**Watched repositories**:
+{% for repo in ai_tools_skills_summary_github_projects %}
+- `{{ repo }}`:
+  `gh pr list --repo {{ repo }} --state open --json number,title,url,author,updatedAt --limit 100`
+{% endfor %}
+{% else %}
+_(not configured — set `ai_tools_skills_summary_github_projects` in Ansible)_
+{% endif %}
+
+### GitLab
+
+{% if ai_tools_skills_summary_gitlab_projects %}
+**My open MRs**:
+```
+glab mr list --author @me --state opened
+```
+
+**Watched projects**:
+{% for project in ai_tools_skills_summary_gitlab_projects %}
+- `{{ project }}`: `glab mr list --repo {{ project }} --state opened`
+{% endfor %}
+{% else %}
+_(not configured — set `ai_tools_skills_summary_gitlab_projects` in Ansible)_
+{% endif %}
+
+## Step 2: Filter and classify
+
+### Table 1 — My changes (changes I authored/own)
+
+Only include a change if **new review comments from other reviewers** appeared within
+the lookback window. Exclude changes where:
+- The only recent activity is my own comments or votes.
+- The only recent activity is CI results without reviewer feedback.
+- The change has no new reviewer comments at all.
+
+### Table 2 — Changes to review (changes authored by others in watched projects)
+
+The primary goal is to surface changes that are **ready for (re-)review now**. Focus on
+these signals (any one is sufficient to include the change):
+
+- **Comments addressed + new patchset**: the author posted a new patch set / pushed
+  new commits after review comments — this means the author responded to feedback
+  and the change is ready for another look.
+- **CI recovered**: the change was previously failing CI but now all CI checks pass —
+  it is unblocked and reviewable.
+- **New change with passing CI**: a new change appeared in the lookback window and
+  CI is already green — it is ready for a first review.
+- **Reviewer requested**: the author explicitly added you as a reviewer or the change
+  has no reviewers yet.
+- **Long-waiting change**: the change has been open for a while with no reviews and
+  CI is passing — it may need attention.
+
+**Exclude** changes where:
+- I already voted **+Workflow** (Gerrit) or **approved** the PR/MR (GitHub/GitLab) —
+  these are already approved by me and do not need my attention.
+- The change is still **Work-In-Progress** or in **Draft** state.
+- CI is currently failing and no new patchset was posted since the failure — the author
+  still needs to fix it.
+- The only recent activity is my own comments or votes.
+
+## Step 3: Produce the summary
+
+Output exactly two Markdown tables — include them even when empty.
+
+**Table 1 — My changes with new reviewer feedback**:
+
+| Change URL | Project | Title | Votes | New comments |
+|------------|---------|-------|-------|--------------|
+
+**Table 2 — Changes ready for your review** (sorted by priority):
+
+| Change URL | Project | Author | Title | Votes | Why ready |
+|------------|---------|--------|-------|-------|-----------|
+
+Rules:
+- **Change URL** column: URL to the change/PR/MR (like e.g.
+  https://review.opendev.org/c/openstack/neutron/+/...) - this is very important
+  to be full URL to the change, nothing else so that it can be used to open
+  related change in web browser immediately.
+- **Votes** column: summary of current votes on the change, including CI systems
+  like Zuul.
+- **New comments** column (Table 1): short summary like "3 comments from reviewer X",
+  "inline comment on neutron/agent.py from Y".
+- **Why ready** column (Table 2): a short phrase explaining why this change needs
+  review now. Examples:
+  - "Comments addressed, new PS, CI passing"
+  - "New PS after review feedback"
+  - "CI was failing, now passing"
+  - "New change, CI green, no reviewers yet"
+  - "Open 5 days, CI passing, 0 reviews"
+  - "Author requested your review"
+- If a table has no rows, write _"Nothing to act on."_ under its heading.
+
+### Sorting rules for Table 2
+
+Sort changes in the following priority order:
+
+1. **Gerrit changes with Review-Priority +2** — always first.
+2. **Gerrit changes with Review-Priority +1** — next.
+3. **Changes where comments were addressed and a new patchset was posted** — the author
+   is actively waiting for re-review.
+4. **Changes where CI recovered** (was failing, now passing).
+5. **New changes with passing CI and no reviews yet**.
+6. **All other qualifying changes** — sorted by how long they have been waiting.
