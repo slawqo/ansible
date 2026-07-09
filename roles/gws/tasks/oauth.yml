@@ -1,0 +1,31 @@
+---
+- name: Ensure gws config directory exists
+  file:
+    path: "{{ gws_config_dir }}"
+    state: directory
+    mode: '0700'
+
+- name: Deploy OAuth client secret
+  template:
+    src: client_secret.json.j2
+    dest: "{{ gws_config_dir }}/client_secret.json"
+    mode: '0600'
+  when: >-
+    (gws_oauth_client_secret_content | length > 0)
+    or (gws_oauth_client_id | length > 0 and gws_oauth_client_secret | length > 0)
+
+- name: Deploy exported credentials file
+  copy:
+    content: "{{ gws_credentials_content | to_nice_json }}"
+    dest: "{{ gws_credentials_file }}"
+    mode: '0600'
+  when:
+    - gws_credentials_file | length > 0
+    - gws_credentials_content | length > 0
+
+- name: Deploy gws environment file
+  template:
+    src: env.j2
+    dest: "{{ gws_config_dir }}/.env"
+    mode: '0600'
+  when: gws_env | length > 0

@@ -1,0 +1,8 @@
+---
+- name: Install Node.js and npm
+  package:
+    name: [nodejs, npm]
+    state: present
+  become: yes
+  become_method: sudo
+  when: gws_install_method == 'npm'

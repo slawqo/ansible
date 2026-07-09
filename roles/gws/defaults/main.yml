@@ -1,0 +1,47 @@
+---
+# CLI installation
+gws_version: "0.22.5"
+gws_install_method: npm  # npm | binary
+gws_package: "@googleworkspace/cli"
+gws_binary_install_dir: "{{ ansible_env.HOME }}/.local/bin"
+# Leave empty to auto-detect after install (npm prefix or binary dir)
+gws_bin: ''
+
+# Config directory (~/.config/gws by default)
+gws_config_dir: "{{ ansible_env.HOME }}/.config/gws"
+
+# OAuth client credentials (deploy client_secret.json for manual gws auth login)
+gws_oauth_enabled: true
+gws_oauth_client_id: ''
+gws_oauth_client_secret: ''
+gws_oauth_project_id: ''
+# When set, written verbatim to client_secret.json (overrides the fields above)
+gws_oauth_client_secret_content: {}
+
+# Scopes documented for post-install login
+gws_auth_scopes: "gmail,drive,calendar,sheets,docs"
+
+# Pre-exported credentials for headless use (GOOGLE_WORKSPACE_CLI_CREDENTIALS_FILE)
+gws_credentials_file: ''
+gws_credentials_content: {}
+
+# Optional environment variables written to {{ gws_config_dir }}/.env
+gws_env: {}
+  # GOOGLE_WORKSPACE_PROJECT_ID: my-gcp-project
+
+# Upstream agent skills (npx skills add https://github.com/googleworkspace/cli)
+gws_skills_enabled: true
+gws_skills_repo: "https://github.com/googleworkspace/cli"
+gws_skills_agents:
+  - claude-code
+  - cursor
+gws_skills_install_all: true
+gws_skills_list: []
+  # - gws-gmail
+  # - gws-drive
+
+# Custom agent skills deployed from this role (Gmail search workflows, overview)
+gws_custom_skills_enabled: true
+gws_custom_skills:
+  - gws-overview
+  - gws-gmail-search

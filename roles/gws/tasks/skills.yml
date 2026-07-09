@@ -1,0 +1,28 @@
+---
+- name: Install all gws agent skills
+  command: >-
+    npx --yes skills add {{ gws_skills_repo }}
+    --global --agent {{ item }} --all --yes
+  args:
+    creates: "{{ _gws_skill_dirs[item] }}/gws-gmail/SKILL.md"
+  loop: "{{ gws_skills_agents }}"
+  vars:
+    _gws_skill_dirs:
+      claude-code: "{{ ansible_env.HOME }}/.claude/skills"
+      cursor: "{{ ansible_env.HOME }}/.cursor/skills"
+  when: gws_skills_install_all
+
+- name: Install selected gws agent skills
+  command: >-
+    npx --yes skills add {{ gws_skills_repo }}
+    --global --agent {{ item.0 }} --skill {{ item.1 }} --yes
+  args:
+    creates: "{{ _gws_skill_dirs[item.0] }}/{{ item.1 }}/SKILL.md"
+  loop: "{{ gws_skills_agents | product(gws_skills_list) | list }}"
+  vars:
+    _gws_skill_dirs:
+      claude-code: "{{ ansible_env.HOME }}/.claude/skills"
+      cursor: "{{ ansible_env.HOME }}/.cursor/skills"
+  when:
+    - not gws_skills_install_all
+    - gws_skills_list | length > 0
