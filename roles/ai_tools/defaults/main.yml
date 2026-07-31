@@ -22,6 +22,12 @@ ai_tools_github_mcp_host: ''
 ai_tools_jira_mcp_enabled: true
 ai_tools_jira_mcp_url: 'https://mcp.atlassian.com/v1/mcp/authv2'
 
+# Karpathy behavioral guidelines (global rules for Claude Code and Cursor)
+ai_tools_karpathy_guidelines_enabled: true
+ai_tools_karpathy_guidelines_repo: >-
+  https://github.com/multica-ai/andrej-karpathy-skills.git
+ai_tools_karpathy_guidelines_version: main
+
 # Skills (deployed for both Claude Code and Cursor)
 ai_tools_skills_enabled: true
 

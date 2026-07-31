@@ -1,0 +1,35 @@
+---
+- name: Clone andrej-karpathy-skills
+  git:
+    repo: "{{ ai_tools_karpathy_guidelines_repo }}"
+    version: "{{ ai_tools_karpathy_guidelines_version }}"
+    dest: "{{ ai_tools_install_dir }}/andrej-karpathy-skills"
+    accept_hostkey: true
+    force: yes
+
+- name: Ensure Cursor global rules directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.cursor/rules"
+    state: directory
+    mode: '0755'
+
+- name: Deploy karpathy guidelines rule for Cursor
+  copy:
+    src: >-
+      {{ ai_tools_install_dir }}/andrej-karpathy-skills/.cursor/rules/karpathy-guidelines.mdc
+    dest: "{{ ansible_env.HOME }}/.cursor/rules/karpathy-guidelines.mdc"
+    remote_src: true
+    mode: '0644'
+
+- name: Ensure Claude Code global rules directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.claude/rules"
+    state: directory
+    mode: '0755'
+
+- name: Deploy karpathy guidelines rule for Claude Code
+  copy:
+    src: "{{ ai_tools_install_dir }}/andrej-karpathy-skills/CLAUDE.md"
+    dest: "{{ ansible_env.HOME }}/.claude/rules/karpathy-guidelines.md"
+    remote_src: true
+    mode: '0644'

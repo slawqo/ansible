@@ -25,6 +25,10 @@
   include_tasks: wiki.yml
   when: ai_tools_wiki_path | length > 0
 
+- name: Deploy Karpathy guidelines
+  include_tasks: karpathy_guidelines.yml
+  when: ai_tools_karpathy_guidelines_enabled
+
 - name: Deploy skills
   include_tasks: skills.yml
   when: ai_tools_skills_enabled

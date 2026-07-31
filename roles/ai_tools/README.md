@@ -87,6 +87,7 @@ stdio process.
 | Component | Claude Code | Cursor |
 |-----------|-------------|--------|
 | MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` |
+| Global rules | `~/.claude/rules/karpathy-guidelines.md` | `~/.cursor/rules/karpathy-guidelines.mdc` |
 | Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` |
 | Wiki skill (when `ai_tools_wiki_path` set) | `<wiki>/.claude/skills/wiki/` → symlink to `.agents/skills/wiki/` | `<wiki>/.agents/skills/wiki/SKILL.md` (native) |
 
@@ -137,6 +138,18 @@ Run with:
 ```bash
 ansible-playbook playbook.yml --ask-vault-pass
 ```
+
+### Karpathy guidelines
+
+| Variable | Default | Description |
+|---|---|---|
+| `ai_tools_karpathy_guidelines_enabled` | `true` | Deploy Karpathy behavioral guidelines globally for Claude Code and Cursor |
+| `ai_tools_karpathy_guidelines_repo` | multica-ai GitHub URL | Git repository to clone |
+| `ai_tools_karpathy_guidelines_version` | `main` | Branch, tag, or commit to check out |
+
+Clones [andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills) into
+`ai_tools_install_dir` and copies the upstream rule files into your user-level rules directories
+so they apply to every repository you open in Claude Code or Cursor.
 
 ### Skills
 
