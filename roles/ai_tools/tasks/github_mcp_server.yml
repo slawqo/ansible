@@ -1,4 +1,12 @@
 ---
+- name: Install podman-docker for GitHub MCP server (Fedora)
+  become: yes
+  become_method: sudo
+  package:
+    name: podman-docker
+    state: present
+  when: ansible_distribution == "Fedora"
+
 - name: Configure GitHub MCP server
   include_tasks: configure_mcp_server.yml
   vars:

@@ -59,6 +59,20 @@ is handled via OAuth on first use. The role registers the server in both
 `~/.claude.json` and `~/.cursor/mcp.json` so both tools can connect to it over
 streamable HTTP.
 
+### GitHub MCP Server
+
+| Variable | Default | Description |
+|---|---|---|
+| `ai_tools_github_mcp_enabled` | `true` | Whether to install and configure the GitHub MCP server |
+| `ai_tools_github_mcp_token` | `''` | GitHub Personal Access Token for authentication |
+| `ai_tools_github_mcp_toolsets` | `''` | Comma-separated list of toolsets to enable (empty = all toolsets) |
+| `ai_tools_github_mcp_host` | `''` | GitHub Enterprise host URL (empty = github.com) |
+
+The GitHub MCP server runs as a Docker container (`ghcr.io/github/github-mcp-server`).
+On Fedora, the role installs `podman-docker` so that the `docker` command is
+available via Podman. Set `ai_tools_github_mcp_token` to a Personal Access Token
+with the scopes your toolsets require.
+
 ### Jira (Atlassian Rovo) MCP Server
 
 | Variable | Default | Description |
@@ -74,6 +88,10 @@ on the target host.
 
 The Gerrit MCP server runs in **stdio** mode — the AI tool spawns it as a child
 process and communicates over stdin/stdout. No network port is opened.
+
+The GitHub MCP server runs in **stdio** mode via a Docker container — the AI
+tool invokes `docker run` on each connection. On Fedora, `podman-docker` provides
+the `docker` shim so no separate Docker installation is needed.
 
 The Todoist MCP server is **hosted remotely** — the AI tool connects to it via
 streamable HTTP.
