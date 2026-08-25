@@ -106,6 +106,7 @@ stdio process.
 |-----------|-------------|--------|
 | MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` |
 | Global rules | `~/.claude/rules/karpathy-guidelines.md` | `~/.cursor/rules/karpathy-guidelines.mdc` |
+| Status line | `~/.claude/statusline.sh` + `statusLine` in `~/.claude/settings.json` | n/a |
 | Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` |
 | Wiki skill (when `ai_tools_wiki_path` set) | `<wiki>/.claude/skills/wiki/` → symlink to `.agents/skills/wiki/` | `<wiki>/.agents/skills/wiki/SKILL.md` (native) |
 
@@ -168,6 +169,20 @@ ansible-playbook playbook.yml --ask-vault-pass
 Clones [andrej-karpathy-skills](https://github.com/multica-ai/andrej-karpathy-skills) into
 `ai_tools_install_dir` and copies the upstream rule files into your user-level rules directories
 so they apply to every repository you open in Claude Code or Cursor.
+
+### Status line
+
+| Variable | Default | Description |
+|---|---|---|
+| `ai_tools_statusline_enabled` | `true` | Configure a custom Claude Code status line |
+| `ai_tools_statusline_script` | `~/.claude/statusline.sh` | Path where the status line script is deployed |
+
+Deploys an executable status line script and registers it under `statusLine` in
+`~/.claude/settings.json` (other settings in that file are preserved). The script
+reads Claude Code's session JSON from stdin and renders two lines: model, current
+directory and git branch on the first; a color-coded context usage bar, session
+cost and duration on the second. Requires [`jq`](https://jqlang.org/) on the
+target host. See the [Claude Code docs](https://code.claude.com/docs/en/statusline).
 
 ### Skills
 

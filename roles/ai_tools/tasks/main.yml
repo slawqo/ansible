@@ -29,6 +29,10 @@
   include_tasks: karpathy_guidelines.yml
   when: ai_tools_karpathy_guidelines_enabled
 
+- name: Configure Claude Code status line
+  include_tasks: statusline.yml
+  when: ai_tools_statusline_enabled
+
 - name: Deploy skills
   include_tasks: skills.yml
   when: ai_tools_skills_enabled

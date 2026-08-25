@@ -1,0 +1,41 @@
+---
+- name: Set Claude Code settings.json path
+  set_fact:
+    _claude_settings_path: "{{ ansible_env.HOME }}/.claude/settings.json"
+
+- name: Ensure Claude Code config directory exists
+  file:
+    path: "{{ ansible_env.HOME }}/.claude"
+    state: directory
+    mode: '0755'
+
+- name: Deploy Claude Code status line script
+  copy:
+    src: statusline.sh
+    dest: "{{ ai_tools_statusline_script }}"
+    mode: '0755'
+
+- name: Check whether Claude Code settings.json exists
+  stat:
+    path: "{{ _claude_settings_path }}"
+  register: _claude_settings_stat
+
+- name: Read existing Claude Code settings.json
+  slurp:
+    src: "{{ _claude_settings_path }}"
+  register: _claude_settings_raw
+  when: _claude_settings_stat.stat.exists
+
+- name: Configure status line in Claude Code settings.json
+  copy:
+    content: "{{ (_existing_settings | combine(_statusline_settings)) | to_nice_json }}\n"
+    dest: "{{ _claude_settings_path }}"
+    mode: '0644'
+  vars:
+    _existing_settings: >-
+      {{ _claude_settings_stat.stat.exists
+         | ternary(_claude_settings_raw.content | default('') | b64decode | from_json, {}) }}
+    _statusline_settings:
+      statusLine:
+        type: command
+        command: "{{ ai_tools_statusline_script }}"
