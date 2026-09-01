@@ -8,3 +8,9 @@
   include_tasks: deploy_skills.yml
   vars:
     _skills_base_dir: "{{ ansible_env.HOME }}/.cursor/skills"
+
+- name: Deploy skills for OpenCode
+  include_tasks: deploy_skills.yml
+  vars:
+    _skills_base_dir: "{{ ai_tools_opencode_config_dir }}/skills"
+  when: ai_tools_opencode_enabled

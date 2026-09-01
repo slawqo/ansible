@@ -32,7 +32,11 @@ ai_tools_karpathy_guidelines_version: main
 ai_tools_statusline_enabled: true
 ai_tools_statusline_script: "{{ ansible_env.HOME }}/.claude/statusline.sh"
 
-# Skills (deployed for both Claude Code and Cursor)
+# OpenCode
+ai_tools_opencode_enabled: true
+ai_tools_opencode_config_dir: "{{ ansible_env.HOME }}/.config/opencode"
+
+# Skills (deployed for Claude Code, Cursor, and OpenCode)
 ai_tools_skills_enabled: true
 
 # summarize-reviews skill: projects/repos to watch (changes by others)

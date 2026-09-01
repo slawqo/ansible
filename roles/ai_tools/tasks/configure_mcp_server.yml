@@ -28,3 +28,45 @@
     '{{ _mcp_server_config | to_json }}'
   args:
     executable: python3
+
+- name: Ensure OpenCode config directory exists
+  file:
+    path: "{{ ai_tools_opencode_config_dir }}"
+    state: directory
+    mode: '0755'
+  when: ai_tools_opencode_enabled
+
+- name: Build OpenCode MCP server configuration
+  set_fact:
+    _opencode_mcp_config: >-
+      {{
+        ({
+          'type': 'remote',
+          'url': _mcp_server_config.url
+        })
+        if _mcp_server_config.type | default('') == 'http'
+        else (
+          {
+            'type': 'local',
+            'command':
+              ([_mcp_server_config.command]
+              + (_mcp_server_config.args | default([])))
+          }
+          | combine(
+              (_mcp_server_config.env is defined)
+              | ternary({'environment': _mcp_server_config.env}, {})
+            )
+        )
+      }}
+  when: ai_tools_opencode_enabled
+
+- name: "Configure {{ _mcp_server_name }} MCP server in OpenCode"
+  script: >-
+    update_mcp_settings.py
+    {{ ai_tools_opencode_config_dir }}/opencode.json
+    {{ _mcp_server_name }}
+    '{{ _opencode_mcp_config | to_json }}'
+    mcp
+  args:
+    executable: python3
+  when: ai_tools_opencode_enabled
