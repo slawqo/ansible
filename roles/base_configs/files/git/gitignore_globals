@@ -48,3 +48,6 @@ cache/
 
 # AI tools files
 .claude/
+
+# Zed
+.zed/
