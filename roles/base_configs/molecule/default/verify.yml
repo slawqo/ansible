@@ -4,6 +4,14 @@
 - name: Verify
   hosts: all
   tasks:
-  - name: Example assertion
-    assert:
-      that: true
+    - name: Read authorized keys
+      command: cat "{{ ansible_env.HOME }}/.ssh/authorized_keys"
+      register: authorized_keys
+      changed_when: false
+
+    - name: Verify configured public key
+      assert:
+        that:
+          - >-
+            authorized_keys.stdout_lines | select('search', 'molecule$') |
+            list | length == 1

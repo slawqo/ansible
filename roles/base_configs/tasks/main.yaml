@@ -116,6 +116,16 @@
       mode: 0755
 
 
+- name: Add public keys to authorized keys
+  authorized_key:
+    user: "{{ ansible_user_id }}"
+    key: "{{ item }}"
+    path: "{{ ansible_env.HOME }}/.ssh/authorized_keys"
+    manage_dir: false
+  loop: "{{ ssh_authorized_keys }}"
+  when: ssh_authorized_keys | length > 0
+
+
 - name: Create ssh config file
   template:
       src=ssh_config.j2
@@ -146,4 +156,3 @@
   copy:
       src: "files/gpg/gpg.conf"
       dest: "{{ ansible_env.HOME }}/.gnupg/gpg.conf"
-

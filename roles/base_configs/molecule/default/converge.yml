@@ -1,6 +1,12 @@
 ---
 - name: Converge
   hosts: all
+  vars:
+    ssh_authorized_keys:
+      - >-
+        ssh-ed25519
+        AAAAC3NzaC1lZDI1NTE5AAAAIEk3j6p4e9wqzvQx5ZQ0n8d3r6y2t1u0i9o8p7q6r5s4
+        molecule
   tasks:
     - name: "Include base_configs"
       include_role:
