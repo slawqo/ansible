@@ -70,3 +70,19 @@
   args:
     executable: python3
   when: ai_tools_opencode_enabled
+
+- name: Ensure Codex config directory exists
+  file:
+    path: "{{ ai_tools_codex_config_dir }}"
+    state: directory
+    mode: '0755'
+  when: ai_tools_codex_enabled
+
+- name: "Configure {{ _mcp_server_name }} MCP server in Codex"
+  blockinfile:
+    path: "{{ ai_tools_codex_config_dir }}/config.toml"
+    marker: "# {mark} ANSIBLE MANAGED MCP SERVER {{ _mcp_server_name }}"
+    block: "{{ lookup('template', 'codex_mcp_server.toml.j2') }}"
+    create: true
+    mode: '0600'
+  when: ai_tools_codex_enabled

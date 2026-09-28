@@ -36,7 +36,11 @@ ai_tools_statusline_script: "{{ ansible_env.HOME }}/.claude/statusline.sh"
 ai_tools_opencode_enabled: true
 ai_tools_opencode_config_dir: "{{ ansible_env.HOME }}/.config/opencode"
 
-# Skills (deployed for Claude Code, Cursor, and OpenCode)
+# Codex and ChatGPT desktop MCP configuration
+ai_tools_codex_enabled: true
+ai_tools_codex_config_dir: "{{ ansible_env.HOME }}/.codex"
+
+# Skills (deployed for Claude Code, Cursor, ChatGPT, Codex, and OpenCode)
 ai_tools_skills_enabled: true
 
 # summarize-reviews skill: projects/repos to watch (changes by others)

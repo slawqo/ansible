@@ -1,7 +1,7 @@
 # ai_tools
 
-Installs and configures AI development tools such as MCP servers.
-All MCP servers and skills are configured for **Claude Code**, **Cursor**, and
+Installs and configures AI development tools such as MCP servers. Skills are
+deployed for **Claude Code**, **Cursor**, **ChatGPT**, **Codex**, and
 **OpenCode** automatically.
 
 ## Requirements
@@ -102,13 +102,18 @@ stdio process.
 
 ## Where configuration is written
 
-| Component | Claude Code | Cursor | OpenCode |
-|-----------|-------------|--------|----------|
-| MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` | `~/.config/opencode/opencode.json` under `mcp` |
-| Global rules | `~/.claude/rules/karpathy-guidelines.md` | `~/.cursor/rules/karpathy-guidelines.mdc` | `~/.config/opencode/AGENTS.md` |
-| Status line | `~/.claude/statusline.sh` + `statusLine` in `~/.claude/settings.json` | n/a | n/a |
-| Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` | `~/.config/opencode/skills/<name>/SKILL.md` |
-| Wiki skill (when `ai_tools_wiki_path` set) | `<wiki>/.claude/skills/wiki/` → symlink to `.agents/skills/wiki/` | `<wiki>/.agents/skills/wiki/SKILL.md` (native) | `<wiki>/.agents/skills/wiki/SKILL.md` (native) |
+| Component | Claude Code | Cursor | ChatGPT / Codex | OpenCode |
+|-----------|-------------|--------|-----------------|----------|
+| MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` | `~/.codex/config.toml` under `mcp_servers` | `~/.config/opencode/opencode.json` under `mcp` |
+| Global rules | `~/.claude/rules/karpathy-guidelines.md` | `~/.cursor/rules/karpathy-guidelines.mdc` | n/a | `~/.config/opencode/AGENTS.md` |
+| Status line | `~/.claude/statusline.sh` + `statusLine` in `~/.claude/settings.json` | n/a | n/a | n/a |
+| Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` | `~/.agents/skills/<name>/SKILL.md` | `~/.config/opencode/skills/<name>/SKILL.md` |
+| Wiki skill (when `ai_tools_wiki_path` set) | `<wiki>/.claude/skills/wiki/` → symlink to `.agents/skills/wiki/` | `<wiki>/.agents/skills/wiki/SKILL.md` (native) | `<wiki>/.agents/skills/wiki/SKILL.md` (native) | `<wiki>/.agents/skills/wiki/SKILL.md` (native) |
+
+OpenAI documents `~/.agents/skills/` as the user-level skill location for both
+ChatGPT desktop and Codex. See the [Codex skill documentation](https://developers.openai.com/codex/build-skills/).
+The ChatGPT desktop app and Codex also share MCP configuration in
+`~/.codex/config.toml`; see the [Codex MCP documentation](https://developers.openai.com/codex/extend/mcp/).
 
 OpenCode discovers skills and agents from separate files under its configuration
 directory. MCP servers are the exception: OpenCode currently loads them from the
@@ -195,11 +200,18 @@ target host. See the [Claude Code docs](https://code.claude.com/docs/en/statusli
 | `ai_tools_opencode_enabled` | `true` | Configure OpenCode skills, instructions, and MCP servers |
 | `ai_tools_opencode_config_dir` | `~/.config/opencode` | OpenCode user configuration directory |
 
+### Codex
+
+| Variable | Default | Description |
+|---|---|---|
+| `ai_tools_codex_enabled` | `true` | Configure MCP servers shared by Codex and ChatGPT desktop |
+| `ai_tools_codex_config_dir` | `~/.codex` | Codex user configuration directory |
+
 ### Skills
 
 | Variable | Default | Description |
 |---|---|---|
-| `ai_tools_skills_enabled` | `true` | Deploy skills under `~/.claude/skills/`, `~/.cursor/skills/`, and `~/.config/opencode/skills/` |
+| `ai_tools_skills_enabled` | `true` | Deploy skills under `~/.claude/skills/`, `~/.cursor/skills/`, `~/.agents/skills/` (ChatGPT and Codex), and `~/.config/opencode/skills/` |
 | `ai_tools_skills_summary_gerrit_projects` | `[]` | Gerrit projects to watch (`summarize-reviews`, `make-reviews-plan`) |
 | `ai_tools_skills_summary_github_projects` | `[]` | GitHub repos to watch |
 | `ai_tools_skills_summary_gitlab_projects` | `[]` | GitLab projects to watch |
