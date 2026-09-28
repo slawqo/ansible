@@ -41,9 +41,8 @@ This skill **mutates Todoist** (create / update / delete). Do not only summarize
 If either project or label is missing, stop and tell the user to configure those parameters above.
 
 When calling Todoist MCP tools, pass this project and label on every created or
-updated task. To list existing review tasks, use Todoist MCP (for example
-`mcp__todoist__search` or `mcp__todoist__find_tasks_by_date`) with a filter
-equivalent to:
+updated task. To list existing review tasks, use Todoist MCP (
+`mcp__todoist__find_tasks_by_date`) with a filter equivalent to:
 
 {% if ai_tools_skills_make_reviews_plan_todoist_project and ai_tools_skills_make_reviews_plan_todoist_label %}
 `#{{ ai_tools_skills_make_reviews_plan_todoist_project }} & @{{ ai_tools_skills_make_reviews_plan_todoist_label }}`
