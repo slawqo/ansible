@@ -73,11 +73,14 @@ Host fullstack.centos
 Host shark15.devnest
     Hostname {{ shark15_hostname }}
     User {{ devnest_user }}
+    IdentityFile ~/.ssh/tobiko_ed25519
 
 Host shark16.devnest
     Hostname {{ shark16_hostname }}
     User {{ devnest_user }}
+    IdentityFile ~/.ssh/tobiko_ed25519
 
 Host osp.devnest.3
     Hostname {{ osp_devnest_3_hostname }}
     User {{ devnest_user }}
+    IdentityFile ~/.ssh/tobiko_ed25519
