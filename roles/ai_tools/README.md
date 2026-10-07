@@ -1,7 +1,7 @@
 # ai_tools
 
 Installs and configures AI development tools such as MCP servers. Skills are
-deployed for **Claude Code**, **Cursor**, **ChatGPT**, **Codex**, and
+deployed for **Claude Code**, **Cursor**, **ChatGPT**, **Codex**, **Zed**, and
 **OpenCode** automatically.
 
 ## Requirements
@@ -55,9 +55,9 @@ ansible-vault encrypt roles/ai_tools/vars/main.yml
 | `ai_tools_todoist_mcp_url` | `https://ai.todoist.net/mcp` | URL of the hosted Todoist MCP server |
 
 Todoist MCP is a hosted service — no local installation is required. Authentication
-is handled via OAuth on first use. The role registers the server in both
-`~/.claude.json` and `~/.cursor/mcp.json` so both tools can connect to it over
-streamable HTTP.
+is handled via OAuth on first use. The role registers the server in
+`~/.claude.json`, `~/.cursor/mcp.json`, and Zed's `settings.json` so these
+clients can connect to it over streamable HTTP.
 
 ### GitHub MCP Server
 
@@ -102,13 +102,13 @@ stdio process.
 
 ## Where configuration is written
 
-| Component | Claude Code | Cursor | ChatGPT / Codex | OpenCode |
-|-----------|-------------|--------|-----------------|----------|
-| MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` | `~/.codex/config.toml` under `mcp_servers` | `~/.config/opencode/opencode.json` under `mcp` |
-| Global rules | `~/.claude/rules/karpathy-guidelines.md` | `~/.cursor/rules/karpathy-guidelines.mdc` | n/a | `~/.config/opencode/AGENTS.md` |
-| Status line | `~/.claude/statusline.sh` + `statusLine` in `~/.claude/settings.json` | n/a | n/a | n/a |
-| Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` | `~/.agents/skills/<name>/SKILL.md` | `~/.config/opencode/skills/<name>/SKILL.md` |
-| Wiki skill (when `ai_tools_wiki_path` set) | `<wiki>/.claude/skills/wiki/` → symlink to `.agents/skills/wiki/` | `<wiki>/.agents/skills/wiki/SKILL.md` (native) | `<wiki>/.agents/skills/wiki/SKILL.md` (native) | `<wiki>/.agents/skills/wiki/SKILL.md` (native) |
+| Component | Claude Code | Cursor | ChatGPT / Codex | Zed | OpenCode |
+|-----------|-------------|--------|-----------------|-----|----------|
+| MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` | `~/.codex/config.toml` under `mcp_servers` | `~/.config/zed/settings.json` under `context_servers` | `~/.config/opencode/opencode.json` under `mcp` |
+| Global rules | `~/.claude/rules/karpathy-guidelines.md` | `~/.cursor/rules/karpathy-guidelines.mdc` | n/a | n/a | `~/.config/opencode/AGENTS.md` |
+| Status line | `~/.claude/statusline.sh` + `statusLine` in `~/.claude/settings.json` | n/a | n/a | n/a | n/a |
+| Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` | `~/.agents/skills/<name>/SKILL.md` | `~/.agents/skills/<name>/SKILL.md` | `~/.config/opencode/skills/<name>/SKILL.md` |
+| Wiki skill (when `ai_tools_wiki_path` set) | `<wiki>/.claude/skills/wiki/` → symlink to `.agents/skills/wiki/` | `<wiki>/.agents/skills/wiki/SKILL.md` (native) | `<wiki>/.agents/skills/wiki/SKILL.md` (native) | `<wiki>/.agents/skills/wiki/SKILL.md` (native) | `<wiki>/.agents/skills/wiki/SKILL.md` (native) |
 
 OpenAI documents `~/.agents/skills/` as the user-level skill location for both
 ChatGPT desktop and Codex. See the [Codex skill documentation](https://developers.openai.com/codex/build-skills/).
@@ -118,6 +118,14 @@ The ChatGPT desktop app and Codex also share MCP configuration in
 OpenCode discovers skills and agents from separate files under its configuration
 directory. MCP servers are the exception: OpenCode currently loads them from the
 `mcp` object in `opencode.json`, so the role keeps those definitions in that file.
+
+Zed uses `context_servers` in its user settings for local servers (`command`,
+`args`, `env`) and remote servers (`url`). Zed's native agent also reads global
+skills from `~/.agents/skills/` and project-local skills from `.agents/skills/`,
+so no additional skill deployment is needed. See the [Zed MCP docs](https://zed.dev/docs/ai/mcp)
+and [Zed skills docs](https://zed.dev/docs/ai/skills). The settings updater accepts
+JSONC files; when it writes `settings.json`, existing comments and formatting are
+normalized to plain JSON (other settings are retained).
 
 ## Example playbook
 
@@ -207,17 +215,24 @@ target host. See the [Claude Code docs](https://code.claude.com/docs/en/statusli
 | `ai_tools_codex_enabled` | `true` | Configure MCP servers shared by Codex and ChatGPT desktop |
 | `ai_tools_codex_config_dir` | `~/.codex` | Codex user configuration directory |
 
+### Zed
+
+| Variable | Default | Description |
+|---|---|---|
+| `ai_tools_zed_enabled` | `true` | Configure Zed MCP servers; global skills are shared with Codex via `~/.agents/skills/` |
+| `ai_tools_zed_config_dir` | `~/.config/zed` | Zed user configuration directory |
+
 ### Skills
 
 | Variable | Default | Description |
 |---|---|---|
-| `ai_tools_skills_enabled` | `true` | Deploy skills under `~/.claude/skills/`, `~/.cursor/skills/`, `~/.agents/skills/` (ChatGPT and Codex), and `~/.config/opencode/skills/` |
+| `ai_tools_skills_enabled` | `true` | Deploy skills under `~/.claude/skills/`, `~/.cursor/skills/`, `~/.agents/skills/` (ChatGPT, Codex, and Zed), and `~/.config/opencode/skills/` |
 | `ai_tools_skills_summary_gerrit_projects` | `[]` | Gerrit projects to watch (`summarize-reviews`, `make-reviews-plan`) |
 | `ai_tools_skills_summary_github_projects` | `[]` | GitHub repos to watch |
 | `ai_tools_skills_summary_gitlab_projects` | `[]` | GitLab projects to watch |
 | `ai_tools_skills_make_reviews_plan_todoist_project` | `''` | Todoist project name for review tasks |
 | `ai_tools_skills_make_reviews_plan_todoist_label` | `''` | Todoist label for review tasks |
-| `ai_tools_wiki_path` | `''` | Obsidian vault root. When set, creates `sources/` + `notes/` structure, seeds `notes/index.md` and `log.md`, and deploys the `wiki` skill to `<wiki>/.agents/skills/wiki/`. Cursor reads it from there natively; Claude Code gets a symlink at `<wiki>/.claude/skills/wiki/`. When empty, wiki is not deployed. |
+| `ai_tools_wiki_path` | `''` | Obsidian vault root. When set, creates `sources/` + `notes/` structure, seeds `notes/index.md` and `log.md`, and deploys the `wiki` skill to `<wiki>/.agents/skills/wiki/`. Cursor and Zed read it from there natively; Claude Code gets a symlink at `<wiki>/.claude/skills/wiki/`. When empty, wiki is not deployed. |
 
 The **make-reviews-plan** skill syncs open changes from the watched platforms into Todoist: it creates tasks for new or updated reviews, updates tasks when a change moves forward, and deletes tasks when a change is merged or no longer needs your review. Requires Todoist MCP (`ai_tools_todoist_mcp_enabled`) and Gerrit MCP for Gerrit-hosted projects.
 

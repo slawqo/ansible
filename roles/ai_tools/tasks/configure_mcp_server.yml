@@ -71,6 +71,46 @@
     executable: python3
   when: ai_tools_opencode_enabled
 
+- name: Ensure Zed config directory exists
+  file:
+    path: "{{ ai_tools_zed_config_dir }}"
+    state: directory
+    mode: '0755'
+  when: ai_tools_zed_enabled
+
+- name: Build Zed MCP server configuration
+  set_fact:
+    _zed_mcp_config: >-
+      {{
+        {'url': _mcp_server_config.url}
+        if _mcp_server_config.type | default('') == 'http'
+        else
+        {'command': _mcp_server_config.command,
+         'args': _mcp_server_config.args | default([])}
+        | combine(
+            (_mcp_server_config.env is defined)
+            | ternary({'env': _mcp_server_config.env}, {})
+          )
+      }}
+  when: ai_tools_zed_enabled
+
+- name: "Configure {{ _mcp_server_name }} MCP server in Zed"
+  script: >-
+    update_mcp_settings.py
+    {{ ai_tools_zed_config_dir }}/settings.json
+    {{ _mcp_server_name }}
+    '{{ _zed_mcp_config | to_json }}'
+    context_servers
+  args:
+    executable: python3
+  when: ai_tools_zed_enabled
+
+- name: Protect Zed settings containing MCP credentials
+  file:
+    path: "{{ ai_tools_zed_config_dir }}/settings.json"
+    mode: '0600'
+  when: ai_tools_zed_enabled
+
 - name: Ensure Codex config directory exists
   file:
     path: "{{ ai_tools_codex_config_dir }}"

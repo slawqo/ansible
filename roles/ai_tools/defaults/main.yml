@@ -40,7 +40,11 @@ ai_tools_opencode_config_dir: "{{ ansible_env.HOME }}/.config/opencode"
 ai_tools_codex_enabled: true
 ai_tools_codex_config_dir: "{{ ansible_env.HOME }}/.codex"
 
-# Skills (deployed for Claude Code, Cursor, ChatGPT, Codex, and OpenCode)
+# Zed MCP configuration (skills are shared via ~/.agents/skills)
+ai_tools_zed_enabled: true
+ai_tools_zed_config_dir: "{{ ansible_env.HOME }}/.config/zed"
+
+# Skills (deployed for Claude Code, Cursor, ChatGPT, Codex, Zed, and OpenCode)
 ai_tools_skills_enabled: true
 
 # summarize-reviews skill: projects/repos to watch (changes by others)
