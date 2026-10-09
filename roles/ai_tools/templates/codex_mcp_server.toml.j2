@@ -1,0 +1,17 @@
+{% if _mcp_server_config.type | default('') == 'http' %}
+[mcp_servers.{{ _mcp_server_name }}]
+url = {{ _mcp_server_config.url | to_json }}
+{% else %}
+[mcp_servers.{{ _mcp_server_name }}]
+command = {{ _mcp_server_config.command | to_json }}
+{% if _mcp_server_config.args | default([]) | length > 0 %}
+args = {{ _mcp_server_config.args | to_json }}
+{% endif %}
+{% if _mcp_server_config.env is defined and _mcp_server_config.env | length > 0 %}
+
+[mcp_servers.{{ _mcp_server_name }}.env]
+{% for key, value in _mcp_server_config.env.items() %}
+{{ key }} = {{ value | to_json }}
+{% endfor %}
+{% endif %}
+{% endif %}
