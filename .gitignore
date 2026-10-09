@@ -6,3 +6,5 @@ roles/desktop_configs/files/weechat/certs/nick.pem
 
 # Claude code files
 .claude/
+
+__pycache__/
