@@ -1,0 +1,42 @@
+---
+- name: Ensure OpenCode config directory exists for Superpowers
+  file:
+    path: "{{ ai_tools_opencode_config_dir }}"
+    state: directory
+    mode: '0755'
+
+- name: Check whether OpenCode configuration exists
+  stat:
+    path: "{{ ai_tools_opencode_config_dir }}/opencode.json"
+  register: _opencode_config_stat
+
+- name: Read existing OpenCode configuration
+  slurp:
+    src: "{{ ai_tools_opencode_config_dir }}/opencode.json"
+  register: _opencode_config_file
+  when: _opencode_config_stat.stat.exists
+
+- name: Parse existing OpenCode configuration
+  set_fact:
+    _opencode_config: >-
+      {{
+        (_opencode_config_file.content | b64decode | from_json)
+        if _opencode_config_stat.stat.exists else {}
+      }}
+
+- name: Add Superpowers plugin to OpenCode configuration
+  set_fact:
+    _opencode_config: >-
+      {{ _opencode_config | combine({
+        'plugin': (_opencode_config.plugin | default([]))
+          + [ai_tools_opencode_superpowers_plugin]
+      }) }}
+  when:
+    ai_tools_opencode_superpowers_plugin not in
+    (_opencode_config.plugin | default([]))
+
+- name: Write OpenCode configuration
+  copy:
+    content: "{{ _opencode_config | to_nice_json }}\n"
+    dest: "{{ ai_tools_opencode_config_dir }}/opencode.json"
+    mode: '0644'
