@@ -26,11 +26,16 @@
     chdir: "{{ ai_tools_install_dir }}/gerrit-mcp-server"
   when: gerrit_mcp_repo.changed or not gerrit_mcp_venv.stat.exists
 
+- name: Ensure Gerrit MCP server config directory exists
+  file:
+    path: "{{ ai_tools_gerrit_mcp_config_path | dirname }}"
+    state: directory
+    mode: '0700'
+
 - name: Create Gerrit MCP server configuration
   template:
     src: gerrit_config.json.j2
-    dest: >-
-      {{ ai_tools_install_dir }}/gerrit-mcp-server/gerrit_mcp_server/gerrit_config.json
+    dest: "{{ ai_tools_gerrit_mcp_config_path }}"
     mode: '0600'
 
 - name: Configure Gerrit MCP server
@@ -46,3 +51,4 @@
         - stdio
       env:
         PYTHONPATH: "{{ ai_tools_install_dir }}/gerrit-mcp-server/"
+        GERRIT_CONFIG_PATH: "{{ ai_tools_gerrit_mcp_config_path }}"

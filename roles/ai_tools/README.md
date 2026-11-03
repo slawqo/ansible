@@ -26,6 +26,7 @@ deployed for **Claude Code**, **Cursor**, **ChatGPT**, **Codex**, **Zed**, and
 | `ai_tools_gerrit_mcp_version` | `master` | Branch, tag, or commit to check out |
 | `ai_tools_gerrit_mcp_default_gerrit_url` | `''` | Default Gerrit base URL written to `gerrit_config.json` |
 | `ai_tools_gerrit_mcp_hosts` | `[]` | List of Gerrit host definitions (see below) |
+| `ai_tools_gerrit_mcp_config_path` | `~/.config/gerrit-mcp/gerrit_config.json` | Path of the config file written for the server; also exported as `GERRIT_CONFIG_PATH` |
 
 #### `ai_tools_gerrit_mcp_hosts`
 

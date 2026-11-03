@@ -7,6 +7,7 @@ ai_tools_gerrit_mcp_repo: 'https://github.com/GerritCodeReview/gerrit-mcp-server
 ai_tools_gerrit_mcp_version: 'master'
 ai_tools_gerrit_mcp_default_gerrit_url: ''
 ai_tools_gerrit_mcp_hosts: []
+ai_tools_gerrit_mcp_config_path: "{{ ansible_env.HOME }}/.config/gerrit-mcp/gerrit_config.json"
 
 # Todoist MCP Server
 ai_tools_todoist_mcp_enabled: true
