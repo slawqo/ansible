@@ -28,12 +28,12 @@
   set_fact:
     _opencode_config: >-
       {{ _opencode_config | combine({
-        'plugin': (_opencode_config.plugin | default([]))
+        'plugins': (_opencode_config.plugins | default([]))
           + [ai_tools_opencode_superpowers_plugin]
       }) }}
   when:
     ai_tools_opencode_superpowers_plugin not in
-    (_opencode_config.plugin | default([]))
+    (_opencode_config.plugins | default([]))
 
 - name: Write OpenCode configuration
   copy:

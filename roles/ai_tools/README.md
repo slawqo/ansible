@@ -104,7 +104,7 @@ stdio process.
 
 | Component | Claude Code | Cursor | ChatGPT / Codex | Zed | OpenCode |
 |-----------|-------------|--------|-----------------|-----|----------|
-| MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` | `~/.codex/config.toml` under `mcp_servers` | `~/.config/zed/settings.json` under `context_servers` | `~/.config/opencode/opencode.json` under `mcp` |
+| MCP servers | `~/.claude.json` under `mcpServers` | `~/.cursor/mcp.json` under `mcpServers` | `~/.codex/config.toml` under `mcp_servers` | `~/.config/zed/settings.json` under `context_servers` | `~/.config/opencode/opencode.json` under `mcp.servers` |
 | Global rules | `~/.claude/rules/karpathy-guidelines.md` | `~/.cursor/rules/karpathy-guidelines.mdc` | n/a | n/a | `~/.config/opencode/AGENTS.md` |
 | Status line | `~/.claude/statusline.sh` + `statusLine` in `~/.claude/settings.json` | n/a | n/a | n/a | n/a |
 | Skills | `~/.claude/skills/<name>/SKILL.md` | `~/.cursor/skills/<name>/SKILL.md` | `~/.agents/skills/<name>/SKILL.md` | `~/.agents/skills/<name>/SKILL.md` | `~/.config/opencode/skills/<name>/SKILL.md` |
@@ -115,9 +115,11 @@ ChatGPT desktop and Codex. See the [Codex skill documentation](https://developer
 The ChatGPT desktop app and Codex also share MCP configuration in
 `~/.codex/config.toml`; see the [Codex MCP documentation](https://developers.openai.com/codex/extend/mcp/).
 
-OpenCode discovers skills and agents from separate files under its configuration
-directory. MCP servers are the exception: OpenCode currently loads them from the
-`mcp` object in `opencode.json`, so the role keeps those definitions in that file.
+OpenCode v2 discovers skills and agents from separate files under its
+configuration directory. MCP servers are configured in the `mcp.servers` object
+in `opencode.json`, following the native OpenCode v2 layout. During deployment
+the role also removes legacy OpenCode v1 `mcp.<name>` entries that earlier
+versions of this role wrote, so existing installations migrate cleanly.
 
 Zed uses `context_servers` in its user settings for local servers (`command`,
 `args`, `env`) and remote servers (`url`). Zed's native agent also reads global
@@ -205,7 +207,7 @@ target host. See the [Claude Code docs](https://code.claude.com/docs/en/statusli
 
 | Variable | Default | Description |
 |---|---|---|
-| `ai_tools_opencode_enabled` | `true` | Configure OpenCode skills, instructions, and MCP servers |
+| `ai_tools_opencode_enabled` | `true` | Configure OpenCode v2 skills, instructions, and MCP servers |
 | `ai_tools_opencode_config_dir` | `~/.config/opencode` | OpenCode user configuration directory |
 
 ### Codex
