@@ -60,13 +60,24 @@
       }}
   when: ai_tools_opencode_enabled
 
+- name: "Remove legacy OpenCode v1 entry for {{ _mcp_server_name }} MCP server"
+  script: >-
+    update_mcp_settings.py
+    --remove
+    {{ ai_tools_opencode_config_dir }}/opencode.json
+    {{ _mcp_server_name }}
+    mcp
+  args:
+    executable: python3
+  when: ai_tools_opencode_enabled
+
 - name: "Configure {{ _mcp_server_name }} MCP server in OpenCode"
   script: >-
     update_mcp_settings.py
     {{ ai_tools_opencode_config_dir }}/opencode.json
     {{ _mcp_server_name }}
     '{{ _opencode_mcp_config | to_json }}'
-    mcp
+    mcp.servers
   args:
     executable: python3
   when: ai_tools_opencode_enabled
